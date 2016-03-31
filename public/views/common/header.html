@@ -1,0 +1,37 @@
+<div class="brand visible-xs">
+
+    <!-- toggle offscreen menu -->
+    <div class="toggle-offscreen">
+        <offscreen class="visible-xs"></offscreen>
+    </div>
+    <!-- /toggle offscreen menu -->
+
+    <!-- logo -->
+    <div class="brand-logo">
+        Control Electoral
+    </div>
+    <!-- /logo -->
+
+</div>
+
+<ul class="nav navbar-nav hidden-xs">
+    <li>
+        <p class="navbar-text">
+            {{$state.current.data.title}}
+        </p>
+    </li>
+</ul>
+
+<ul class="nav navbar-nav navbar-right hidden-xs">
+    <li class="dropdown" dropdown>
+        <a href="javascript:;" class="dropdown-toggle" dropdown-toggle>
+            <span class="pull-left">
+        {{user.fullName}}
+      </span>
+        </a>
+    </li>
+    <li>
+        <a href="/signout">Salir</a>
+    </li>
+</ul>
+

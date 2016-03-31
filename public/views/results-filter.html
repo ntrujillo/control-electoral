@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Filtros</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-6">
+                            <label class="control-label col-md-1" for="provincia">Provincia</label>
+                            <select id="provincia" class="form-control" ng-change="getCantones(selectedProvincia)"
+                                    ng-model="selectedProvincia"
+                                    ng-options="c._id as c.NOM_PROVINCIA for c in provincesList"></select>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label>Resultados</label>
+                            <button class="form-control btn btn-primary" data-ng-click="SearchByProvoncia()">Buscar
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="canton" class="col-md-1">Canton</label>
+                            <select id="canton" class="form-control" ng-disabled="selectedProvincia===null?true:false"
+                                    ng-change="getParroquias(selectedCanton)" ng-model="selectedCanton"
+                                    ng-options="c._id as c.NOM_CANTON for c in cantonesByProvinceList"></select>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label>Resultados</label>
+                            <button class="form-control btn btn-primary" data-ng-click="SearchByCanton()">Buscar
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label for="parroquia">Parroquia</label>
+                            <select id="parroquia" class="form-control" ng-disabled="selectedCanton===null?true:false"
+                                    ng-change="getZonas(selectedParroquia)" ng-model="selectedParroquia"
+                                    ng-options="c._id as c.NOM_PARROQUIA for c in parroquiasByCantonList"></select>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <label>Resultados</label>
+                            <button class="form-control btn btn-primary" data-ng-click="SearchByParroquia()">Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div div class="col-md-12">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>{{titleGrafico}}</strong></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12" ng-init="initData()">
+                            <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="558px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

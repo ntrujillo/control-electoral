@@ -1,0 +1,13 @@
+{
+  "name": "MEAN",
+  "version": "0.0.7",
+  "dependencies": {
+    "angular": "^1.2",
+    "angular-route": "^1.2",
+    "angular-resource": "^1.2",
+    "angular-mocks": "^1.2",
+    "angular-chart": "latest",
+    "Chart.js": "latest",
+    "zingchart-angularjs": "latest"
+  }
+}

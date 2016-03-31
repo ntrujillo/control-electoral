@@ -1,0 +1,27 @@
+<div class="center-wrapper" data-ng-controller="sessionCtrl">
+    <div class="center-content">
+        <div class="row no-margin">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                <form role="form" class="form-layout" action="/signin" method="post">
+                    <div class="text-center mb15">
+                        <h2>
+                            SCEL
+                        </h2>
+                    </div>
+
+                    <p class="text-center mb30">Welcome to {{app.name}}. Please sign in to your account</p>
+
+                    <div class="form-inputs">
+                        <input type="text" name="username" class="form-control input-lg" placeholder="Usuario">
+                        <input type="password" name="password" class="form-control input-lg" placeholder="Password">
+                    </div>
+
+                    <button class="btn btn-success btn-block btn-lg mb15" type="submit">
+                        <span>Sign in</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

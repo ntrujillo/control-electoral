@@ -1,0 +1,53 @@
+<form name="editForm" role="form" novalidate ng-submit="save()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="ctrl.clear()">&times;</button>
+        <h3 class="modal-title" id="titleLabel">Junta {{junta.NUM_JUNTA}}, Total de empadronados
+            <spam>{{junta.NUM_EMPADR}}</spam>
+        </h3>
+
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <table>
+            <thead>
+            <tr>
+                <th>N&uacutemero</th>
+                <th>Lista</th>
+                <th>Votos</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="lista in listListas">
+                <td>{{lista.CODE_LISTA}}</td>
+                <td>{{lista.NOM_LISTA}}</td>
+                <td><input type="number" ng-change="ctrl.sum(lista.votos)" ng-model="lista.votos"/></td>
+            </tr>
+            <tr><br></tr>
+            <tr>
+                <td></td>
+                <td>Blancos</td>
+                <td><input type="number" ng-change="ctrl.sum(votosBlancos)" ng-model=" votosBlancos"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Nulos</td>
+                <td><input type="number" ng-change="ctrl.sum(votosNulos)" ng-model=" votosNulos"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Total</td>
+                <td><input disabled="true" type="number" ng-model="totalVotos"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="ctrl.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
