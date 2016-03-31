@@ -9,6 +9,9 @@ var db = mongoose();
 var app = express();
 //var app = express(db);
 var passport = passport();
+
+
+
 app.listen(port);
 module.exports = app;
 
