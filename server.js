@@ -4,7 +4,7 @@ var mongoose = require('./config/mongoose');
 var passport = require('./config/passport');
 var express = require('./config/express');
 
-var port = 3005;
+var port = 3006;
 var db = mongoose();
 var app = express();
 //var app = express(db);

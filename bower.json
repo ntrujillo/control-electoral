@@ -8,6 +8,13 @@
     "angular-mocks": "^1.2",
     "angular-chart": "latest",
     "Chart.js": "latest",
-    "zingchart-angularjs": "latest"
+    "zingchart-angularjs": "latest",
+    "jquery": "^1.12.2",
+    "angular-bootstrap": "latest",
+    "angular-ui-router": "latest",
+    "ngstorage": "latest",
+    "oclazyload": "latest",
+    "fastclick": "latest",
+    "perfect-scrollbar": "latest"
   }
 }

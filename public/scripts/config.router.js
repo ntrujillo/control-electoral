@@ -29,37 +29,6 @@ angular
                 .state('app.dashboard', {
                     url: '/container',
                     templateUrl: 'views/dashboard.html',
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                {
-                                    insertBefore: '#load_styles_before',
-                                    files: [
-                                        'styles/themes/default/climacons-font.css',
-                                        'styles/themes/default/rickshaw.min.css'
-                                    ]
-                                },
-                                {
-                                    serie: true,
-                                    files: [
-                                        'scripts/lib/d3/d3.min.js',
-                                        'scripts/lib/rickshaw/rickshaw.min.js',
-                                        'scripts/lib/flot/jquery.flot.js',
-                                        'scripts/lib/flot/jquery.flot.resize.js',
-                                        'scripts/lib/flot/jquery.flot.pie.js',
-                                        'scripts/lib/flot/jquery.flot.categories.js',
-                                    ]
-                                },
-                                {
-                                    name: 'angular-flot',
-                                    files: [
-                                        'scripts/lib/angular-flot/angular-flot.js'
-                                    ]
-                                }]).then(function () {
-                                return $ocLazyLoad.load('scripts/controllers/dashboard.js');
-                            });
-                        }]
-                    },
                     data: {
                         title: 'Dashboard',
                     }
