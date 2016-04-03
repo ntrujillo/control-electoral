@@ -1,6 +1,4 @@
 (function (angular) {
-    'use strict'
-
     angular.module('ControlElectoralApp').controller('EntryDialogCtrl', ['$scope', '$state', '$uibModalInstance', 'entity', 'Lista', 'Junta', 'Voto',
         function ($scope, $state, $modalInstance, entity, listas, junta, service) {
             var ctrl = this;
@@ -14,8 +12,6 @@
 
             $scope.listListas = listas.query();
 
-
-            // $scope.junta = junta.query({codeRecinto: entity.recinto, genero: entity.genero, numJunta: entity.junta});
             $scope.junta = junta.getJunta.get({
                 id: entity.junta
             }, function (juntas) {
