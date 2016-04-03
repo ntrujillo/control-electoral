@@ -34,21 +34,3 @@ exports.getRecintosByZonas = function (req, res) {
 
     });
 };
-
-exports.getJuntas = function (req, res) {
-    var codeRecinto = req.params.codeRecinto;
-    var genero = req.params.genero;
-    var listJuntas = [];
-    Recinto.getById(codeRecinto, function (err, recinto) {
-        if (err) {
-            return res.status(400).send({message: getErrorMessage(err)});
-        } else {
-            if (CODE_FEMENINO === genero) {
-
-            } else {
-                //masculino
-            }
-        }
-    });
-
-};
