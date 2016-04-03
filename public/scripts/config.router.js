@@ -61,7 +61,7 @@ angular
                 .state('app.ui', {
                     template: '<div ui-view></div>',
                     abstract: true,
-                    url: '/ui',
+                    url: '/ui'
                 })
                 .state('app.ui.directives', {
                     url: '/registro',
