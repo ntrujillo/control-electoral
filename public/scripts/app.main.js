@@ -1,5 +1,3 @@
-'use strict';
-
 angular
     .module('ControlElectoralApp')
     .controller('AppCtrl', ['$scope', '$http', '$localStorage',
