@@ -41,7 +41,6 @@ UserSchema.virtual('fullName').get(function () {
     return this.firstName + ' ' + this.lastName;
 }).set(function (fullName) {
     if (fullName !== undefined) {
-        console.log("full name, ", fullName);
         var splitName = fullName.split(' ');
         this.firstName = splitName[0] || '';
         this.lastName = splitName[0] || '';
