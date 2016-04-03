@@ -6,10 +6,7 @@ var plus = /\+/g;
 var comma = /,/g;
 
 function queryRegistros(req, res) {
-    //url?param1=1&param2=2
-    //req.query  ={param1:1,param2:2}
-    //en caso que no vengan parametros en el url req.query = {}
-    var criteria = {}
+    var criteria = {};
     var q = req.query.q;
     var status = req.query.status;
     var sort = req.query.sort;
@@ -40,8 +37,6 @@ function queryRegistros(req, res) {
         }
     }
 
-    console.log('criteria: ' + criteria);
-
     Registro.find(criteria).count(function (error, count) {
 
         if (error) {
@@ -64,7 +59,7 @@ function queryRegistros(req, res) {
 
     });
 
-}
+};
 
 
 function search(req, res) {
