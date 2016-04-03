@@ -1,5 +1,3 @@
-'use strict';
-
 angular
     .module('ControlElectoralApp')
     .run(['$rootScope', '$state', '$stateParams',
@@ -24,8 +22,6 @@ angular
                     abstract: true,
                     templateUrl: 'views/common/layout.html'
                 })
-
-
                 .state('app.dashboard', {
                     url: '/container',
                     templateUrl: 'views/dashboard.html',
@@ -33,7 +29,6 @@ angular
                         title: 'Dashboard'
                     }
                 })
-
                 .state('app.resultados', {
                     url: '/resultados',
                     templateUrl: 'views/results-filter.html',
@@ -73,7 +68,6 @@ angular
                                 {
                                     name: 'angular-factory',
                                     files: [
-                                        'factory/factory-junta.js',
                                         'factory/factory-genero.js',
                                         'scripts/services/province.client.service.js',
                                         'scripts/services/canton.client.service.js',
@@ -83,7 +77,7 @@ angular
                                         'scripts/services/junta.client.service.js',
                                         'scripts/controllers/entry.js'
                                     ]
-                                }])
+                                }]);
                         }]
                     },
                     data: {
