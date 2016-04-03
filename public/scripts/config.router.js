@@ -30,7 +30,7 @@ angular
                     url: '/container',
                     templateUrl: 'views/dashboard.html',
                     data: {
-                        title: 'Dashboard',
+                        title: 'Dashboard'
                     }
                 })
 
@@ -53,7 +53,7 @@ angular
                         }]
                     },
                     data: {
-                        title: 'Resultados',
+                        title: 'Resultados'
                     }
                 })
 
