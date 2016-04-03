@@ -22,7 +22,7 @@ var getErrorMessage = function (err) {
     return message;
 };
 
-exports.renderSignin = function (req, res, next) {
+exports.renderSignin = function (req, res) {
     if (!req.user) {
         res.render('index', {
             title: 'sign-in Form',
@@ -33,13 +33,13 @@ exports.renderSignin = function (req, res, next) {
     }
 };
 
-exports.renderPrueba = function (req, res, next) {
+exports.renderPrueba = function (req, res) {
 
     res.render('container', {title: 'Hola mundo', user: JSON.stringify(req.user)});
 
 };
 
-exports.renderSignup = function (req, res, next) {
+exports.renderSignup = function (req, res) {
     if (!req.user) {
         res.render('signup', {
             title: 'Sign-up Form',
@@ -50,10 +50,9 @@ exports.renderSignup = function (req, res, next) {
     }
 };
 
-exports.signup = function (req, res, next) {
+exports.signup = function (req, res) {
     if (!req.user) {
         var user = new User(req.body);
-        var message = null;
         user.provider = 'local';
         user.save(function (err) {
             if (err) {
@@ -61,8 +60,7 @@ exports.signup = function (req, res, next) {
                 req.flash('error', message);
                 return res.redirect('/signup');
             }
-            req.login(user, function (err) {
-                if (err) return next(err);
+            req.login(user, function () {
                 return res.redirect('/');
             });
         });
