@@ -95,10 +95,6 @@ exports.countVotBlancos = function (req, res) {
             VOT_VALIDOS2: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
         }
     }, function (err, tot) {
-        console.log('total: ' + tot);
-
-        var countBlancos = 0;
-        var countNulos = 0;
         res.status(200).send(tot);
 
     });
