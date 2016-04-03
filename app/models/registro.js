@@ -15,6 +15,4 @@ var RegistroSchema = new Schema({
     details: [{type: mongoose.Schema.Types.ObjectId, ref: 'Detail'}]
 });
 
-/*RegistroSchema.index({junta:'Number',genero:'Number'});*/
-
 module.exports = mongoose.model('Registro', RegistroSchema);
