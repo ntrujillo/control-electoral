@@ -1,10 +1,8 @@
 (function (angular) {
-    'use strict';
     angular.module('ControlElectoralApp').controller('EntryCtrl', ['$scope', '$http', '$state', '$uibModal', 'FactoryGenero', 'Canton', 'Province', 'Parroquia', 'Zona', 'Recinto', 'Junta',
         function ($scope, $http, $state, $modal, generos, cantones, provinces, parroquias, zonas, recintos, juntas) {
 
             var ctrl = this;
-
 
             $scope.selectedProvincia = null;
             $scope.selectedCanton = null;
@@ -21,7 +19,6 @@
             $scope.recintosByZona = [];
             $scope.generoList = [];
             $scope.juntasList = [];
-
 
             //return provinces
             provinces.query(function (provinces) {
@@ -42,9 +39,9 @@
             //return parroquias by Cantones
             $scope.getParroquias = function (cantonCode) {
                 if (cantonCode !== null) {
-                    parroquias.query({codeCanton: cantonCode}, function (parroquias, status) {
+                    parroquias.query({codeCanton: cantonCode}, function (parroquias) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
-                    }, function (err, status) {
+                    }, function (err) {
                         console.err(err);
                     });
                 } else {
@@ -90,7 +87,6 @@
                 } else {
                     $scope.generoList = [];
                 }
-
             };
 
             //return juntas by recinto and genero
@@ -123,7 +119,7 @@
                                 recinto: $scope.selectedRecinto,
                                 junta: $scope.selectedJunta,
                                 genero: $scope.selectedGenero
-                            }
+                            };
                         },
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load({
@@ -135,21 +131,18 @@
                                         'scripts/controllers/entry-modal-ctrl.js'
                                     ]
                                 }
-                            )
+                            );
                         }]
                     }
                 });
 
                 modalInstance.result.then(function (obj) {
                     ctrl.result = obj;
-
                 });
             };
-
 
             ctrl.showModal = showModal;
 
         }
     ]);
-
 }(window.angular));
