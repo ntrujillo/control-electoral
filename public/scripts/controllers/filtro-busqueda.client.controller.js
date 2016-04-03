@@ -1,5 +1,4 @@
 (function (angular) {
-    'use strict';
     angular.module('ControlElectoralApp').controller('FiltroCtrl', ['$scope', '$http', '$state', '$uibModal', 'Filtros', 'Voto', 'Lista',
         function ($scope, $http, $state, $modal, filtros, votos, lista) {
             var listas = [];
@@ -34,9 +33,9 @@
             //return parroquias by Cantones
             $scope.getParroquias = function (cantonCode) {
                 if (cantonCode !== null) {
-                    filtros.Parroquia.query({codeCanton: cantonCode}, function (parroquias, status) {
+                    filtros.Parroquia.query({codeCanton: cantonCode}, function (parroquias) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
-                    }, function (err, status) {
+                    }, function (err) {
                         console.err(err);
                     });
                 } else {
@@ -105,7 +104,6 @@
 
             $scope.initData = function () {
                 //votos Blancos
-                // series = [];
                 var votosBlancoTotal = votos.votosBlancoTotal.get(function (votos) {
                     votosBlancoTotal = votos.votosBlancos;
                     var votBlanco = {
@@ -261,8 +259,8 @@
                 },
                 tooltip: {
                     //text: "%v votos",
-                    "visible": true, //Specify your visibility: true or false.
-                    text: "%t <br>%npv%<br>%v votos"  //Specify your tooltip text.
+                    "visible": true,
+                    text: "%t <br>%npv%<br>%v votos"
                 },
                 plot: {
                     refAngle: "-90",
