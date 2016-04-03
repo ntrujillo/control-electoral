@@ -6,10 +6,7 @@ var plus = /\+/g;
 var comma = /,/g;
 
 function queryDetails(req, res) {
-    //url?param1=1&param2=2
-    //req.query  ={param1:1,param2:2}
-    //en caso que no vengan parametros en el url req.query = {}
-    var criteria = {}
+    var criteria = {};
     var q = req.query.q;
     var status = req.query.status;
     var sort = req.query.sort;
@@ -18,7 +15,7 @@ function queryDetails(req, res) {
     var perPage = req.query.per_page;
 
     if (q) {
-        criteria.$text = {$search: q}
+        criteria.$text = {$search: q};
     }
 
     if (status) {
@@ -40,7 +37,6 @@ function queryDetails(req, res) {
         }
     }
 
-    console.log('criteria: ' + criteria);
 
     Detail.find(criteria).count(function (error, count) {
 
@@ -64,7 +60,7 @@ function queryDetails(req, res) {
 
     });
 
-}
+};
 
 
 function search(req, res) {
