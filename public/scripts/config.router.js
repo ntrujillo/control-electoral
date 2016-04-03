@@ -30,7 +30,7 @@ angular
                     url: '/container',
                     templateUrl: 'views/dashboard.html',
                     data: {
-                        title: 'Dashboard',
+                        title: 'Dashboard'
                     }
                 })
 
@@ -53,7 +53,7 @@ angular
                         }]
                     },
                     data: {
-                        title: 'Resultados',
+                        title: 'Resultados'
                     }
                 })
 
@@ -95,7 +95,7 @@ angular
                 .state('app.tables', {
                     template: '<div ui-view></div>',
                     abstract: true,
-                    url: '/tables',
+                    url: '/tables'
                 })
 
                 // Chart routes
