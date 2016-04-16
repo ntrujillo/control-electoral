@@ -1,8 +1,3 @@
-'use strict';
-
-/*
- * Main module of the application.
- */
 angular
     .module('ControlElectoralApp', [
         'ui.router',
@@ -10,7 +5,8 @@ angular
         'oc.lazyLoad',
         'ngStorage',
         'ngResource',
-        'zingchart-angularjs'
+        'zingchart-angularjs',
+        'pascalprecht.translate'
 
     ])
     .constant('COLORS', {
