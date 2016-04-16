@@ -1,7 +1,7 @@
 angular
     .module('ControlElectoralApp')
-    .controller('AppCtrl', ['$scope', '$http', '$localStorage',
-        function AppCtrl($scope, $http, $localStorage) {
+    .controller('AppCtrl', ['$scope', '$http', '$localStorage', '$translate',
+        function AppCtrl($scope, $http, $localStorage, $translate) {
 
             $scope.mobileView = 767;
 
@@ -30,6 +30,11 @@ angular
 
             $scope.user = window.user || null;
 
+            $scope.setLang = function (langKey) {
+                // You can change the language during runtime
+                $translate.use(langKey);
+            };
+
             if (angular.isDefined($localStorage.layout)) {
                 $scope.app.layout = $localStorage.layout;
             } else {
@@ -43,5 +48,13 @@ angular
             $scope.getRandomArbitrary = function () {
                 return Math.round(Math.random() * 100);
             };
+        }
+    ]).config(['$translateProvider', '$translatePartialLoaderProvider',
+        function ($translateProvider, $translatePartialLoaderProvider) {
+            $translateProvider.useLoader('$translatePartialLoader', {
+                urlTemplate: '../assets/languages/{part}-{lang}.json'
+            });
+            $translateProvider.preferredLanguage('es_EC');
+            $translatePartialLoaderProvider.addPart('app');
         }
     ]);
