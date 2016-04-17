@@ -33,6 +33,14 @@ var UserSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        default: 'V',
+        required: 'Status is required'
+    },
+    creator: {
+        type: Schema.ObjectId, ref: 'User'
     }
 });
 
