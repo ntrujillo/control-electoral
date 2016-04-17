@@ -5,21 +5,24 @@
                 <form role="form" class="form-layout" action="/signin" method="post">
                     <div class="text-center mb15">
                         <h2>
-                            SCEL
+                            {{'CONTAINER.COMMONS.TITLE_APP' | translate}}
                         </h2>
                     </div>
 
-                    <p class="text-center mb30">Bienvenido. Por favor, acceda a su cuenta</p>
+                    <p class="text-center mb30">{{'CONTAINER.SECURITY.LBL_LOGIN_WELCOME' |
+                        translate}}{{'CONTAINER.SECURITY.LBL_LOGIN_INFO' | translate}}</p>
 
                     <div class="form-inputs">
-                        <input type="text" name="username" class="form-control input-lg" placeholder="Usuario"
+                        <input type="text" name="username" class="form-control input-lg"
+                               placeholder="{{'CONTAINER.SECURITY.LBL_LOGIN_USER' | translate}}"
                                data-required-msg="ingrese" required>
-                        <input type="password" name="password" class="form-control input-lg" placeholder="Password"
+                        <input type="password" name="password" class="form-control input-lg"
+                               placeholder="{{'CONTAINER.SECURITY.LBL_LOGIN_PASSWORD' | translate}}"
                                required>
                     </div>
 
                     <button class="btn btn-success btn-block btn-lg mb15" type="submit">
-                        <span>Ingresar</span>
+                        <span>{{'CONTAINER.SECURITY.LBL_LOGIN_SESSION' | translate}}</span>
                     </button>
                 </form>
             </div>
