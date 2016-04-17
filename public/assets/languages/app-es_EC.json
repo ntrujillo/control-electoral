@@ -9,7 +9,9 @@
       "LBL_LOGIN_INFO": "Ingrese a su cuenta",
       "LBL_LOGIN_USER": "Usuario",
       "LBL_LOGIN_PASSWORD": "Contrase\u00f1a",
-      "LBL_LOGIN_SESSION": "Iniciar Sesi\u00f3n"
+      "LBL_LOGIN_SESSION": "Iniciar Sesi\u00f3n",
+      "LBL_UNKNOWN_USER": "Usuario no registrado",
+      "LBL_INVALID_PASSWORD": "Contrase\u00f1a invalida"
     }
   }
 }
