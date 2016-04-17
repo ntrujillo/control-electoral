@@ -5,7 +5,6 @@ module.exports = function () {
     var User = mongoose.model('User');
 
     passport.serializeUser(function (user, done) {
-        //console.log('usuario passport', user);
         done(null, user.id);
     });
 
@@ -13,7 +12,6 @@ module.exports = function () {
         User.findOne({
             _id: id
         }, '-password -salt', function (err, user) {
-          //  console.log("user deserialized", user);
             done(err, user);
         });
     });
