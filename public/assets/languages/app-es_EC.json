@@ -1,5 +1,15 @@
 {
   "CONTAINER": {
-    "TITLE": "Sistema de Control Electoral"
+    "COMMONS": {
+      "TITLE": "Sistema de Control Electoral",
+      "TITLE_APP": "SCEL"
+    },
+    "SECURITY": {
+      "LBL_LOGIN_WELCOME": "Bienvenido, ",
+      "LBL_LOGIN_INFO": "Ingrese a su cuenta",
+      "LBL_LOGIN_USER": "Usuario",
+      "LBL_LOGIN_PASSWORD": "Contrase\u00f1a",
+      "LBL_LOGIN_SESSION": "Iniciar Sesi\u00f3n"
+    }
   }
 }
