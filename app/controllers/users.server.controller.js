@@ -26,7 +26,8 @@ exports.renderSignin = function (req, res) {
     if (!req.user) {
         res.render('index', {
             title: 'sign-in Form',
-            messages: req.flash('error') || req.flash('info')
+            messages: req.flash('error') || req.flash('info'),
+            user: JSON.stringify(req.user)
         });
     } else {
         return res.redirect('/');
