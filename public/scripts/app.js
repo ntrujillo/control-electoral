@@ -6,7 +6,8 @@ angular
         'ngStorage',
         'ngResource',
         'zingchart-angularjs',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'angular-growl'
 
     ])
     .constant('COLORS', {
