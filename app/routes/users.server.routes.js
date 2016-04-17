@@ -6,11 +6,10 @@ module.exports = function (app) {
 
     app.route('/signin').get(users.renderSignin).post(passport.authenticate('local', {
         successRedirect: '/#/container',
-        failureRedirect: '/',
-        failureFlash: 'Invalid username or password'
+        failureRedirect: '/signin',
+        failureFlash: true
     }));
 
-    app.route('/container').get(users.renderPrueba);
     app.get('/signout', users.signout);
 
 };
