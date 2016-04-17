@@ -1,9 +1,11 @@
 angular
     .module('ControlElectoralApp')
-    .controller('AppCtrl', ['$scope', '$http', '$localStorage', '$translate',
-        function AppCtrl($scope, $http, $localStorage, $translate) {
+    .controller('AppCtrl', ['$scope', '$http', '$localStorage', '$translate', 'Notification',
+        function AppCtrl($scope, $http, $localStorage, $translate, notification) {
 
             $scope.mobileView = 767;
+
+            $scope.notification = notification;
 
             $scope.app = {
                 name: 'Control Electoral',
@@ -49,12 +51,17 @@ angular
                 return Math.round(Math.random() * 100);
             };
         }
-    ]).config(['$translateProvider', '$translatePartialLoaderProvider',
-        function ($translateProvider, $translatePartialLoaderProvider) {
+    ]).config(['$translateProvider', '$translatePartialLoaderProvider', 'growlProvider',
+        function ($translateProvider, $translatePartialLoaderProvider, growlProvider) {
             $translateProvider.useLoader('$translatePartialLoader', {
                 urlTemplate: '../assets/languages/{part}-{lang}.json'
             });
             $translateProvider.preferredLanguage('es_EC');
             $translatePartialLoaderProvider.addPart('app');
+
+            //alerts
+            growlProvider.globalTimeToLive({success: 1000, error: 0, warning: 1000, info: 1000});
+            growlProvider.onlyUniqueMessages(false);
+            growlProvider.globalDisableCountDown(true);
         }
     ]);
