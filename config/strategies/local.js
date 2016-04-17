@@ -8,17 +8,16 @@ module.exports = function () {
             username: username
         }, function (err, user) {
             if (err) {
-                console.log("error ", err);
                 return done(err);
             }
             if (!user) {
                 return done(null, false, {
-                    message: 'Unknown user'
+                    message: 'CONTAINER.SECURITY.LBL_UNKNOWN_USER'
                 });
             }
             if (!user.authenticate(password)) {
                 return done(null, false, {
-                    message: 'Invalid password'
+                    message: 'CONTAINER.SECURITY.LBL_INVALID_PASSWORD'
                 });
             }
 
