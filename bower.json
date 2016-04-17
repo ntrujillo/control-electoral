@@ -11,6 +11,7 @@
     "angular-translate-loader-partial": "latest",
     "angular-translate-storage-local": "latest",
     "angular-translate-storage-cookie": "latest",
+    "angular-growl-v2": "latest",
     "Chart.js": "latest",
     "zingchart-angularjs": "latest",
     "jquery": "^1.12.2",
