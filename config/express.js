@@ -52,6 +52,7 @@ module.exports = function () {
     require('../app/routes/lista.server.route.js')(app);
     require('../app/routes/votos.server.route.js')(app);
     require('../app/routes/rol.server.route.js')(app);
+    require('../app/routes/UsuarioRol.server.route.js')(app);
     app.use(express.static('./public'));
     return app;
     // return server;
