@@ -22,6 +22,7 @@ angular
                     abstract: true,
                     templateUrl: 'views/common/layout.html'
                 })
+
                 .state('app.dashboard', {
                     url: '/container',
                     templateUrl: 'views/dashboard.html',
@@ -102,6 +103,26 @@ angular
                     },
                     data: {
                         appClasses: 'bg-white usersession',
+                        contentClasses: 'full-height'
+                    }
+                })
+                .state('user.authorization', {
+                    url: '/authorization',
+                    templateUrl: 'views/authorization.html',
+                    controller: 'AuthorizationCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    files: [
+                                        'scripts/services/authorization.client.service.js',
+                                        'scripts/controllers/authorization.client.controller.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        appClasses: 'bg-white user-authorization',
                         contentClasses: 'full-height'
                     }
                 })
