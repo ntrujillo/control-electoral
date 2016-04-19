@@ -23,3 +23,14 @@ exports.saveUsuarioRol = function (req, res) {
         }
     });
 };
+
+exports.getRolByUsuario = function (req, res) {
+    var idUsuario = req.params.idUsuario;
+    UsuarioRol.find().where('ur_user').equals(idUsuario).populate('ur_rol', 'ro_rol ro_description ro_creator ro_status').exec(function (err, roles) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            res.status(200).json(roles);
+        }
+    });
+};
