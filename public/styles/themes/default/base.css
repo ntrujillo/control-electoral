@@ -9,8 +9,12 @@ html {
     width: 100%;
 }
 
+.no-margin {
+    margin: 0 !important;
+}
+
 .app {
-    background: #f0f0f0;
+    background: #153B5A;
     width: 100%;
     min-height: 100%;
     position: relative;
@@ -36,6 +40,11 @@ body.stop-scrolling {
 a {
     color: inherit;
     text-decoration: none;
+}
+
+div.text-title, .text-title, div a.text-title {
+    text-align: center;
+    color: aliceblue;
 }
 
 a:visited,
@@ -1526,7 +1535,7 @@ footer.content-footer li a:active {
 
 /* $session
  ------------------------------------------*/
-.usersession {
+.usersession, .user-authorization {
     height: 100%;
 }
 
