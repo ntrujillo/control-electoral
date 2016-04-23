@@ -1,11 +1,33 @@
 angular
     .module('ControlElectoralApp')
-    .controller('AppCtrl', ['$scope', '$http', '$localStorage', '$translate', 'Notification',
-        function AppCtrl($scope, $http, $localStorage, $translate, notification) {
+    .controller('AppCtrl', ['$scope', '$http', '$localStorage', '$translate', 'Notification', 'APP',
+        function AppCtrl($scope, $http, $localStorage, $translate, notification, constants) {
 
             $scope.mobileView = 767;
 
             $scope.notification = notification;
+
+            $scope.setValueStorage = function (key, value) {
+                window.sessionStorage.setItem(key, JSON.stringify(value));
+            };
+
+            $scope.getValueStorage = function (key) {
+                return JSON.parse(window.sessionStorage.getItem(key));
+            };
+
+            $scope.removeValueStorage = function (key) {
+                window.sessionStorage.removeItem(key);
+            };
+
+            $scope.clearStorage = function () {
+                window.sessionStorage.clear();
+            };
+
+            $scope.rolMenu = $scope.getValueStorage(constants.CONTEXT.ROL);
+
+            $scope.$on('to_parent', function (event, data) {
+                $scope.rolMenu = data;
+            });
 
             $scope.app = {
                 name: 'Control Electoral',
