@@ -22,4 +22,17 @@ angular
         border: '#e4e4e4',
         bodyBg: '#e0e8f2',
         textColor: '#6B6B6B'
+    })
+    .constant('APP', {
+        'ROL': {
+            'ADMINISTRADOR': 1,
+            'COORDINADOR': 2,
+            'USUARIO': 3
+        },
+        'CONTEXT': {
+            'ROL': 'rolUser'
+        },
+        'COMMONS': {
+            'ERROR': 'Error!'
+        }
     });
