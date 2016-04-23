@@ -12,7 +12,10 @@
       "LBL_LOGIN_PASSWORD": "Contrase\u00f1a",
       "LBL_LOGIN_SESSION": "Iniciar Sesi\u00f3n",
       "LBL_UNKNOWN_USER": "Usuario no registrado",
-      "LBL_INVALID_PASSWORD": "Contrase\u00f1a invalida"
+      "LBL_INVALID_PASSWORD": "Contrase\u00f1a invalida",
+      "LBL_ROL_INVALID": "Rol no vigente",
+      "LBL_ROL_VALID": "Rol v\u00e1lido",
+      "LBL_USER_LOGGED": "El usuario no est\u00e1 conectado"
     }
   }
 }
