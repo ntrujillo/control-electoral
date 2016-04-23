@@ -6,8 +6,6 @@ module.exports = function () {
     require('../app/models/user.server.model');
     require('../app/models/rol.server.model');
     require('../app/models/usuarioRol.server.model');
-    require('../app/models/menu.server.model');
-    require('../app/models/menuRol.server.model');
     require('../app/models/registro');
     require('../app/models/detail');
     require('../app/models/province.server.model');
