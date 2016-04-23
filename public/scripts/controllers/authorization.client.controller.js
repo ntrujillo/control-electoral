@@ -1,13 +1,31 @@
 (function (angular) {
-    angular.module('ControlElectoralApp').controller('AuthorizationCtrl', ['$scope', 'Authorization',
-        function ($scope, Authorization) {
+    angular.module('ControlElectoralApp').controller('AuthorizationCtrl', ['$scope', 'Authorization', 'APP', '$state', '$filter',
+        function ($scope, Authorization, constant, $state, $filter) {
 
             $scope.init = function () {
-                Authorization.query({idUsuario: $scope.user._id}, function (roles) {
+                var user = ($scope.user !== null) ? $scope.user._id : null;
+                Authorization.rolesByUser.query({idUsuario: user}, function (roles) {
                     $scope.roles = roles;
                 }, function (errorResponse) {
                     $scope.error = errorResponse.data.message;
                 });
+            };
+            $scope.loadRol = function (rol) {
+                $scope.setValueStorage(constant.CONTEXT.ROL, rol);
+                $scope.rolMenu = rol;
+                $scope.$emit('to_parent', $scope.rolMenu);
+            };
+            $scope.loadPage = function () {
+                Authorization.rolStatus.get({rol: $scope.rolMenu}, function (response) {
+                    if (response.status) {
+                        $state.go('app.resultados');
+                    } else {
+                        $scope.notification.showErrorWithFilter(response.message, constant.COMMONS.ERROR);
+                    }
+                }, function (errorResponse) {
+                    $scope.error = errorResponse.data.message;
+                });
+
             };
         }
     ]);
