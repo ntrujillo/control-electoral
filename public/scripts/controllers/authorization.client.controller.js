@@ -1,6 +1,6 @@
 (function (angular) {
-    angular.module('ControlElectoralApp').controller('AuthorizationCtrl', ['$scope', 'Authorization', 'APP', '$state', '$filter',
-        function ($scope, Authorization, constant, $state, $filter) {
+    angular.module('ControlElectoralApp').controller('AuthorizationCtrl', ['$scope', 'Authorization', 'APP', '$state',
+        function ($scope, Authorization, constant, $state) {
 
             $scope.init = function () {
                 var user = ($scope.user !== null) ? $scope.user._id : null;
