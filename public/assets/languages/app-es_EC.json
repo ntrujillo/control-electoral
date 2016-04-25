@@ -3,7 +3,8 @@
     "COMMONS": {
       "TITLE": "Sistema de Control Electoral",
       "TITLE_APP": "SCEL",
-      "TITLE_ROL": "Rol"
+      "TITLE_ROL": "Rol",
+      "LBL_OUT": "Salir"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
