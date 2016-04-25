@@ -23,15 +23,15 @@ angular
                     templateUrl: 'views/common/layout.html'
                 })
 
-                .state('app.dashboard', {
-                    url: '/container',
-                    templateUrl: 'views/dashboard.html',
-                    data: {
-                        title: 'Dashboard'
-                    }
-                })
+                /* .state('app.dashboard', {
+                 url: '/container',
+                 templateUrl: 'views/dashboard.html',
+                 data: {
+                 title: 'Dashboard'
+                 }
+                 })*/
                 .state('app.resultados', {
-                    url: '/resultados',
+                    url: '/container',
                     templateUrl: 'views/results-filter.html',
                     controller: 'FiltroCtrl as ctrl',
                     resolve: {
