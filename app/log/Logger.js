@@ -1,4 +1,5 @@
 var winston = require('winston'),
+    moment = require('moment'),
     path = require('path');
 
 winston.emitErrs = true;
@@ -31,7 +32,10 @@ var logger = new (winston.Logger)({
             json: true,
             maxsize: 5242880, //5MB
             maxFiles: 5,
-            colorize: true
+            colorize: true,
+            timestamp: function () {
+                return moment().format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
+            }
         }),
         new winston.transports.Console({
             level: constants.LEVEL_LOG.DEBUG,
