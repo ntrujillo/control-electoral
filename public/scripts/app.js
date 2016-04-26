@@ -7,7 +7,11 @@ angular
         'ngResource',
         'zingchart-angularjs',
         'pascalprecht.translate',
-        'angular-growl'
+        'angular-growl',
+        'ngAnimate',
+        'ngAria',
+        'ngMessages',
+        'ngMaterial'
 
     ])
     .constant('COLORS', {
