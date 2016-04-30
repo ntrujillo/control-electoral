@@ -597,6 +597,7 @@ ul.list-style-none {
 /* default sidebar skin */
 .sidebar-panel {
     background-color: #495469;
+    z-index: 1039;
 }
 
 .sidebar-panel > .brand {
@@ -1013,7 +1014,7 @@ ul.list-style-none {
 }
 
 .main-panel > .main-content {
-    padding: 20px;
+    padding: 5px;
     margin-bottom: 55px;
 }
 
@@ -1362,7 +1363,7 @@ footer.content-footer li a:active {
 }
 
 .layout-fixed-header .main-content {
-    padding-top: 75px;
+    padding-top: 65px;
 }
 
 .layout-fixed-header .main-content.no-padding {
