@@ -45,7 +45,12 @@ var logger = new (winston.Logger)({
         })
     ],
     exceptionHandlers: [
-        new winston.transports.File({filename: fileNameExceptionLog})
+        new winston.transports.File({
+            filename: fileNameExceptionLog,
+            timestamp: function () {
+                return moment().format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
+            }
+        })
     ],
     exitOnError: false
 });
