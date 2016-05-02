@@ -3,8 +3,22 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-    firstName: String,
-    lastName: String,
+    firstName: {
+        type: String,
+        trim: true,
+        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_NAMES'
+    },
+    lastName: {
+        type: String,
+        trim: true,
+        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_LASTNAME'
+    },
+    document: {
+        type: String,
+        unique: true,
+        trim: true,
+        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_DOCUMENT'
+    },
     email: {
         type: String,
         match: [/.+\@.+\..+/, "Please fill a valid e-mail address"]
@@ -12,11 +26,12 @@ var UserSchema = new Schema({
     username: {
         type: String,
         unique: true,
-        required: 'Username is required',
+        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_USER',
         trim: true
     },
     password: {
         type: String,
+        required: 'Password is required',
         validate: [function (password) {
             return password && password.length > 6;
         }, 'Password should be longer']
@@ -36,8 +51,7 @@ var UserSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'V',
-        required: 'Status is required'
+        default: 'V'
     },
     creator: {
         type: Schema.ObjectId, ref: 'User'
