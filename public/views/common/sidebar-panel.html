@@ -1,13 +1,11 @@
 <div class="brand">
 
-    <!-- logo -->
     <div class="brand-logo">
         {{'CONTAINER.COMMONS.TITLE_APP' | translate}}
     </div>
-    <!-- /logo -->
 
     <!-- toggle small sidebar menu -->
-    <a href="javascript;" class="toggle-sidebar hidden-xs hamburger-icon v3"
+    <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3"
        data-ng-click="app.layout.isSmallSidebar = !app.layout.isSmallSidebar">
         <span></span>
         <span></span>
@@ -21,6 +19,14 @@
 
 <nav role="navigation" ng-show="rolMenu===1" side-navigation>
     <ul class="nav">
+        <!--users-->
+        <li data-ng-class="{open: $state.includes('app.users')}">
+            <a ui-sref="app.users">
+                <i class="fa fa-user"></i>
+                <span>{{'CONTAINER.ADMIN.USERS'|translate}}</span>
+            </a>
+        </li>
+        <!--/users-->
         <!-- ui -->
         <li data-ng-class="{open: $state.includes('app.ui')}">
             <a href="javascript:;">
@@ -87,12 +93,6 @@
         </li>
         <!-- /charts -->
     </ul>
-</nav>
-<nav role="navigation" ng-if="rolMenu===2" side-navigation>
-    <div data-ng-include="'views/common/rol/coordinator.html'"></div>
-</nav>
-<nav role="navigation" ng-if="rolMenu===3" side-navigation>
-    <div data-ng-include="'views/common/rol/user.html'"></div>
 </nav>
 <!-- main navigation -->
 
