@@ -23,13 +23,27 @@ angular
                     templateUrl: 'views/common/layout.html'
                 })
 
-                /* .state('app.dashboard', {
-                 url: '/container',
-                 templateUrl: 'views/dashboard.html',
-                 data: {
-                 title: 'Dashboard'
-                 }
-                 })*/
+                .state('app.users', {
+                    url: '/usuarios',
+                    templateUrl: 'views/admin/users.html',
+                    controller: 'UserCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'angular-factory',
+                                    files: [
+                                        'scripts/models/User.js',
+                                        'scripts/services/admin/user.client.service.js',
+                                        'scripts/controllers/admin/user.client.controller.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        title: 'CONTAINER.ADMIN.ADMINISTRATOR_USERS'
+                    }
+                })
                 .state('app.resultados', {
                     url: '/container',
                     templateUrl: 'views/results-filter.html',
