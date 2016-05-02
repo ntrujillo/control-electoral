@@ -1,0 +1,63 @@
+<div class="panel-body container">
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <div class="form-group">
+                <label class="control-label" for="provincia">{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}</label>
+                <input id="provincia" placeholder="{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <div class="form-group">
+                <label class="control-label">""</label>
+                <button class="form-control btn btn-primary">Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bs-component form-group">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <td colspan='7'>
+                        <button type="submit" title="{{'CONTAINER.COMMONS.BTN_NEW'|translate}}"
+                                ng-click="ctrl.showModal()"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            {{'CONTAINER.COMMONS.BTN_NEW'|translate}}
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{'CONTAINER.USER_MODEL.FIRST_NAME'|translate}}</th>
+                    <th>{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}</th>
+                    <th>{{'CONTAINER.USER_MODEL.EMAIL'|translate}}</th>
+                    <th>{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}</th>
+                    <th>{{'CONTAINER.USER_MODEL.STATUS'|translate}}</th>
+                    <th>{{'CONTAINER.USER_MODEL.CREATED'|translate}}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="user in users">
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.document}}</td>
+                    <td>{{user.status}}</td>
+                    <td>{{user.created | date:'medium'}}</td>
+                    <td>
+                        <button type="submit" title="{{'CONTAINER.COMMONS.BTN_EDIT'|translate}}"
+                                ng-click="ctrl.showModal(user._id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
