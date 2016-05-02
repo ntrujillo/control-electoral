@@ -4,7 +4,12 @@
       "TITLE": "Sistema de Control Electoral",
       "TITLE_APP": "SCEL",
       "TITLE_ROL": "Rol",
-      "LBL_OUT": "Salir"
+      "LBL_OUT": "Salir",
+      "BTN_NEW": "Nuevo",
+      "BTN_EDIT": "Editar",
+      "BTN_SAVE": "Guardar",
+      "BTN_UPDATE": "Actualizar",
+      "BTN_CANCEL": "Cancelar"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
@@ -16,7 +21,37 @@
       "LBL_INVALID_PASSWORD": "Contrase\u00f1a invalida",
       "LBL_ROL_INVALID": "Rol no vigente",
       "LBL_ROL_VALID": "Rol v\u00e1lido",
-      "LBL_USER_LOGGED": "El usuario no est\u00e1 conectado"
+      "LBL_USER_LOGGED": "El usuario no est\u00e1 conectado",
+      "LBL_SWITCH_USER": "Cambiar de usuario",
+      "LBL_SING": "Ingresar"
+    },
+    "ADMIN": {
+      "USERS": "Usuarios",
+      "ADMINISTRATOR_USERS": "Administraci\u00f3n de usuarios"
+    },
+    "USER_MODEL": {
+      "ID": "Id",
+      "FIRST_NAME": "Nombres",
+      "LAST_NAME": "Apellidos",
+      "EMAIL": "Email",
+      "STATUS": "Estado",
+      "CREATED": "Fecha de creaci\u00f3n",
+      "DOCUMENT": "C\u00e9dula",
+      "CREATED_USER": "Creaci\u00f3n de usuario",
+      "EDIT_USER": "Edici\u00f3n de usuario",
+      "USER": "Usuario",
+      "MESSAGE_USER": "Usuario guardado",
+      "MESSAGE_ALREADY_USER": "El usuario ya existe",
+      "MESSAGE_UPDATE":"Usuario actualizado"
+    },
+    "MESSAGES": {
+      "MESSAGE_REQUIRED_USER": "El usuario es requerido",
+      "MESSAGE_REQUIRED_NAMES": "Los nombres son requeridos",
+      "MESSAGE_REQUIRED_LASTNAME": "Los apellidos son requeridos",
+      "MESSAGE_REQUIRED_DOCUMENT": "La c\u00e9dula es requerida",
+      "MESSAGE_REQUIRED_EMAIL": "El email es requerido",
+      "MESSAGE_SUCCESS": "\u00c9xito",
+      "MESSAGE_ERROR": "Error"
     }
   }
 }
