@@ -3,9 +3,24 @@
 
         var notification = {};
         notification.showErrorWithFilter = function (message, title, time) {
+            var titleMessage = $filter('translate')(title);
             var sms = $filter('translate')(message);
             setTimeout(function () {
-                growl.error(sms, {title: title}, {ttl: time});
+                growl.error(sms, {title: titleMessage}, {ttl: time});
+            }, 300);
+        };
+        notification.info = function (message, title, time) {
+            var titleMessage = $filter('translate')(title);
+            var sms = $filter('translate')(message);
+            setTimeout(function () {
+                growl.info(sms, {title: titleMessage}, {ttl: time});
+            }, 100);
+        };
+        notification.success = function (message, title, time) {
+            var titleMessage = $filter('translate')(title);
+            var sms = $filter('translate')(message);
+            setTimeout(function () {
+                growl.success(sms, {title: titleMessage}, {ttl: time});
             }, 100);
         };
         return notification;
