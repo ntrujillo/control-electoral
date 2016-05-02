@@ -26,7 +26,8 @@
     "pg": "latest",
     "winston": "latest",
     "path": "latest",
-    "moment": "latest"
+    "moment": "latest",
+    "request-ip": "latest"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
