@@ -14,7 +14,6 @@ html {
 }
 
 .app {
-    background: #153B5A;
     width: 100%;
     min-height: 100%;
     position: relative;
@@ -22,7 +21,6 @@ html {
 
 body {
     overflow: visible;
-    background: #e0e8f2;
     color: #616161;
     font-size: 13px;
     line-height: 1.53846154;
@@ -1705,6 +1703,7 @@ footer.content-footer li a:active {
 
 .full-height {
     height: 100%;
+    background: #153B5A;
 }
 
 [data-animation] {
