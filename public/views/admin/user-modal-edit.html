@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.closeModal()">&times;</button>
+    <h4 class="modal-title"><b>{{'CONTAINER.USER_MODEL.EDIT_USER'|translate}}</b></h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="form-group col-md-6 col-xs-6">
+            <label for="nombres">{{'CONTAINER.USER_MODEL.FIRST_NAME'|translate}}</label>
+            <input type="text" class="form-control" ng-model='usuario.firstName' id="nombres"
+                   placeholder="{{'CONTAINER.USER_MODEL.FIRST_NAME'|translate}}" disabled="true">
+        </div>
+        <div class="form-group col-md-6 col-xs-6">
+            <label for="apellidos">{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}</label>
+            <input type="text" class="form-control" ng-model='usuario.lastName' id="apellidos"
+                   placeholder="{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}" disabled="true">
+        </div>
+        <div class="form-group col-md-6 col-xs-6">
+            <label for="cedula">{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}</label>
+            <input type="text" class="form-control" ng-model='usuario.document' id="cedula" maxlength="10"
+                   placeholder="{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}" disabled="true">
+        </div>
+        <div class="form-group col-md-6 col-xs-6">
+            <label for="usuario">{{'CONTAINER.USER_MODEL.USER'|translate}}</label>
+            <input type="text" class="form-control" ng-model='usuario.username' id="usuario"
+                   placeholder="{{'CONTAINER.USER_MODEL.USER'|translate}}" disabled="true">
+        </div>
+        <div class="form-group col-md-6 col-xs-6">
+            <label for="email">{{'CONTAINER.USER_MODEL.EMAIL'|translate}}</label>
+            <input type="email" class="form-control" ng-model='usuario.email' id="email"
+                   placeholder="{{'CONTAINER.USER_MODEL.EMAIL'|translate}}" required>
+        </div>
+        <div class="form-group col-md-6 col-xs-6">
+            <label for="estado">{{'CONTAINER.USER_MODEL.STATUS'|translate}}</label>
+            <select class="form-control" id="estado" ng-model="usuario.status"
+                    ng-options="option.code as option.value for option in status"></select>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="update()">{{'CONTAINER.COMMONS.BTN_UPDATE'|translate}}
+    </button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="ctrl.closeModal()">
+        {{'CONTAINER.COMMONS.BTN_CANCEL'|translate}}
+    </button>
+</div>
