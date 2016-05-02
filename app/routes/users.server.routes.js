@@ -10,6 +10,9 @@ module.exports = function (app) {
         failureFlash: true
     }));
 
+    app.route('/api/users').get(users.getUsers).post(users.saveUser);
+    app.route('/api/users/:idUser').get(users.getUserById).put(users.updateUser);
+
     app.get('/signout', users.signout);
 
 };
