@@ -1,13 +1,16 @@
 var User = require('mongoose').model('User'),
+    Logger = require('../../app/log/ILogger'),
+    requestIp = require('request-ip'),
     passport = require('passport');
 
+var loggerApi = new Logger('User');
 var getErrorMessage = function (err) {
     var message = '';
     if (err.code) {
         switch (err.code) {
             case 11000:
             case 11001:
-                message = 'Username already exists';
+                message = 'CONTAINER.USER_MODEL.MESSAGE_ALREADY_USER';
                 break;
             default:
                 message = 'Something went wrong';
@@ -70,9 +73,70 @@ exports.signup = function (req, res) {
     }
 };
 
+exports.saveUser = function (req, res) {
+    var user = new User(req.body);
+    user.provider = 'local';
+    user.save(function (err) {
+        if (err) {
+            var message = getErrorMessage(err);
+            loggerApi.error('Error al guardar el usuario', user);
+            return res.status(400).json(message);
+        } else {
+            loggerApi.info('Usuario guardado con éxito');
+            return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_USER'});
+        }
+    });
+};
+
 exports.signout = function (req, res) {
     req.logout();
     res.redirect('/');
+};
+
+exports.getUsers = function (req, res) {
+    User.find({}, '-password -salt -provider', function (err, users) {
+        if (err) {
+            var message = getErrorMessage(err);
+            loggerApi.error('Falla de infraestructura');
+            return res.status(400).json(message);
+        } else {
+            var clientIp = requestIp.getClientIp(req);
+            loggerApi.error('ipAddress', clientIp);
+            loggerApi.info('Usuarios obtenidos', JSON.stringify(users));
+            return res.status(200).json(users);
+        }
+    });
+};
+
+exports.getUserById = function (req, res) {
+    var idUser = req.params.idUser;
+    User.findById({_id: idUser}, '-password -salt -provider', function (err, user) {
+        if (err) {
+            var message = getErrorMessage(err);
+            loggerApi.error('Falla de infraestructura');
+            return res.status(400).json(message);
+        } else {
+            loggerApi.info('Usuario encontrado', idUser);
+            return res.status(200).json(user);
+        }
+    });
+};
+
+exports.updateUser = function (req, res) {
+    User.update({_id: req.params.idUser}, {
+        $set: {
+            email: req.body.email,
+            status: req.body.status
+        }
+    }, function (err, response) {
+        if (err) {
+            loggerApi.error('Falla de infraestructura');
+            return res.status(400).json({message: getErrorMessage(err)});
+        } else {
+            loggerApi.info('Usuario actualizado', req.params.idUser);
+            return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_UPDATE'});
+        }
+    });
 };
 
 exports.saveOAuthUserProfile = function (req, profile, done) {
