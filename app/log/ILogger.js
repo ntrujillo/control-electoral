@@ -15,21 +15,39 @@ function ILogger(name) {
     this.name = name;
 }
 ILogger.prototype.info = function (message, data) {
+    if (data === undefined) {
+        data = '';
+    }
     apiLog.log(LEVEL_LOG.INFO, message, data);
 };
 ILogger.prototype.warn = function (message, data) {
+    if (data === undefined) {
+        data = '';
+    }
     apiLog.log(LEVEL_LOG.WARN, message, data);
 };
 ILogger.prototype.error = function (message, data) {
+    if (data === undefined) {
+        data = '';
+    }
     apiLog.log(LEVEL_LOG.ERROR, message, data);
 };
 ILogger.prototype.verbose = function (message, data) {
+    if (data === undefined) {
+        data = '';
+    }
     apiLog.log(LEVEL_LOG.VERBOSE, message, data);
 };
 ILogger.prototype.debug = function (message, data) {
+    if (data === undefined) {
+        data = '';
+    }
     apiLog.log(LEVEL_LOG.DEBUG, message, data);
 };
 ILogger.prototype.silly = function (message, data) {
+    if (data === undefined) {
+        data = '';
+    }
     apiLog.log(LEVEL_LOG.SILLY, message, data);
 };
 
