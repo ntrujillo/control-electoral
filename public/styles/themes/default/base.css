@@ -899,7 +899,7 @@ ul.list-style-none {
 
 /* default header skin */
 .main-panel > .header {
-    background-color: white;
+    background-color: rgb(241, 242, 243);
 }
 
 .main-panel > .header .navbar-text {
@@ -938,6 +938,12 @@ ul.list-style-none {
     height: 55px;
     display: block;
     clear: both;
+}
+
+.brand-title {
+    color: black;
+    margin-top: 17.5px;
+    margin-bottom: 17.5px;
 }
 
 .brand .brand-logo {
@@ -998,7 +1004,7 @@ ul.list-style-none {
 /* $main-panel
  ------------------------------------------*/
 .main-panel {
-    background: #f0f0f0;
+    background: white;
 }
 
 .main-panel::before,
@@ -1113,6 +1119,7 @@ footer.content-footer {
     border-top: 1px solid rgba(0, 0, 0, 0.07);
     font-size: 12px;
     z-index: 1000;
+    background: rgb(241, 242, 243);
 }
 
 footer.content-footer::before,
