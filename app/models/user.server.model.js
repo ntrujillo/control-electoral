@@ -5,19 +5,16 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
     firstName: {
         type: String,
-        trim: true,
-        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_NAMES'
+        trim: true
     },
     lastName: {
         type: String,
-        trim: true,
-        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_LASTNAME'
+        trim: true
     },
     document: {
         type: String,
         unique: true,
-        trim: true,
-        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_DOCUMENT'
+        trim: true
     },
     email: {
         type: String,
@@ -26,7 +23,6 @@ var UserSchema = new Schema({
     username: {
         type: String,
         unique: true,
-        required: 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_USER',
         trim: true
     },
     password: {
