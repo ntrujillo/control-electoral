@@ -6,6 +6,8 @@
       "filename": "logs/app_srv.log",
       "pattern": "-dd.log",
       "alwaysIncludePattern": true,
+      "maxLogSize": 20480,
+      "backups": 3,
       "category": "Control Electoral",
       "level": "DEBUG"
     },
