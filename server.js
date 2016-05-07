@@ -16,4 +16,4 @@ passport();
 
 app.listen(port);
 module.exports = app;
-Logger.logInfo('Server running at http://localhost:', port);
+Logger.logInfo('[Server] Server running at http://localhost:', port);
