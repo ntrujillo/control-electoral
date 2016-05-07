@@ -3,38 +3,81 @@
     <h4 class="modal-title"><b>{{'CONTAINER.USER_MODEL.EDIT_USER'|translate}}</b></h4>
 </div>
 <div class="modal-body">
-    <div class="row">
-        <div class="form-group col-md-6 col-xs-6">
-            <label for="nombres">{{'CONTAINER.USER_MODEL.FIRST_NAME'|translate}}</label>
-            <input type="text" class="form-control" ng-model='usuario.firstName' id="nombres"
-                   placeholder="{{'CONTAINER.USER_MODEL.FIRST_NAME'|translate}}" disabled="true">
+    <form name="userForm" novalidate>
+        <div id="group-user" class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="idNombres"
+                                   class="control-label">{{'CONTAINER.USER_MODEL.FIRST_NAME'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="idNombres" type="text" name="nombres" class="form-control"
+                                       ng-model="usuario.firstName"
+                                       disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="idApellido"
+                                   class="control-label">{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="idApellido" type="text" name="apellido"
+                                       class="form-control"
+                                       ng-model="usuario.lastName" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="idCedula"
+                                   class="control-label">{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="idCedula" type="text" name="cedula" maxlength="10"
+                                       class="form-control"
+                                       ng-model="usuario.document" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                        <div class="form-group">
+                            <label for="idEmail"
+                                   class="control-label">{{'CONTAINER.USER_MODEL.EMAIL'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="idEmail" type="email" name="email"
+                                       class="form-control"
+                                       ng-model="usuario.email">
+                                                        <span ng-show="userForm.email.$invalid && !userForm.email.$pristine"
+                                                              class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                            <span class="k-icon k-warning"></span>
+                                {{'CONTAINER.MESSAGES.MESSAGE_VALID_EMAIL'|translate}}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="idRol"
+                                   class="control-label">{{'CONTAINER.USER_MODEL.STATUS'|translate}}</label>
+
+                            <div class="cb-control">
+                                <select id="idRol" class="form-control"
+                                        ng-model="usuario.status"
+                                        ng-options="option.code as option.value for option in status">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group col-md-6 col-xs-6">
-            <label for="apellidos">{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}</label>
-            <input type="text" class="form-control" ng-model='usuario.lastName' id="apellidos"
-                   placeholder="{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}" disabled="true">
-        </div>
-        <div class="form-group col-md-6 col-xs-6">
-            <label for="cedula">{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}</label>
-            <input type="text" class="form-control" ng-model='usuario.document' id="cedula" maxlength="10"
-                   placeholder="{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}" disabled="true">
-        </div>
-        <div class="form-group col-md-6 col-xs-6">
-            <label for="usuario">{{'CONTAINER.USER_MODEL.USER'|translate}}</label>
-            <input type="text" class="form-control" ng-model='usuario.username' id="usuario"
-                   placeholder="{{'CONTAINER.USER_MODEL.USER'|translate}}" disabled="true">
-        </div>
-        <div class="form-group col-md-6 col-xs-6">
-            <label for="email">{{'CONTAINER.USER_MODEL.EMAIL'|translate}}</label>
-            <input type="email" class="form-control" ng-model='usuario.email' id="email"
-                   placeholder="{{'CONTAINER.USER_MODEL.EMAIL'|translate}}" required>
-        </div>
-        <div class="form-group col-md-6 col-xs-6">
-            <label for="estado">{{'CONTAINER.USER_MODEL.STATUS'|translate}}</label>
-            <select class="form-control" id="estado" ng-model="usuario.status"
-                    ng-options="option.code as option.value for option in status"></select>
-        </div>
-    </div>
+    </form>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="update()">{{'CONTAINER.COMMONS.BTN_UPDATE'|translate}}
