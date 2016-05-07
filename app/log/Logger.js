@@ -9,7 +9,6 @@ module.exports.logInfo = function (message, object) {
     } else {
         logger.info(message);
     }
-
 };
 
 module.exports.logError = function (message, object) {
