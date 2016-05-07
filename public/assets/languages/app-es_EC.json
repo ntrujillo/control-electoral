@@ -42,16 +42,17 @@
       "USER": "Usuario",
       "MESSAGE_USER": "Usuario guardado",
       "MESSAGE_ALREADY_USER": "El usuario ya existe",
-      "MESSAGE_UPDATE":"Usuario actualizado"
+      "MESSAGE_UPDATE": "Usuario actualizado"
     },
     "MESSAGES": {
       "MESSAGE_REQUIRED_USER": "El usuario es requerido",
       "MESSAGE_REQUIRED_NAMES": "Los nombres son requeridos",
       "MESSAGE_REQUIRED_LASTNAME": "Los apellidos son requeridos",
-      "MESSAGE_REQUIRED_DOCUMENT": "La c\u00e9dula es requerida",
+      "MESSAGE_REQUIRED_DOCUMENT": "Ya existe el n\u00famero c\u00e9dula ingresada",
       "MESSAGE_REQUIRED_EMAIL": "El email es requerido",
       "MESSAGE_SUCCESS": "\u00c9xito",
-      "MESSAGE_ERROR": "Error"
+      "MESSAGE_ERROR": "Error",
+      "MEESSAGE_INFORMATION": "Ingrese infomaci\u00f3n"
     }
   }
 }
