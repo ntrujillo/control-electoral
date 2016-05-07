@@ -3,6 +3,82 @@
 /* $scaffolding
  ------------------------------------------*/
 
+/* custom styles*/
+.form-vertical > .row > [class*="col-"] > .form-group {
+    min-height: 57px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.form-horizontal > .row > [class*="col-"] > .form-group .control-label, .form-vertical > .row > [class*="col-"] > .form-group .control-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inherit;
+}
+
+.form-group > .control-label {
+    color: #666666;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 17px;
+}
+
+.form-group.cb-required .control-label:after {
+    content: '*';
+    color: #a94442;
+    position: absolute;
+    padding-left: 5px;
+}
+
+.form-group .k-tooltip-validation {
+    box-sizing: border-box;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 0;
+    font-size: 11px;
+    color: #FFF;
+    background: #a94442;
+    margin-top: -1px;
+    padding: 5px;
+    min-width: 150px;
+    text-align: center;
+    z-index: 1;
+}
+
+.form-control.k-invalid, .k-widget.k-invalid, .k-input.k-invalid, .k-textbox.k-invalid, .form-control.k-invalid > .k-state-default, .k-widget.k-invalid > .k-state-default, .k-input.k-invalid > .k-state-default, .k-textbox.k-invalid > .k-state-default {
+    border-color: #a94442 !important;
+}
+
+.form-group .k-widget, .form-group .k-textbox {
+    width: 100%;
+}
+
+.form-control, .k-widget, .k-input, .k-textbox {
+    border-radius: 2px;
+}
+
+.k-tooltip-validation {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.group-simple {
+    border: 0;
+    background: transparent;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/**/
+
 body,
 html {
     height: 100%;
