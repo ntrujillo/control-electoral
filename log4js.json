@@ -3,8 +3,8 @@
     {
       "type": "dateFile",
       "absolute": true,
-      "filename": "logs/app1s.log",
-      "pattern": "-dd--hh.log",
+      "filename": "logs/app_srv.log",
+      "pattern": "-dd.log",
       "alwaysIncludePattern": true,
       "category": "Control Electoral",
       "level": "DEBUG"
