@@ -1,0 +1,17 @@
+{
+  "appenders": [
+    {
+      "type": "dateFile",
+      "absolute": true,
+      "filename": "logs/app1s.log",
+      "pattern": "-dd--hh.log",
+      "alwaysIncludePattern": true,
+      "category": "Control Electoral",
+      "level": "DEBUG"
+    },
+    {
+      "type": "console"
+    }
+  ],
+  "replaceConsole": false
+}
