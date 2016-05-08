@@ -89,6 +89,10 @@
     padding-left: 10px;
 }
 
+th {
+    text-align: center;
+}
+
 /**/
 
 body,
