@@ -2,11 +2,12 @@
     angular.module('ControlElectoralApp').controller('UserCtrl', ['$scope', '$http', '$uibModal', 'Users', 'User',
         function ($scope, $http, $modal, UserSrv, User) {
             var ctrl = this;
+            ctrl.userCedula = null;
             ctrl.total_count = 0;
             ctrl.itemsPerPage = 10;
             ctrl.currentPage = 1;
 
-            function getUsers(page) {
+            function getUsers() {
                 UserSrv.query({page: ctrl.currentPage, numRegistros: ctrl.itemsPerPage}, function (response, headers) {
                     var usersArray = angular.fromJson(response);
                     ctrl.total_count = parseInt(headers('X-Total-Count'));
@@ -21,6 +22,27 @@
             }
 
             getUsers();
+
+            function getUserByCedula(cedula) {
+                if (cedula !== null && cedula !== "") {
+                    UserSrv.Api.query({
+                        cedula: cedula
+                    }, function (response) {
+                        var usersArray = angular.fromJson(response);
+                        $scope.users = [];
+                        usersArray.forEach(function (user) {
+                            var u = new User(user);
+                            $scope.users.push(u);
+                        });
+                    }, function (errorResponse) {
+                        $scope.error = errorResponse;
+                    });
+                } else {
+                    getUsers();
+                }
+                ctrl.userCedula = null;
+            }
+
             function showModal(idUSer) {
                 var template;
                 if (angular.isDefined(idUSer)) {
@@ -58,6 +80,7 @@
 
             ctrl.showModal = showModal;
             ctrl.getUsers = getUsers;
+            ctrl.getUserByCedula = getUserByCedula;
         }
 
     ]);
