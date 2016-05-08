@@ -1,0 +1,55 @@
+<div class="container">
+    <div id="gridUser" class="form-grid">
+        <div class="form-vertical">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="bs-component form-group">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <td colspan='5'>
+                                        <button type="submit" title="{{'CONTAINER.COMMONS.BTN_NEW'|translate}}"
+                                                ng-click="ctrl.showModal()"
+                                                class="btn btn-primary btn-sm">
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                            {{'CONTAINER.COMMONS.BTN_NEW'|translate}}
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>{{'CONTAINER.ROL_MODEL.ROL_ID'|translate}}</th>
+                                    <th>{{'CONTAINER.ROL_MODEL.ROL_DESCRIPTION'|translate}}</th>
+                                    <th>{{'CONTAINER.ROL_MODEL.ROL_STATUS'|translate}}</th>
+                                    <th>{{'CONTAINER.ROL_MODEL.ROL_CREATED'|translate}}</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="rol in roles">
+                                    <td>{{rol.ro_rol}}</td>
+                                    <td>{{rol.ro_description}}</td>
+                                    <td>{{rol.ro_status}}</td>
+                                    <td>{{rol.ro_created | date:'medium'}}</td>
+                                    <td>
+                                        <button type="submit" title="{{'CONTAINER.COMMONS.BTN_EDIT'|translate}}"
+                                                ng-click="ctrl.showModal(user._id)"
+                                                class="btn btn-primary btn-sm">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <uib-pagination id="pagination" boundary-links="true" total-items="ctrl.total_count"
+                                            ng-model="ctrl.currentPage"
+                                            ng-change="ctrl.getUsers(ctrl.currentPage)"
+                                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+                                            first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
