@@ -92,7 +92,7 @@ exports.getUsers = function (req, res) {
     registros = req.query.numRegistros;
     User.find({}).count(function (err, count) {
         if (err) {
-            Logger.logError('[UserCtrl] Error al obtnet el número de usuarios', err);
+            Logger.logError('[UserCtrl] Error al obtener el número de usuarios', err);
             res.status(500);
         }
 
