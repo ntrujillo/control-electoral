@@ -9,7 +9,8 @@
       "BTN_EDIT": "Editar",
       "BTN_SAVE": "Guardar",
       "BTN_UPDATE": "Actualizar",
-      "BTN_CANCEL": "Cancelar"
+      "BTN_CANCEL": "Cancelar",
+      "BTN_SEARCH": "Buscar"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
@@ -49,10 +50,13 @@
       "MESSAGE_REQUIRED_NAMES": "Los nombres son requeridos",
       "MESSAGE_REQUIRED_LASTNAME": "Los apellidos son requeridos",
       "MESSAGE_REQUIRED_DOCUMENT": "Ya existe el n\u00famero c\u00e9dula ingresada",
-      "MESSAGE_REQUIRED_EMAIL": "El email es requerido",
+      "MESSAGE_VALID_EMAIL": "Email inv\u00e1lido",
       "MESSAGE_SUCCESS": "\u00c9xito",
       "MESSAGE_ERROR": "Error",
-      "MEESSAGE_INFORMATION": "Ingrese infomaci\u00f3n"
+      "MEESSAGE_INFORMATION": "Ingrese infomaci\u00f3n",
+      "MEESSAGE_DOCUMENT": "La c\u00e9dula es requerida",
+      "MESSAGE_ONLY_NUMBERS": "Solo n\u00fameros",
+      "MESSAGE_MIN_DOCUMENT": "La c\u00e9dula debe tener 10 digitos"
     }
   }
 }
