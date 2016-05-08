@@ -1,23 +1,22 @@
 var User = require('mongoose').model('User'),
-    Logger = require('../../app/log/ILogger'),
+    Logger = require(__dirname + '/../../app/log/Logger'),
     requestIp = require('request-ip'),
     passport = require('passport');
 
-var loggerApi = new Logger('User');
 var getErrorMessage = function (err) {
     var message = '';
     if (err.code) {
         switch (err.code) {
             case 11000:
             case 11001:
-                message = 'CONTAINER.USER_MODEL.MESSAGE_ALREADY_USER';
+                message = 'CONTAINER.MESSAGES.MESSAGE_REQUIRED_DOCUMENT';
                 break;
             default:
                 message = 'Something went wrong';
         }
     } else {
         for (var errName in err.errors) {
-            if (err.errors[errName].message) {
+            if (err.errors.hasOwnProperty(errName)) {
                 message = err.errors[errName];
             }
         }
@@ -35,12 +34,6 @@ exports.renderSignin = function (req, res) {
     } else {
         return res.redirect('/');
     }
-};
-
-exports.renderPrueba = function (req, res) {
-
-    res.render('container', {title: 'Hola mundo', user: JSON.stringify(req.user)});
-
 };
 
 exports.renderSignup = function (req, res) {
@@ -79,10 +72,10 @@ exports.saveUser = function (req, res) {
     user.save(function (err) {
         if (err) {
             var message = getErrorMessage(err);
-            loggerApi.error('Error al guardar el usuario', user);
+            Logger.logError('Error al guardar el usuario', user);
             return res.status(400).json(message);
         } else {
-            loggerApi.info('Usuario guardado con éxito');
+            Logger.logInfo('Usuario guardado con éxito');
             return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_USER'});
         }
     });
@@ -94,33 +87,56 @@ exports.signout = function (req, res) {
 };
 
 exports.getUsers = function (req, res) {
-    User.find({}, '-password -salt -provider', function (err, users) {
+    var pagina, registros;
+    pagina = req.query.page;
+    registros = req.query.numRegistros;
+    User.find({}).count(function (err, count) {
         if (err) {
-            var message = getErrorMessage(err);
-            loggerApi.error('Falla de infraestructura');
-            return res.status(400).json(message);
-        } else {
-            var clientIp = requestIp.getClientIp(req);
-            loggerApi.error('ipAddress', clientIp);
-            loggerApi.info('Usuarios obtenidos', JSON.stringify(users));
-            return res.status(200).json(users);
+            Logger.logError('[UserCtrl] Error al obtnet el número de usuarios', err);
+            res.status(500);
         }
+
+        res.header('X-Total-Count', count);
+        User.find({}, '-password -salt -provider').sort({lastName: 1}).limit(parseInt(registros)).skip(parseInt(registros) * (parseInt(pagina) - 1)).exec(function (err, users) {
+            if (err) {
+                var message = getErrorMessage(err);
+                Logger.logError('[UserCtrl] Falla de infraestructura', message);
+                return res.status(400).json(message);
+            } else {
+                Logger.logInfo('[UserCtrl] Usuarios obtenidos', JSON.stringify(users));
+                return res.status(200).json(users);
+            }
+        });
     });
 };
-
 exports.getUserById = function (req, res) {
     var idUser = req.params.idUser;
     User.findById({_id: idUser}, '-password -salt -provider', function (err, user) {
         if (err) {
             var message = getErrorMessage(err);
-            loggerApi.error('Falla de infraestructura');
+            Logger.logError('[UserCtrl] No se pudo encontrar el usuario');
             return res.status(400).json(message);
         } else {
-            loggerApi.info('Usuario encontrado', idUser);
+            Logger.logInfo('Usuario encontrado', idUser);
             return res.status(200).json(user);
         }
     });
 };
+
+exports.getUserByCedula = function (req, res) {
+    var cedula = req.params.cedula;
+    User.find({document: cedula}, '-password -salt -provider', function (err, user) {
+        if (err) {
+            var message = getErrorMessage(err);
+            Logger.logError('[UserCtrl] No se pudo encontrar el usuario');
+            return res.status(400).json(message);
+        } else {
+            Logger.logInfo('Usuario encontrado', cedula);
+            return res.status(200).json(user);
+        }
+    });
+};
+
 
 exports.updateUser = function (req, res) {
     User.update({_id: req.params.idUser}, {
@@ -128,12 +144,12 @@ exports.updateUser = function (req, res) {
             email: req.body.email,
             status: req.body.status
         }
-    }, function (err, response) {
+    }, function (err) {
         if (err) {
-            loggerApi.error('Falla de infraestructura');
+            Logger.logError('Falla de infraestructura');
             return res.status(400).json({message: getErrorMessage(err)});
         } else {
-            loggerApi.info('Usuario actualizado', req.params.idUser);
+            Logger.logInfo('Usuario actualizado', req.params.idUser);
             return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_UPDATE'});
         }
     });
