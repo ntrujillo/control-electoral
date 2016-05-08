@@ -31,7 +31,7 @@
                                    class="control-label">{{'CONTAINER.USER_MODEL.LAST_NAME'|translate}}</label>
 
                             <div class="cb-control">
-                                <input id="idApellido" type="text" name="apellido"
+                                <input id="idApellido" type="text" name="apellidos"
                                        class="form-control"
                                        ng-model="apellidos" required>
                                                         <span ng-show="userForm.apellidos.$invalid && !userForm.apellidos.$pristine"
@@ -49,13 +49,24 @@
                                    class="control-label">{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}</label>
 
                             <div class="cb-control">
-                                <input id="idCedula" type="text" name="cedula" maxlength="10"
+                                <input id="idCedula" type="text" name="cedula" maxlength="10" ng-minlength="10"
                                        class="form-control"
-                                       ng-model="cedula" required>
+                                       ng-model="cedula" ng-pattern="/^[0-9]*$/" required>
                                                         <span ng-show="userForm.cedula.$invalid && !userForm.cedula.$pristine"
                                                               class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
                             <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MEESSAGE_DOCUMENT'|translate}}
+                            </span>
+                                 <span ng-show="userForm.cedula.$error.pattern"
+                                       class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                            <span class="k-icon k-warning"></span>
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                            </span>
+                                </span>
+                                 <span ng-show="userForm.cedula.$error.minlength"
+                                       class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                            <span class="k-icon k-warning"></span>
+                                {{'CONTAINER.MESSAGES.MESSAGE_MIN_DOCUMENT'|translate}}
                             </span>
                             </div>
                         </div>
