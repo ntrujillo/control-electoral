@@ -27,6 +27,14 @@
             </a>
         </li>
         <!--/users-->
+        <!--users-->
+        <li data-ng-class="{open: $state.includes('app.roles')}">
+            <a ui-sref="app.roles">
+                <i class="fa fa-users"></i>
+                <span>{{'CONTAINER.ADMIN.ROLES'|translate}}</span>
+            </a>
+        </li>
+        <!--/users-->
         <!-- ui -->
         <li data-ng-class="{open: $state.includes('app.ui')}">
             <a href="javascript:;">
