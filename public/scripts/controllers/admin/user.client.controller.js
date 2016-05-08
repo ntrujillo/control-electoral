@@ -1,6 +1,6 @@
 (function (angular) {
-    angular.module('ControlElectoralApp').controller('UserCtrl', ['$scope', '$http', '$uibModal', 'Users', 'User',
-        function ($scope, $http, $modal, UserSrv, User) {
+    angular.module('ControlElectoralApp').controller('UserCtrl', ['$scope', '$http', '$uibModal', 'Users', 'User', 'APP',
+        function ($scope, $http, $modal, UserSrv, User, constant) {
             var ctrl = this;
             ctrl.userCedula = null;
             ctrl.total_count = 0;
@@ -17,7 +17,7 @@
                         $scope.users.push(u);
                     });
                 }, function (errorResponse) {
-                    $scope.error = errorResponse;
+                    $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                 });
             }
 
@@ -35,7 +35,7 @@
                             $scope.users.push(u);
                         });
                     }, function (errorResponse) {
-                        $scope.error = errorResponse;
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 } else {
                     getUsers();
