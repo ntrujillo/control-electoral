@@ -28,7 +28,9 @@
     },
     "ADMIN": {
       "USERS": "Usuarios",
-      "ADMINISTRATOR_USERS": "Administraci\u00f3n de usuarios"
+      "ADMINISTRATOR_USERS": "Administraci\u00f3n de usuarios",
+      "ROLES": "Roles",
+      "ADMINISTRATOR_ROLES": "Administraci\u00f3n de roles"
     },
     "USER_MODEL": {
       "ID": "Id",
@@ -44,6 +46,12 @@
       "MESSAGE_USER": "Usuario guardado",
       "MESSAGE_ALREADY_USER": "El usuario ya existe",
       "MESSAGE_UPDATE": "Usuario actualizado"
+    },
+    "ROL_MODEL": {
+      "ROL_ID": "Rol",
+      "ROL_DESCRIPTION": "Descripci\u00f3n",
+      "ROL_STATUS": "Estado",
+      "ROL_CREATED": "Fecha de creaci\u00f3n"
     },
     "MESSAGES": {
       "MESSAGE_REQUIRED_USER": "El usuario es requerido",
