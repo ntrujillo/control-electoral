@@ -44,6 +44,27 @@ angular
                         title: 'CONTAINER.ADMIN.ADMINISTRATOR_USERS'
                     }
                 })
+                .state('app.roles', {
+                    url: '/roles',
+                    templateUrl: 'views/admin/roles/roles.html',
+                    controller: 'RolCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'angular-factory',
+                                    files: [
+                                        'scripts/models/Rol.js',
+                                        'scripts/services/admin/roles/roles.client.service.js',
+                                        'scripts/controllers/admin/roles/roles.client.controller.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        title: 'CONTAINER.ADMIN.ADMINISTRATOR_ROLES'
+                    }
+                })
                 .state('app.resultados', {
                     url: '/container',
                     templateUrl: 'views/results-filter.html',
