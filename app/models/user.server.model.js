@@ -12,13 +12,12 @@ var UserSchema = new Schema({
         trim: true
     },
     document: {
-        type: String,
+        type: Number,
         unique: true,
         trim: true
     },
     email: {
-        type: String,
-        match: [/.+\@.+\..+/, "Please fill a valid e-mail address"]
+        type: String
     },
     username: {
         type: String,
@@ -26,11 +25,7 @@ var UserSchema = new Schema({
         trim: true
     },
     password: {
-        type: String,
-        required: 'Password is required',
-        validate: [function (password) {
-            return password && password.length > 6;
-        }, 'Password should be longer']
+        type: String
     },
     salt: {
         type: String
