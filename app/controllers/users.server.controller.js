@@ -146,10 +146,10 @@ exports.updateUser = function (req, res) {
         }
     }, function (err) {
         if (err) {
-            Logger.logError('Falla de infraestructura');
+            Logger.logError('[UserCtrl] No se pudo actualizar el usuario', req.params.idUser);
             return res.status(400).json({message: getErrorMessage(err)});
         } else {
-            Logger.logInfo('Usuario actualizado', req.params.idUser);
+            Logger.logInfo('[UserCtrl] Usuario actualizado', req.params.idUser);
             return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_UPDATE'});
         }
     });
