@@ -2,10 +2,14 @@
     angular.module('ControlElectoralApp').controller('UserCtrl', ['$scope', '$http', '$uibModal', 'Users', 'User',
         function ($scope, $http, $modal, UserSrv, User) {
             var ctrl = this;
+            ctrl.total_count = 0;
+            ctrl.itemsPerPage = 10;
+            ctrl.currentPage = 1;
 
-            function getUsers() {
-                UserSrv.query(function (response) {
+            function getUsers(page) {
+                UserSrv.query({page: ctrl.currentPage, numRegistros: ctrl.itemsPerPage}, function (response, headers) {
                     var usersArray = angular.fromJson(response);
+                    ctrl.total_count = parseInt(headers('X-Total-Count'));
                     $scope.users = [];
                     usersArray.forEach(function (user) {
                         var u = new User(user);
@@ -53,6 +57,7 @@
             }
 
             ctrl.showModal = showModal;
+            ctrl.getUsers = getUsers;
         }
 
     ]);
