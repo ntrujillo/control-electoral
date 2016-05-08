@@ -9,6 +9,7 @@
 
                         <div class="cb-control">
                             <input id="idCedula" placeholder="{{'CONTAINER.USER_MODEL.DOCUMENT'|translate}}"
+                                   data-ng-model="ctrl.userCedula"
                                    class="form-control"/>
                         </div>
                     </div>
@@ -18,7 +19,9 @@
                         <label class="control-label">&nbsp;</label>
 
                         <div class="cb-control">
-                            <button class="form-control btn btn-primary">{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}
+                            <button class="form-control btn btn-primary"
+                                    data-ng-click="ctrl.getUserByCedula(ctrl.userCedula)">
+                                {{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}
                             </button>
                         </div>
                     </div>
