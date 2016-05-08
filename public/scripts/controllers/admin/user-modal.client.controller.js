@@ -28,7 +28,7 @@
                     Notification.success(response.message, 'CONTAINER.MESSAGES.MESSAGE_SUCCESS', 5000);
                     onSaveFinished();
                 }, function (errorResponse) {
-                    $scope.error = errorResponse.data.message;
+                    $scope.notification.showErrorWithFilter(errorResponse.data.message, 'CONTAINER.MESSAGES.MESSAGE_ERROR');
                 });
             };
 
@@ -54,10 +54,6 @@
                     }
 
                 });
-                /*} else {
-                 Notification.showErrorWithFilter('CONTAINER.MESSAGES.MEESSAGE_INFORMATION', 'CONTAINER.MESSAGES.MESSAGE_ERROR');
-                 }*/
-
             };
             function onSaveFinished() {
                 $modalInstance.close();
