@@ -77,6 +77,18 @@
     padding-right: 5px;
 }
 
+.form-grid {
+    padding-top: 25px;
+}
+
+.container {
+    padding: 30px;
+}
+
+#pagination {
+    padding-left: 10px;
+}
+
 /**/
 
 body,
