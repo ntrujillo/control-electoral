@@ -20,6 +20,11 @@ module.exports = function () {
                     message: 'CONTAINER.SECURITY.LBL_INVALID_PASSWORD'
                 });
             }
+            if (user.status === 'B') {
+                return done(null, false, {
+                    message: 'CONTAINER.SECURITY.LBL_USER_STATUS'
+                });
+            }
 
             return done(null, user);
         });
