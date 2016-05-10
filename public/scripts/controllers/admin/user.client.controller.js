@@ -65,6 +65,7 @@
                             return $ocLazyLoad.load({
                                     name: 'angular-factory',
                                     files: [
+                                        'scripts/services/admin/roles/roles.client.service.js',
                                         'scripts/controllers/admin/user-modal.client.controller.js'
                                     ]
                                 }
