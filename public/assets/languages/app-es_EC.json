@@ -24,7 +24,8 @@
       "LBL_ROL_VALID": "Rol v\u00e1lido",
       "LBL_USER_LOGGED": "El usuario no est\u00e1 conectado",
       "LBL_SWITCH_USER": "Cambiar de usuario",
-      "LBL_SING": "Ingresar"
+      "LBL_SING": "Ingresar",
+      "LBL_USER_STATUS": "Usuario no vigente"
     },
     "ADMIN": {
       "USERS": "Usuarios",
@@ -51,7 +52,13 @@
       "ROL_ID": "Rol",
       "ROL_DESCRIPTION": "Descripci\u00f3n",
       "ROL_STATUS": "Estado",
-      "ROL_CREATED": "Fecha de creaci\u00f3n"
+      "ROL_CREATED": "Fecha de creaci\u00f3n",
+      "CREATED_ROL": "Creaci\u00f3n de rol",
+      "MESSAGE_ROL": "Rol guardado",
+      "MESSAGE_ALREADY_ROL": "El rol ya existe",
+      "EDIT_ROL": "Edici\u00f3n de rol",
+      "MESSAGE_UPDATE": "Rol actualizado",
+      "ROLES": "Roles"
     },
     "MESSAGES": {
       "MESSAGE_REQUIRED_USER": "El usuario es requerido",
@@ -64,7 +71,9 @@
       "MEESSAGE_INFORMATION": "Ingrese infomaci\u00f3n",
       "MEESSAGE_DOCUMENT": "La c\u00e9dula es requerida",
       "MESSAGE_ONLY_NUMBERS": "Solo n\u00fameros",
-      "MESSAGE_MIN_DOCUMENT": "La c\u00e9dula debe tener 10 digitos"
+      "MESSAGE_MIN_DOCUMENT": "La c\u00e9dula debe tener 10 digitos",
+      "MESSAGE_REQUIRED_ROL": "El rol es requerido",
+      "MESSAGE_REQUIRED_DESCRIPTION": "La descripci\u00f3n es requerida"
     }
   }
 }
