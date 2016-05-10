@@ -24,6 +24,7 @@
     "ngstorage": "latest",
     "oclazyload": "latest",
     "fastclick": "latest",
-    "perfect-scrollbar": "latest"
+    "perfect-scrollbar": "latest",
+    "kendo-ui-core": "latest"
   }
 }
