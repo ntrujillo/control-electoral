@@ -33,7 +33,7 @@
                                     <td>{{rol.ro_created | date:'medium'}}</td>
                                     <td>
                                         <button type="submit" title="{{'CONTAINER.COMMONS.BTN_EDIT'|translate}}"
-                                                ng-click="ctrl.showModal(user._id)"
+                                                ng-click="ctrl.showModal(rol._id)"
                                                 class="btn btn-primary btn-sm">
                                             <span class="glyphicon glyphicon-pencil"></span>
                                         </button>
@@ -43,7 +43,7 @@
                             </table>
                             <uib-pagination id="pagination" boundary-links="true" total-items="ctrl.total_count"
                                             ng-model="ctrl.currentPage"
-                                            ng-change="ctrl.getUsers(ctrl.currentPage)"
+                                            ng-change="ctrl.getRoles()"
                                             class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
                                             first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                         </div>
