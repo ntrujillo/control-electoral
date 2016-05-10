@@ -11,7 +11,8 @@ angular
         'ngAnimate',
         'ngAria',
         'ngMessages',
-        'ngMaterial'
+        'ngMaterial',
+        "kendo.directives"
 
     ])
     .constant('COLORS', {
