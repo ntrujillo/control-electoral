@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.closeModal()">&times;</button>
+    <h4 class="modal-title"><b>{{'CONTAINER.ROL_MODEL.EDIT_ROL'|translate}}</b></h4>
+</div>
+<div class="modal-body">
+    <form name="rolForm" novalidate>
+        <div id="group-user" class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="idRol"
+                                   class="control-label">{{'CONTAINER.ROL_MODEL.ROL_ID'|translate}}</label>
+
+                            <div class="cb-control"
+                                 ng-class="{ 'has-error' : rolForm.idRol.$invalid && !rolForm.idRol.$pristine }">
+                                <input id="idRol" type="text" name="idRol" class="form-control" ng-model="rol.ro_rol"
+                                       disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="idDescripcion"
+                                   class="control-label">{{'CONTAINER.ROL_MODEL.ROL_DESCRIPTION'|translate}}</label>
+
+                            <div class="cb-control"
+                                 ng-class="{ 'has-error' : rolForm.descripcion.$invalid && !rolForm.descripcion.$pristine }">
+                                <input id="idDescripcion" type="text" name="descripcion" class="form-control"
+                                       ng-model="rol.ro_description" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="idStatus"
+                                   class="control-label">{{'CONTAINER.USER_MODEL.STATUS'|translate}}</label>
+
+                            <div class="cb-control">
+                                <select id="idStatus" class="form-control"
+                                        ng-model="rol.ro_status"
+                                        ng-options="option.code as option.value for option in status">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" data-ng-click="update()" ng-disabled="rolForm.$invalid">
+        {{'CONTAINER.COMMONS.BTN_UPDATE'|translate}}
+    </button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="ctrl.closeModal()">
+        {{'CONTAINER.COMMONS.BTN_CANCEL'|translate}}
+    </button>
+</div>
