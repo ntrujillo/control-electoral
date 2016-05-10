@@ -76,7 +76,7 @@ exports.saveUser = function (req, res) {
             return res.status(400).json(message);
         } else {
             Logger.logInfo('Usuario guardado con éxito');
-            return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_USER'});
+            return res.status(200).json({message: 'CONTAINER.USER_MODEL.MESSAGE_USER', usuario: user._id});
         }
     });
 };
