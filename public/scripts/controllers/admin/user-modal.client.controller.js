@@ -1,7 +1,37 @@
 (function (angular) {
-    angular.module('ControlElectoralApp').controller('UserModalCtrl', ['$scope', '$http', '$uibModalInstance', 'Users', 'Notification', 'userModel',
-        function ($scope, $http, $modalInstance, UserSrv, Notification, userModel) {
+    angular.module('ControlElectoralApp').controller('UserModalCtrl', ['$scope', '$http', '$uibModalInstance', 'Users', 'Notification', 'userModel', 'RolesSrv',
+        function ($scope, $http, $modalInstance, UserSrv, Notification, userModel, RolesSrv) {
             var ctrl = this;
+
+            $scope.selectedRolIds = [];
+
+            function getRoles() {
+                RolesSrv.Roles.query({}, function (roles) {
+                    $scope.selectOptions = {
+                        placeholder: "Seleccione Roles...",
+                        dataTextField: "ro_description",
+                        dataValueField: "_id",
+                        valuePrimitive: false,
+                        autoClose: false,
+                        autoBind: false,
+                        tagMode: "single",
+                        dataSource: roles
+                    };
+                }, function (errorResponse) {
+                });
+            }
+
+            getRoles();
+
+            function saveRolesByUser(roles, idUsuario) {
+                roles.forEach(function (element) {
+                    var rolUser = new RolesSrv.RolesByUSer({
+                        ur_rol: element._id,
+                        ur_user: idUsuario
+                    });
+                    rolUser.$save();
+                });
+            }
 
             $scope.status = [
                 {code: 'V', value: 'Vigente'},
@@ -45,6 +75,7 @@
                 //if (angular.isDefined(user)) {
                 user.$save(function (response) {
                     Notification.success(response.message, 'CONTAINER.MESSAGES.MESSAGE_SUCCESS', 2000);
+                    saveRolesByUser($scope.selectedRolIds, response.usuario);
                     onSaveFinished();
                 }, function (errorResponse) {
                     if (angular.isDefined(errorResponse.data.message)) {
