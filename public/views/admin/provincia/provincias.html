@@ -1,0 +1,79 @@
+<div id="userAdmin" class="group-simple">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="idCodigo"
+                           class="control-label">{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}</label>
+
+                    <div class="cb-control">
+                        <input id="idCodigo" placeholder="{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}"
+                               data-ng-model="ctrl.filter"
+                               class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+
+                    <div class="cb-control">
+                        <button class="form-control btn btn-primary"
+                                data-ng-click="ctrl.refresh()">
+                            {{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gridUser" class="form-grid">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="bs-component form-group">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <td colspan='7'>
+                                    <button type="submit" title="{{'CONTAINER.COMMONS.BTN_NEW'|translate}}"
+                                            ng-click="ctrl.showModal()"
+                                            class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-plus-sign"></span>
+                                        {{'CONTAINER.COMMONS.BTN_NEW'|translate}}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}</th>
+                                <th>{{'CONTAINER.COMMONS.TITLE_NAME'|translate}}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="provincia in registros">
+                                <td>{{provincia.code}}</td>
+                                <td>{{provincia.name}}</td>
+                                <td>
+                                    <button type="submit" title="{{'CONTAINER.COMMONS.BTN_EDIT'|translate}}"
+                                            ng-click="ctrl.showModal(provincia)"
+                                            class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <uib-pagination id="pagination" boundary-links="true" total-items="ctrl.total_count"
+                                        ng-model="ctrl.pageno"
+                                        ng-change="ctrl.loadData(ctrl.pageno)"
+                                        class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
