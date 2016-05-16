@@ -1,4 +1,4 @@
-<div id="userAdmin" class="group-simple">
+<div id="provinciasForm" class="group-simple">
     <div class="form-vertical">
         <div class="row">
             <div class="col-xs-6">
@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<div id="gridUser" class="form-grid">
+<div id="grid" class="form-grid">
     <div class="form-vertical">
         <div class="row">
             <div class="col-xs-12">
@@ -53,7 +53,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-ng-repeat="provincia in registros">
+                            <tr dir-paginate="provincia in ctrl.registros | itemsPerPage:ctrl.itemsPerPage"
+                                current-page="pagination.current"
+                                total-items="ctrl.total_count">
                                 <td>{{provincia.code}}</td>
                                 <td>{{provincia.name}}</td>
                                 <td>
@@ -71,12 +73,13 @@
                             </tr>
                             </tbody>
                         </table>
-                        <uib-pagination id="pagination" boundary-links="true" total-items="ctrl.total_count"
-                                        ng-model="ctrl.pageno"
-                                        ng-change="ctrl.loadData(ctrl.pageno)"
-                                        class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
-                                        first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                     </div>
+                    <dir-pagination-controls
+                            max-size="8"
+                            direction-links="true"
+                            boundary-links="true"
+                            on-page-change="ctrl.loadData(newPageNumber)">
+                    </dir-pagination-controls>
                 </div>
             </div>
         </div>
