@@ -6,4 +6,6 @@ module.exports = function (app) {
         .post(usuario.requiresLogin, usuarioRol.saveUsuarioRol);
     app.route('/api/usuarioRol/:idUsuario')
         .get(usuario.requiresLogin, usuarioRol.getRolByUsuario);
+    app.route('/api/usuarioRol/:idUsuario/:idRol')
+        .delete(usuario.requiresLogin, usuarioRol.deleteRolUser);
 };
