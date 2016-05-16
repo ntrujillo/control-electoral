@@ -48,3 +48,15 @@ exports.getRolByUsuario = function (req, res) {
         }
     });
 };
+
+exports.deleteRolUser = function (req, res) {
+    UsuarioRol.remove({ur_rol: req.params.idRol, ur_user: req.params.idUsuario}, function (err) {
+        if (err) {
+            Logger.logError('[UsuarioRolCtrl] Error al eliminar el rol del usuario', getErrorMessage(err));
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            Logger.logInfo('[UsuarioRolCtrl] Rol ' + req.params.idRol + ' del usuario ' + req.params.idUsuario + ' eliminado');
+            return res.status(200).json({message: "UsuarioRol Eliminado"});
+        }
+    });
+};
