@@ -10,7 +10,12 @@
       "BTN_SAVE": "Guardar",
       "BTN_UPDATE": "Actualizar",
       "BTN_CANCEL": "Cancelar",
-      "BTN_SEARCH": "Buscar"
+      "BTN_SEARCH": "Buscar",
+      "TITLE_GENERAL": "General",
+      "TITLE_PROVINCIAS": "Provincias",
+      "TITLE_CANTONES": "Cantones",
+      "TITLE_CODE": "C\u00f3digo",
+      "TITLE_NAME": "Nombre"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
@@ -26,6 +31,17 @@
       "LBL_SWITCH_USER": "Cambiar de usuario",
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
+    },
+    "PROVINCIA": {
+      "TITLE_CODE": "C\u00f3digo",
+      "TITLE_PROVINCIA": "Provincia",
+      "MESSAGE_REQUIRED": "El c\u00f3digo es requerido",
+      "MESSAGE_PROVINCIA_REQUIRED": "El nombre de provincia es requerido",
+      "CREATE_PROVINCIA": "Creaci\u00f3n de provincia",
+      "EDIT_PROVINCIA": "Edici\u00f3n de provincia",
+      "MESSAGE_PROVINCIA": "Provincia Guardada",
+      "MESSAGE_UPDATE": "Provincia Actualizada",
+      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de provincia ya existe"
     },
     "ADMIN": {
       "USERS": "Usuarios",
