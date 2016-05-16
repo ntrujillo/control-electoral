@@ -1,5 +1,6 @@
 var provinciaService = require('../services/provincia.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
+
 function queryProvincia(req, res) {
     var q = req.query.q;
     var fields = req.query.fields;
@@ -43,11 +44,11 @@ function createProvincia(req, res) {
     provinciaService.create(req.body)
         .then(function () {
             Logger.logInfo('[ProvinciaCtrl] Se creo la provincia', req.body);
-            res.sendStatus(200);
+            return res.status(200).json({message: 'CONTAINER.PROVINCIA.MESSAGE_PROVINCIA'});
         })
         .catch(function (err) {
             Logger.logError('[ProvinciaCtrl] Error al crear la provincia', req.body);
-            res.status(400).send(err);
+            return res.status(400).send({message: err});
         });
 }
 
@@ -55,9 +56,11 @@ function createProvincia(req, res) {
 function updateProvincia(req, res) {
     provinciaService.update(req.params._id, req.body)
         .then(function () {
-            res.sendStatus(200);
+            Logger.logInfo('[ProvinciaCtrl] Se actualizó la provincia', req.params._id);
+            return res.status(200).json({message: 'CONTAINER.PROVINCIA.MESSAGE_UPDATE'});
         })
         .catch(function (err) {
+            Logger.logError('[ProvinciaCtrl] Error al actualizar la provincia', req.params._id);
             res.status(400).send(err);
         });
 }
