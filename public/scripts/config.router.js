@@ -112,6 +112,24 @@ angular
                     },
                     data: {title: 'CONTAINER.COMMONS.TITLE_PROVINCIAS'}
                 })
+                .state('app.general.provincia-detail', {
+                    url: '/provincia/{id}/canton',
+                    templateUrl: 'views/admin/provincia/provincia-detail.html',
+                    controller: 'ProvinciaDetailCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [
+                                        'scripts/services/provincia.service.js',
+                                        'scripts/services/provincia.canton.service.js',
+                                        'scripts/controllers/provincia-detail.controller.js'
+                                    ]
+                                }])
+                        }]
+                    }, data: {title: 'CONTAINER.COMMONS.TITLE_CANTONES'}
+                })
 
                 // UI Routes
                 .state('app.ui', {
