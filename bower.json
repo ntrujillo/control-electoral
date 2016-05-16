@@ -25,6 +25,7 @@
     "oclazyload": "latest",
     "fastclick": "latest",
     "perfect-scrollbar": "latest",
-    "kendo-ui-core": "latest"
+    "kendo-ui-core": "latest",
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
   }
 }
