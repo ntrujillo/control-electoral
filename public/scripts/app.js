@@ -12,7 +12,8 @@ angular
         'ngAria',
         'ngMessages',
         'ngMaterial',
-        "kendo.directives"
+        "kendo.directives",
+        "angularUtils.directives.dirPagination"
 
     ])
     .constant('COLORS', {
