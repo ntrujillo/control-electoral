@@ -23,42 +23,43 @@
             getRoles();
 
 
-            /* function showModal(idUSer) {
-             var template;
-             if (angular.isDefined(idUSer)) {
-             template = 'views/admin/user-modal-edit.html';
-             } else {
-             template = 'views/admin/user-modal.html';
-             }
-             var modalInstance = $modal.open({
-             templateUrl: template,
-             controller: 'UserModalCtrl as ctrl',
-             backdrop: 'static',
-             animation: true,
-             resolve: {
-             userModel: function () {
-             return {
-             idUser: idUSer
-             };
-             },
-             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-             return $ocLazyLoad.load({
-             name: 'angular-factory',
-             files: [
-             'scripts/controllers/admin/user-modal.client.controller.js'
-             ]
-             }
-             );
-             }]
-             }
-             });
+            function showModal(idRol) {
+                var template;
+                if (angular.isDefined(idRol)) {
+                    template = 'views/admin/roles/rol-modal-edit.html';
+                } else {
+                    template = 'views/admin/roles/rol-modal-create.html';
+                }
+                var modalInstance = $modal.open({
+                    templateUrl: template,
+                    controller: 'RolModalCtrl as ctrl',
+                    backdrop: 'static',
+                    animation: true,
+                    resolve: {
+                        rolModel: function () {
+                            return {
+                                idRol: idRol
+                            };
+                        },
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                    name: 'angular-factory',
+                                    files: [
+                                        'scripts/services/admin/roles/roles.client.service.js',
+                                        'scripts/controllers/admin/roles/roles-modal.client.controller.js'
+                                    ]
+                                }
+                            );
+                        }]
+                    }
+                });
 
-             modalInstance.result.then(function () {
-             getRoles();
-             });
-             }*/
+                modalInstance.result.then(function () {
+                    getRoles();
+                });
+            }
 
-            // ctrl.showModal = showModal;
+            ctrl.showModal = showModal;
             ctrl.getRoles = getRoles;
         }
 
