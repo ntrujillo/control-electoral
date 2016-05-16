@@ -8,7 +8,7 @@ module.exports = function () {
     require('../app/models/usuarioRol.server.model');
     require('../app/models/registro');
     require('../app/models/detail');
-    require('../app/models/province.server.model');
+    require('../app/models/provincia');
     require('../app/models/canton.server.model');
     require('../app/models/parroquia.server.model');
     require('../app/models/zona.server.model');
