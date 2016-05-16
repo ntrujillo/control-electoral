@@ -35,6 +35,28 @@
             </a>
         </li>
         <!--/users-->
+
+        <!--Informacion general-->
+        <li data-ng-class="{open: $state.includes('app.general')}">
+            <a href="javascript:;">
+                <i class="fa fa-tasks"></i>
+                <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
+            </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.provincias">
+                        <span>{{'CONTAINER.COMMONS.TITLE_PROVINCIAS'|translate}}</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.cantones">
+                        <span>{{'CONTAINER.COMMONS.TITLE_CANTONES'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!--end Informacion General-->
+
         <!-- ui -->
         <li data-ng-class="{open: $state.includes('app.ui')}">
             <a href="javascript:;">
