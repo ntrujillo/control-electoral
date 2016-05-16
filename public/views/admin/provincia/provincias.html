@@ -37,7 +37,7 @@
                         <table class="table table-hover table-bordered">
                             <thead>
                             <tr>
-                                <td colspan='4'>
+                                <td colspan='3'>
                                     <button type="submit" title="{{'CONTAINER.COMMONS.BTN_NEW'|translate}}"
                                             ng-click="ctrl.showModal()"
                                             class="btn btn-primary btn-sm">
@@ -61,6 +61,11 @@
                                             ng-click="ctrl.showModal(provincia)"
                                             class="btn btn-primary btn-sm">
                                         <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button type="button" title="{{'CONTAINER.PROVINCIA.BTN_CANTONES'|translate}}"
+                                            ui-sref="app.general.provincia-detail({id:provincia._id})"
+                                            class="btn btn-info btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
                                     </button>
                                 </td>
                             </tr>
