@@ -2,7 +2,6 @@
     angular.module('ControlElectoralApp')
         .controller('ProvinciaCtrl', ['ProvinciaResource', '$uibModal', '$scope', 'APP', function (ProvinciaResource, $modal, $scope, constant) {
             var ctrl = this;
-            ctrl.codeProvince = null;
             ctrl.registros = [];
             ctrl.pageno = 1;
             ctrl.total_count = 0;
@@ -14,7 +13,7 @@
                     per_page: ctrl.itemsPerPage,
                     q: ctrl.filter
                 }, function (result, headers) {
-                    $scope.registros = result;
+                    ctrl.registros = result;
                     ctrl.total_count = headers('X-Total-Count');
                 }, function (errorResponse) {
                     $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
