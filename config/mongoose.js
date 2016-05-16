@@ -9,7 +9,7 @@ module.exports = function () {
     require('../app/models/registro');
     require('../app/models/detail');
     require('../app/models/provincia');
-    require('../app/models/canton.server.model');
+    require('../app/models/canton');
     require('../app/models/parroquia.server.model');
     require('../app/models/zona.server.model');
     require('../app/models/recinto.server.model');
