@@ -88,6 +88,31 @@ angular
                     }
                 })
 
+                //General
+                .state('app.general', {
+                    template: '<div ui-view></div>',
+                    abstract: true,
+                    url: '/general'
+                })
+                .state('app.general.provincias', {
+                    url: '/provincia',
+                    templateUrl: 'views/admin/provincia/provincias.html',
+                    controller: 'ProvinciaCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia',
+                                    files: [
+                                        'scripts/services/provincia.service.js',
+                                        'scripts/controllers/provincia.controller.js'
+                                    ]
+                                }])
+                        }]
+                    },
+                    data: {title: 'CONTAINER.COMMONS.TITLE_PROVINCIAS'}
+                })
+
                 // UI Routes
                 .state('app.ui', {
                     template: '<div ui-view></div>',
@@ -127,15 +152,6 @@ angular
                 .state('user.signin', {
                     url: '/',
                     templateUrl: 'views/signin.html',
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                {
-                                    files: ['/scripts/controllers/session.js']
-                                }
-                            ]);
-                        }]
-                    },
                     data: {
                         appClasses: 'bg-white usersession',
                         contentClasses: 'full-height'
