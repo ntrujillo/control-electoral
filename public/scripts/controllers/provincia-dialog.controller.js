@@ -13,7 +13,6 @@
                 };
 
                 var onSaveFinished = function (result) {
-                    //$scope.$emit('fimepedApp:provinciaUpdate', result);
                     $modalInstance.close(result);
                 };
 
