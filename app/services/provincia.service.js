@@ -1,4 +1,26 @@
 var Provincia = require('mongoose').model('Provincia');
+
+var getErrorMessage = function (err) {
+    var message = '';
+    if (err.code) {
+        switch (err.code) {
+            case 11000:
+            case 11001:
+                message = 'CONTAINER.PROVINCIA.MESSAGE_ALREADY_CODE';
+                break;
+            default:
+                message = 'Something went wrong';
+        }
+    } else {
+        for (var errName in err.errors) {
+            if (err.errors.hasOwnProperty(errName)) {
+                message = err.errors[errName];
+            }
+        }
+    }
+    return message;
+};
+
 var Q = require('q');
 var plus = "+";
 var comma = ",";
@@ -36,7 +58,7 @@ function query(q, fields, sort, page, perPage) {
             perPage = 10;
         }
     }
-    console.log('code', criteria);
+
     Provincia.find(criteria).count(function (error, count) {
 
         if (error) {
@@ -84,29 +106,13 @@ function getById(id) {
 
 function create(provinciaParam) {
     var deferred = Q.defer();
-    // validation  
-    Provincia.findOne(
-        {code: provinciaParam.code},
-        function (err, provincia) {
-            if (err) deferred.reject(err);
+    Provincia.create(
+        provinciaParam,
+        function (err) {
+            if (err) deferred.reject(getErrorMessage(err));
 
-            if (provincia) {
-                // username already exists
-                deferred.reject('Code "' + provinciaParam.code + '" is already taken');
-            } else {
-                createProvincia(provinciaParam);
-            }
+            deferred.resolve();
         });
-
-    function createProvincia(provincia) {
-        Provincia.create(
-            provincia,
-            function (err) {
-                if (err) deferred.reject(err);
-
-                deferred.resolve();
-            });
-    }
 
     return deferred.promise;
 }
