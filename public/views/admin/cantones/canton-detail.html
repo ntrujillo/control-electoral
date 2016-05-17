@@ -1,0 +1,86 @@
+<div>
+    <h2 translate="parroquia.home.titleWithCanton" translate-values="{name : '{{ctrl.canton.name}}'}">Cantones</h2>
+    <jh-alert></jh-alert>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" ng-click="ctrl.showModal()">
+                    <span class="glyphicon glyphicon-flash"></span>
+                    <span translate="parroquia.home.createLabel">Create a new Parroquia</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteRegistroConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="ctrl.confirmDelete(ctrl.registro._id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="parroquia.delete.question" translate-values="{id: '{{ctrl.registro.code}}'}">Are
+                            you sure you want to delete this Parroquia?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                                translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span
+                                translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <col style="width: 20%">
+            <col style="width: 70%">
+            <col style="width: 10%">
+            <thead>
+            <tr>
+                <th translate="entity.field.code">Código</th>
+                <th translate="entity.field.name">Nombre</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-show="ctrl.registros.length <= 0">
+                <td colspan="5" style="text-align:center;" translate="global.message.load">Loading new data!!</td>
+            </tr>
+            <tr dir-paginate="registro in ctrl.registros | itemsPerPage:ctrl.itemsPerPage"
+                total-items="ctrl.total_count">
+                <td>{{registro.code}}</td>
+                <td>{{registro.name}}</td>
+                <td>
+                    <button type="button" title="{{'global.tooltip.edit'|translate}}"
+                            ng-click="ctrl.showModal(registro)"
+                            class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+
+                    <button type="button" title="{{'global.tooltip.delete'|translate}}"
+                            ng-click="ctrl.deleteRegistro(registro._id)"
+                            class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <dir-pagination-controls
+                max-size="8"
+                direction-links="true"
+                boundary-links="true"
+                on-page-change="ctrl.loadData(newPageNumber)">
+        </dir-pagination-controls>
+    </div>
+</div>
