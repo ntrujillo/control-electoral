@@ -37,6 +37,7 @@
       "EDIT_CANTON": "Edici\u00f3n de cant\u00f3n",
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_CANTON": "Cant\u00f3n",
+      "BTN_PARROQUIAS": "Ver parroquias",
       "MESSAGE_REQUIRED": "El c\u00f3digo es requerido",
       "MESSAGE_CANTON_REQUIRED": "El nombre del cant\u00f3n es requerido",
       "MESSAGE_ALREADY_CODE": "El c\u00f3digo de cant\u00f3n ya existe",
