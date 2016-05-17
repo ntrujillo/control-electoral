@@ -6,7 +6,7 @@
             ctrl.registros = [];
             ctrl.pageno = 1;
             ctrl.total_count = 0;
-            ctrl.itemsPerPage = 5;
+            ctrl.itemsPerPage = 10;
 
             function loadData(page) {
                 CantonResource.query({
