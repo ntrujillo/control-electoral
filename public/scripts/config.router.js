@@ -130,7 +130,43 @@ angular
                         }]
                     }, data: {title: 'CONTAINER.COMMONS.TITLE_CANTONES'}
                 })
-
+                .state('app.general.cantones', {
+                    url: '/cantones',
+                    templateUrl: 'views/admin/cantones/cantones.html',
+                    controller: 'CantonCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'canton',
+                                    files: [
+                                        'scripts/services/canton.service.js',
+                                        'scripts/controllers/canton.controller.js'
+                                    ]
+                                }])
+                        }]
+                    },
+                    data: {title: 'CONTAINER.COMMONS.TITLE_CANTONES'}
+                })
+                .state('app.general.canton-detail', {
+                    parent: 'app',
+                    url: '/canton/{id}/parroquia',
+                    templateUrl: 'views/admin/cantones/canton-detail.html',
+                    controller: 'CantonDetailCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [
+                                        'scripts/services/canton.service.js',
+                                        'scripts/services/canton.parroquia.service.js',
+                                        'scripts/controllers/canton-detail.controller.js'
+                                    ]
+                                }])
+                        }]
+                    }, data: {title: 'CONTAINER.COMMONS.TITLE_PARROQUIAS'}
+                })
                 // UI Routes
                 .state('app.ui', {
                     template: '<div ui-view></div>',
