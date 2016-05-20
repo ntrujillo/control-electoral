@@ -1,4 +1,5 @@
-var parroquiaService = require('../services/canton.parroquia.service');
+var parroquiaService = require('../services/canton.parroquia.service'),
+    Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryParroquia(req, res) {
     var q = req.query.q;
@@ -10,6 +11,7 @@ function queryParroquia(req, res) {
     parroquiaService.query(req.params.id_canton, q, fields, sort, page, perPage)
         .then(function (response) {
             if (response.parroquias) {
+                Logger.logInfo('[CantonParroquiaCtrl] Se recuperó las parroquias correctamente del cantón', req.params.id_canton);
                 res.header('X-Total-Count', response.count);
                 res.send(response.parroquias);
             } else {
@@ -17,6 +19,7 @@ function queryParroquia(req, res) {
             }
         })
         .catch(function (err) {
+            Logger.logError('[CantonParroquiaCtrl] Error al obtener las parroquias del cantón', req.params.id_canton);
             res.status(400).send(err);
         });
 }
@@ -38,10 +41,12 @@ function getParroquiaById(req, res) {
 function createParroquia(req, res) {
     parroquiaService.create(req.params.id_canton, req.body)
         .then(function () {
-            res.sendStatus(200);
+            Logger.logInfo('[CantonParroquiaCtrl] Se creo la parroquia', req.body);
+            return res.status(200).json({message: 'CONTAINER.PARROQUIA.MESSAGE_PARROQUIA'});
         })
         .catch(function (err) {
-            res.status(400).send(err);
+            Logger.logError('[CantonParroquiaCtrl] Error al crear la parroquia', req.body);
+            return res.status(400).send({message: err});
         });
 }
 
@@ -49,10 +54,12 @@ function createParroquia(req, res) {
 function updateParroquia(req, res) {
     parroquiaService.update(req.params.id_canton, req.params._id, req.body)
         .then(function () {
-            res.sendStatus(200);
+            Logger.logInfo('[CantonParroquiaCtrl] Se actualizó la parroquia', req.params._id);
+            return res.status(200).json({message: 'CONTAINER.PARROQUIA.MESSAGE_UPDATE'});
         })
         .catch(function (err) {
-            res.status(400).send(err);
+            Logger.logError('[CantonParroquiaCtrl] Error al actualizar la parroquia', req.params._id);
+            return res.status(400).send({message: err});
         });
 }
 
