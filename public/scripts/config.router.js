@@ -166,6 +166,25 @@ angular
                                 }])
                         }]
                     }, data: {title: 'CONTAINER.COMMONS.TITLE_PARROQUIAS'}
+                }).
+                state('app.general.parroquias', {
+                    parent: 'app.general',
+                    url: '/parroquias',
+                    templateUrl: 'views/admin/parroquias/parroquias.html',
+                    controller: 'ParroquiaCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'parroquia',
+                                    files: [
+                                        'scripts/services/parroquia.service.js',
+                                        'scripts/controllers/parroquia.controller.js'
+                                    ]
+                                }])
+                        }]
+                    },
+                    data: {title: 'CONTAINER.COMMONS.TITLE_PARROQUIAS'}
                 })
                 // UI Routes
                 .state('app.ui', {
