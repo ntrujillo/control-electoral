@@ -33,6 +33,17 @@
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
     },
+    "PARROQUIA": {
+      "CREATE_PARROQUIA": "Creaci\u00f3n de parroquia",
+      "EDIT_PARROQUIA": "Edici\u00f3n de parroquia",
+      "TITLE_CODE": "C\u00f3digo",
+      "TITLE_PARROQUIA": "Parroquia",
+      "MESSAGE_REQUIRED": "El c\u00f3digo es requerido",
+      "MESSAGE_PARROQUIA_REQUIRED": "El nombre de la parroquia es requerido",
+      "MESSAGE_PARROQUIA": "Parroquia Guardada",
+      "MESSAGE_UPDATE": "Parroquia actualizada",
+      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de parroquia ya existe"
+    },
     "CANTON": {
       "CREATE_CANTON": "Creaci\u00f3n de cant\u00f3n",
       "EDIT_CANTON": "Edici\u00f3n de cant\u00f3n",
@@ -43,7 +54,8 @@
       "MESSAGE_CANTON_REQUIRED": "El nombre del cant\u00f3n es requerido",
       "MESSAGE_ALREADY_CODE": "El c\u00f3digo de cant\u00f3n ya existe",
       "MESSAGE_CANTON": "Cant\u00f3n guardado",
-      "MESSAGE_UPDATE": "Cant\u00f3n actualizado"
+      "MESSAGE_UPDATE": "Cant\u00f3n actualizado",
+      "TITLE_CANTONES_PARROQUIAS": "Parroquias del cant\u00f3n {{name}}"
     },
     "PROVINCIA": {
       "TITLE_CODE": "C\u00f3digo",
