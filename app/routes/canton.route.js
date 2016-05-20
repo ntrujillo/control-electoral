@@ -1,6 +1,6 @@
 var usuario = require('../../app/controllers/users.server.controller'),
-    ctrlCanton = require('../../app/controllers/canton.controller');
-ctrl = require('../../app/controllers/canton.parroquia.controller');
+    ctrlCanton = require('../../app/controllers/canton.controller'),
+    ctrl = require('../../app/controllers/canton.parroquia.controller');
 
 
 module.exports = function (app) {
