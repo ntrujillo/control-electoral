@@ -1,8 +1,8 @@
 (function (angular) {
 
     angular.module('ControlElectoralApp')
-        .controller('ParroquiaDetailCtrl', ['$stateParams', '$uibModal', 'ParroquiaZonaResource', 'ParroquiaResource',
-            function ($stateParams, $modal, ServiceDetailResource, ServiceResource) {
+        .controller('ParroquiaDetailCtrl', ['$scope', '$stateParams', '$uibModal', 'ParroquiaZonaResource', 'ParroquiaResource', 'APP',
+            function ($scope, $stateParams, $modal, ServiceDetailResource, ServiceResource, constant) {
                 var ctrl = this;
                 ctrl.registros = [];
                 ctrl.pageno = 1;
@@ -21,6 +21,8 @@
                     }, function (result, headers) {
                         ctrl.registros = result;
                         ctrl.total_count = headers('X-Total-Count');
+                    }, function (errorResponse) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 }
 
