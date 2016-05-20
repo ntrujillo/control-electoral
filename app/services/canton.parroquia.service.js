@@ -1,5 +1,25 @@
 var Canton = require('mongoose').model('Canton');
 var Parroquia = require('mongoose').model('Parroquia');
+var getErrorMessage = function (err) {
+    var message = '';
+    if (err.code) {
+        switch (err.code) {
+            case 11000:
+            case 11001:
+                message = 'CONTAINER.PARROQUIA.MESSAGE_ALREADY_CODE';
+                break;
+            default:
+                message = 'Something went wrong';
+        }
+    } else {
+        for (var errName in err.errors) {
+            if (err.errors.hasOwnProperty(errName)) {
+                message = err.errors[errName];
+            }
+        }
+    }
+    return message;
+};
 var Q = require('q');
 var service = {};
 var plus = "+";
@@ -24,7 +44,7 @@ function query(id_canton, q, fields, sort, page, perPage) {
     }
 
     if (q) {
-        criteria.$text = {$search: q}
+        criteria = {code: q};
     }
     if (sort) {
         sort = sort.replace(plus, '');
@@ -82,52 +102,32 @@ function getById(id_canton, id_parroquia) {
         });
 
     return deferred.promise;
-};
+}
 
 
 function create(id_canton, body) {
     var deferred = Q.defer();
-
-    // validation  
-    Parroquia.findOne(
-        {code: body.code},
-        function (err, item) {
-            if (err) deferred.reject(err);
-
-            if (item) {
-                // already exists
-                deferred.reject('Code "' + body.code + '" is already taken');
+    body.canton = id_canton;
+    Parroquia.create(
+        body,
+        function (err, doc) {
+            if (err) {
+                deferred.reject(getErrorMessage(err));
             } else {
-                createParroquia(body);
+
+                Canton.findById(id_canton, function (err, canton) {
+                    canton.parroquias.push(doc);
+                    canton.save(function (error) {
+                        if (error) deferred.reject(error);
+                    });
+                });
             }
+
+            deferred.resolve();
         });
 
-
-    function createParroquia(obj) {
-        obj.canton = id_canton;
-        Parroquia.create(
-            obj,
-            function (err, doc) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-
-                    Canton.findById(id_canton, function (err, canton) {
-                        canton.parroquias.push(doc);
-                        canton.save(function (error, canton) {
-                            if (error) deferred.reject(error);
-                        });
-                    });
-                }
-
-                deferred.resolve();
-            });
-
-
-    }
-
     return deferred.promise;
-};
+}
 
 function update(id_canton, id_parroquia, body) {
     var deferred = Q.defer();
@@ -169,9 +169,9 @@ function update(id_canton, id_parroquia, body) {
     }
 
     return deferred.promise;
-};
+}
 
-function _delete(id_canton, id_parroquia) {
+function _delete(id_parroquia) {
     var deferred = Q.defer();
 
     Parroquia.remove(
@@ -183,4 +183,4 @@ function _delete(id_canton, id_parroquia) {
         });
 
     return deferred.promise;
-};
+}
