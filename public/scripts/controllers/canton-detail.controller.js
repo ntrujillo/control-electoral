@@ -1,7 +1,7 @@
 (function (angular) {
     angular.module('ControlElectoralApp')
-        .controller('CantonDetailCtrl', ['$stateParams', '$uibModal', 'CantonParroquiaResource', 'CantonResource',
-            function ($stateParams, $modal, CantonParroquiaResource, CantonResource) {
+        .controller('CantonDetailCtrl', ['$scope', '$stateParams', '$uibModal', 'CantonParroquiaResource', 'CantonResource', 'APP',
+            function ($scope, $stateParams, $modal, CantonParroquiaResource, CantonResource, constant) {
                 var ctrl = this;
                 ctrl.registros = [];
                 ctrl.pageno = 1;
@@ -17,10 +17,13 @@
                     CantonParroquiaResource.query({
                         id_canton: $stateParams.id,
                         page: page,
-                        per_page: ctrl.itemsPerPage
+                        per_page: ctrl.itemsPerPage,
+                        q: ctrl.code
                     }, function (result, headers) {
                         ctrl.registros = result;
                         ctrl.total_count = headers('X-Total-Count');
+                    }, function (errorResponse) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 }
 
@@ -45,9 +48,14 @@
                 }
 
                 function showModal(selectedCanton) {
-
+                    var template;
+                    if (angular.isUndefined(selectedCanton)) {
+                        template = "views/admin/parroquias/parroquia-dialog.html";
+                    } else {
+                        template = "views/admin/parroquias/parroquia-dialog-edit.html";
+                    }
                     var modalInstance = $modal.open({
-                        templateUrl: 'views/parroquia-dialog.html',
+                        templateUrl: template,
                         controller: 'ParroquiaDialogCtrl as ctrl',
                         size: 'sm',
                         backdrop: 'static',
