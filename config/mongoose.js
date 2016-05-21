@@ -11,7 +11,7 @@ module.exports = function () {
     require('../app/models/provincia');
     require('../app/models/canton');
     require('../app/models/parroquia');
-    require('../app/models/zona.server.model');
+    require('../app/models/zona');
     require('../app/models/recinto.server.model');
     require('../app/models/junta.server.model');
     require('../app/models/lista.server.model');
