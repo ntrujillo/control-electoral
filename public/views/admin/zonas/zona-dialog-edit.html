@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="clear()">&times;</button>
+    <h4 class="modal-title"><b>{{'CONTAINER.ZONA.EDIT_ZONA'|translate}}</b></h4>
+</div>
+<div class="modal-body">
+    <form name="zonaForm" novalidate>
+        <div id="group-parroquia" class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-12"
+                         ng-class="{ 'has-error' : zonaForm.codigo.$invalid && !zonaForm.codigo.$pristine }">
+                        <div class="form-group">
+                            <label for="idCode"
+                                   class="control-label">{{'CONTAINER.PARROQUIA.TITLE_CODE'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="idCode" type="text" name="codigo" class="form-control" disabled="true"
+                                       ng-model="zona.code"
+                                       ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="zonaForm.codigo.$invalid && !zonaForm.codigo.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.PARROQUIA.MESSAGE_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="zonaForm.codigo.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12"
+                         ng-class="{ 'has-error' : zonaForm.name.$invalid && !zonaForm.name.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="name"
+                                   class="control-label">{{'CONTAINER.ZONA.TITLE_ZONA'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="name" type="text" name="name" class="form-control"
+                                       ng-model="zona.name"
+                                       required>
+                            <span ng-show="zonaForm.name.$invalid && !zonaForm.name.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.ZONA.MESSAGE_ZONA_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" data-ng-click="save()" ng-disabled="zonaForm.$invalid">
+        {{'CONTAINER.COMMONS.BTN_UPDATE'|translate}}
+    </button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="clear()">
+        {{'CONTAINER.COMMONS.BTN_CANCEL'|translate}}
+    </button>
+</div>
