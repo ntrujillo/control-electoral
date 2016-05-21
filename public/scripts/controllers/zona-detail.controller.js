@@ -16,7 +16,8 @@
                     ServiceDetailResource.query({
                         id_zona: $stateParams.id,
                         page: page,
-                        per_page: ctrl.itemsPerPage
+                        per_page: ctrl.itemsPerPage,
+                        q: ctrl.code
                     }, function (result, headers) {
                         ctrl.registros = result;
                         ctrl.total_count = headers('X-Total-Count');
