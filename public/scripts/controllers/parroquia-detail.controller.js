@@ -7,7 +7,7 @@
                 ctrl.registros = [];
                 ctrl.pageno = 1;
                 ctrl.total_count = 0;
-                ctrl.itemsPerPage = 5;
+                ctrl.itemsPerPage = 10;
 
                 function loadData(page) {
                     ServiceResource.get({id: $stateParams.id}, function (result) {
@@ -17,7 +17,8 @@
                     ServiceDetailResource.query({
                         id_parroquia: $stateParams.id,
                         page: page,
-                        per_page: ctrl.itemsPerPage
+                        per_page: ctrl.itemsPerPage,
+                        q: ctrl.code
                     }, function (result, headers) {
                         ctrl.registros = result;
                         ctrl.total_count = headers('X-Total-Count');
@@ -46,9 +47,14 @@
                 }
 
                 function showModal(selectedParroquia) {
-
+                    var template;
+                    if (angular.isUndefined(selectedParroquia)) {
+                        template = "views/admin/zonas/zona-dialog.html";
+                    } else {
+                        template = "views/admin/zonas/zona-dialog-edit.html";
+                    }
                     var modalInstance = $modal.open({
-                        templateUrl: 'views/zona-dialog.html',
+                        templateUrl: template,
                         controller: 'ZonaDialogCtrl as ctrl',
                         size: 'sm',
                         backdrop: 'static',
