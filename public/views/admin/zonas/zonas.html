@@ -1,0 +1,72 @@
+<div id="zonas" class="group-simple">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="idCodigo"
+                           class="control-label">{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}</label>
+
+                    <div class="cb-control">
+                        <input id="idCodigo" placeholder="{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}"
+                               data-ng-model="ctrl.code"
+                               class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+
+                    <div class="cb-control">
+                        <button class="form-control btn btn-primary"
+                                data-ng-click="ctrl.refresh()">
+                            {{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gridZonas" class="form-grid">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="bs-component form-group">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}</th>
+                                <th>{{'CONTAINER.COMMONS.TITLE_NAME'|translate}}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr dir-paginate="registro in ctrl.registros | itemsPerPage:ctrl.itemsPerPage"
+                                total-items="ctrl.total_count">
+                                <td>{{registro.code}}</td>
+                                <td>{{registro.name}}</td>
+                                <td>
+                                    <button type="button" title="{{'CONTAINER.PARROQUIA.BTN_ZONA'|translate}}"
+                                            ui-sref="app.general.zona-detail({id:registro._id})"
+                                            class="btn btn-info btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <dir-pagination-controls
+                            max-size="8"
+                            direction-links="true"
+                            boundary-links="true"
+                            on-page-change="ctrl.loadData(newPageNumber)">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
