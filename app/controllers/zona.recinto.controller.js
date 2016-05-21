@@ -1,4 +1,4 @@
-var service = require('../../app/services/services/zona.recinto.service'),
+var service = require('../../app/services/zona.recinto.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryRecinto(req, res) {
@@ -11,7 +11,7 @@ function queryRecinto(req, res) {
     service.query(req.params.id_zona, q, fields, sort, page, perPage)
         .then(function (response) {
             if (response.recintos) {
-                Logger.logInfo('[ZonaRecintoCtrl] Se recuper\u00d3 los recintos correctamente de la zona', req.params.id_zona);
+                Logger.logInfo('[ZonaRecintoCtrl] Se recuper\u00f3 los recintos correctamente de la zona', req.params.id_zona);
                 res.header('X-Total-Count', response.count);
                 res.send(response.recintos);
             } else {
@@ -54,7 +54,7 @@ function createRecinto(req, res) {
 function updateRecinto(req, res) {
     service.update(req.params.id_zona, req.params._id, req.body)
         .then(function () {
-            Logger.logInfo('[ZonaRecintoCtrl] Se actualiz\u00d3 el recinto', req.params._id);
+            Logger.logInfo('[ZonaRecintoCtrl] Se actualiz\u00f3 el recinto', req.params._id);
             return res.status(200).json({message: 'CONTAINER.RECINTO.MESSAGE_UPDATE'});
         })
         .catch(function (err) {
