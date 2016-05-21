@@ -15,6 +15,7 @@
       "TITLE_PROVINCIAS": "Provincias",
       "TITLE_CANTONES": "Cantones",
       "TITLE_PARROQUIAS": "Parroquias",
+      "TITLE_ZONA": "Zonas",
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_NAME": "Nombre"
     },
@@ -33,16 +34,26 @@
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
     },
+    "ZONA": {
+      "CREATE_ZONA": "Creaci\u00f3n de zona",
+      "EDIT_ZONA": "Edici\u00f3n de zona",
+      "TITLE_ZONA": "Zona",
+      "MESSAGE_ZONA_REQUIRED": "El nombre de la zona es requerido",
+      "MESSAGE_ZONA": "Zona guardada",
+      "MESSAGE_UPDATE": "Zona actualizada"
+    },
     "PARROQUIA": {
       "CREATE_PARROQUIA": "Creaci\u00f3n de parroquia",
       "EDIT_PARROQUIA": "Edici\u00f3n de parroquia",
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_PARROQUIA": "Parroquia",
+      "BTN_ZONA": "Ver zonas",
       "MESSAGE_REQUIRED": "El c\u00f3digo es requerido",
       "MESSAGE_PARROQUIA_REQUIRED": "El nombre de la parroquia es requerido",
-      "MESSAGE_PARROQUIA": "Parroquia Guardada",
+      "MESSAGE_PARROQUIA": "Parroquia guardada",
       "MESSAGE_UPDATE": "Parroquia actualizada",
-      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de parroquia ya existe"
+      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de parroquia ya existe",
+      "TITLE_ZONAS_PARROQUIAS": "Zonas de la parroquia {{name}}"
     },
     "CANTON": {
       "CREATE_CANTON": "Creaci\u00f3n de cant\u00f3n",
@@ -64,8 +75,8 @@
       "MESSAGE_PROVINCIA_REQUIRED": "El nombre de provincia es requerido",
       "CREATE_PROVINCIA": "Creaci\u00f3n de provincia",
       "EDIT_PROVINCIA": "Edici\u00f3n de provincia",
-      "MESSAGE_PROVINCIA": "Provincia Guardada",
-      "MESSAGE_UPDATE": "Provincia Actualizada",
+      "MESSAGE_PROVINCIA": "Provincia guardada",
+      "MESSAGE_UPDATE": "Provincia actualizada",
       "MESSAGE_ALREADY_CODE": "El c\u00f3digo de provincia ya existe",
       "BTN_CANTONES": "Ver cantones",
       "TITLE_CANTONES_PROVINCIAS": "Cantones de la provincia de {{name}}"
