@@ -49,7 +49,7 @@
                         <table class="table table-hover table-bordered">
                             <thead>
                             <tr>
-                                <td colspan='3'>
+                                <td colspan='7'>
                                     <button type="submit" title="{{'CONTAINER.COMMONS.BTN_NEW'|translate}}"
                                             ng-click="ctrl.showModal()"
                                             class="btn btn-primary btn-sm">
@@ -59,8 +59,12 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>{{'CONTAINER.COMMONS.TITLE_CODE'|translate}}</th>
-                                <th>{{'CONTAINER.COMMONS.TITLE_NAME'|translate}}</th>
+                                <th>{{'CONTAINER.RECINTO.TITLE_CODE'|translate}}</th>
+                                <th>{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</th>
+                                <th>{{'CONTAINER.RECINTO.TITLE_DIRECCION'|translate}}</th>
+                                <th>{{'CONTAINER.RECINTO.TITLE_TELEFONO'|translate}}</th>
+                                <th>{{'CONTAINER.RECINTO.TITLE_LATITUD'|translate}}</th>
+                                <th>{{'CONTAINER.RECINTO.TITLE_LONGITUD'|translate}}</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -69,6 +73,10 @@
                                 total-items="ctrl.total_count">
                                 <td>{{registro.code}}</td>
                                 <td>{{registro.name}}</td>
+                                <td>{{registro.address}}</td>
+                                <td>{{registro.phone}}</td>
+                                <td>{{registro.lat_recinto}}</td>
+                                <td>{{registro.long_recinto}}</td>
                                 <td>
                                     <button type="button" title="{{'CONTAINER.COMMONS.BTN_EDIT'|translate}}"
                                             ng-click="ctrl.showModal(registro)"
