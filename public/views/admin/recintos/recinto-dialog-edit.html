@@ -1,0 +1,141 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="clear()">&times;</button>
+    <h4 class="modal-title"><b>{{'CONTAINER.RECINTO.EDIT_RECINTO'|translate}}</b></h4>
+</div>
+<div class="modal-body">
+    <form name="recintoForm" novalidate>
+        <div id="group-parroquia" class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : recintoForm.codigo.$invalid && !recintoForm.codigo.$pristine }">
+                        <div class="form-group">
+                            <label for="idCode"
+                                   class="control-label">{{'CONTAINER.RECINTO.TITLE_CODE'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="idCode" type="text" name="codigo" class="form-control" disabled="true"
+                                       ng-model="recinto.code"
+                                       ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="recintoForm.codigo.$invalid && !recintoForm.codigo.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.RECINTO.MESSAGE_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="recintoForm.codigo.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : recintoForm.name.$invalid && !recintoForm.name.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="name"
+                                   class="control-label">{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="name" type="text" name="name" class="form-control"
+                                       ng-model="recinto.name"
+                                       required>
+                            <span ng-show="recintoForm.name.$invalid && !recintoForm.name.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.RECINTO.MESSAGE_RECINTO_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : recintoForm.direccion.$invalid && !recintoForm.direccion.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="name"
+                                   class="control-label">{{'CONTAINER.RECINTO.TITLE_DIRECCION'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="direccion" type="text" name="direccion" class="form-control"
+                                       ng-model="recinto.address"
+                                       required>
+                            <span ng-show="recintoForm.direccion.$invalid && !recintoForm.direccion.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.RECINTO.MESSAGE_DIRECCION_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : recintoForm.telefono.$invalid && !recintoForm.telefono.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="name"
+                                   class="control-label">{{'CONTAINER.RECINTO.TITLE_TELEFONO'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="telefono" type="text" name="telefono" class="form-control" maxlength="7"
+                                       ng-model="recinto.phone" ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="recintoForm.telefono.$invalid && !recintoForm.telefono.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.RECINTO.MESSAGE_TELEFONO_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="recintoForm.telefono.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : recintoForm.latitud.$invalid && !recintoForm.latitud.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="name"
+                                   class="control-label">{{'CONTAINER.RECINTO.TITLE_LATITUD'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="latitud" type="text" name="latitud" class="form-control"
+                                       ng-model="recinto.lat_recinto" ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="recintoForm.latitud.$invalid && !recintoForm.latitud.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.RECINTO.MESSAGE_LATITUD_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="recintoForm.latitud.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : recintoForm.longitud.$invalid && !recintoForm.longitud.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="name"
+                                   class="control-label">{{'CONTAINER.RECINTO.TITLE_LONGITUD'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="longitud" type="text" name="longitud" class="form-control"
+                                       ng-model="recinto.long_recinto" ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="recintoForm.longitud.$invalid && !recintoForm.longitud.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.RECINTO.MESSAGE_LONGITUD_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="recintoForm.longitud.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" data-ng-click="save()" ng-disabled="recintoForm.$invalid">
+        {{'CONTAINER.COMMONS.BTN_UPDATE'|translate}}
+    </button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="clear()">
+        {{'CONTAINER.COMMONS.BTN_CANCEL'|translate}}
+    </button>
+</div>
