@@ -149,7 +149,6 @@ angular
                     data: {title: 'CONTAINER.COMMONS.TITLE_CANTONES'}
                 })
                 .state('app.general.canton-detail', {
-                    parent: 'app',
                     url: '/canton/{id}/parroquia',
                     templateUrl: 'views/admin/cantones/canton-detail.html',
                     controller: 'CantonDetailCtrl as ctrl',
@@ -185,6 +184,60 @@ angular
                         }]
                     },
                     data: {title: 'CONTAINER.COMMONS.TITLE_PARROQUIAS'}
+                }).
+                state('app.general.parroquia-detail', {
+                    url: '/parroquia/{id}/zona',
+                    templateUrl: 'views/admin/parroquias/parroquia-detail.html',
+                    controller: 'ParroquiaDetailCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [
+                                        'scripts/services/parroquia.service.js',
+                                        'scripts/services/parroquia.zona.service.js',
+                                        'scripts/controllers/parroquia-detail.controller.js'
+                                    ]
+                                }])
+                        }]
+                    }, data: {title: 'CONTAINER.COMMONS.TITLE_ZONA'}
+                }).
+                state('app.general.zonas', {
+                    url: '/zonas',
+                    templateUrl: 'views/admin/zonas/zonas.html',
+                    controller: 'ZonaCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'zona',
+                                    files: [
+                                        'scripts/services/zona.service.js',
+                                        'scripts/controllers/zona.controller.js'
+                                    ]
+                                }])
+                        }]
+                    },
+                    data: {title: 'CONTAINER.COMMONS.TITLE_ZONA'}
+                }).
+                state('app.general.zona-detail', {
+                    url: '/zona/{id}/recinto',
+                    templateUrl: 'views/admin/zonas/zona-detail.html',
+                    controller: 'ZonaDetailCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'provincia-detail',
+                                    files: [
+                                        'scripts/services/zona.service.js',
+                                        'scripts/services/zona.recinto.service.js',
+                                        'scripts/controllers/zona-detail.controller.js'
+                                    ]
+                                }])
+                        }]
+                    }, data: {title: 'CONTAINER.COMMONS.TITLE_RECINTO'}
                 })
                 // UI Routes
                 .state('app.ui', {
