@@ -12,7 +12,7 @@ module.exports = function () {
     require('../app/models/canton');
     require('../app/models/parroquia');
     require('../app/models/zona');
-    require('../app/models/recinto.server.model');
+    require('../app/models/recinto');
     require('../app/models/junta.server.model');
     require('../app/models/lista.server.model');
     require('../app/models/votos.server.model');
