@@ -1,5 +1,26 @@
 var Zona = require('mongoose').model('Zona');
 var Recinto = require('mongoose').model('Recinto');
+
+var getErrorMessage = function (err) {
+    var message = '';
+    if (err.code) {
+        switch (err.code) {
+            case 11000:
+            case 11001:
+                message = 'CONTAINER.RECINTO.MESSAGE_ALREADY_CODE';
+                break;
+            default:
+                message = 'Something went wrong';
+        }
+    } else {
+        for (var errName in err.errors) {
+            if (err.errors.hasOwnProperty(errName)) {
+                message = err.errors[errName];
+            }
+        }
+    }
+    return message;
+};
 var Q = require('q');
 var plus = "+";
 var comma = ",";
@@ -24,7 +45,7 @@ function query(id_zona, q, fields, sort, page, perPage) {
     }
 
     if (q) {
-        criteria.$text = {$search: q}
+        criteria = {code: q}
     }
     if (sort) {
         sort = sort.replace(plus, '');
@@ -88,44 +109,25 @@ function getById(id_zona, id_recinto) {
 function create(id_zona, body) {
     var deferred = Q.defer();
 
-    // validation  
-    Recinto.findOne(
-        {code: body.code},
-        function (err, item) {
-            if (err) deferred.reject(err);
+    body.zona = id_zona;
 
-            if (item) {
-                // already exists
-                deferred.reject('Code "' + body.code + '" is already taken');
+    Recinto.create(
+        body,
+        function (err, doc) {
+            if (err) {
+                deferred.reject(getErrorMessage(err));
             } else {
-                createRecinto(body);
-            }
-        });
 
-
-    function createRecinto(obj) {
-        obj.zona = id_zona;
-
-        Recinto.create(
-            obj,
-            function (err, doc) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-
-                    Zona.findById(id_zona, function (err, zona) {
-                        zona.recintos.push(doc);
-                        zona.save(function (error) {
-                            if (error) deferred.reject(error);
-                        });
+                Zona.findById(id_zona, function (err, zona) {
+                    zona.recintos.push(doc);
+                    zona.save(function (error) {
+                        if (error) deferred.reject(error);
                     });
-                }
+                });
+            }
 
-                deferred.resolve();
-            });
-
-
-    }
+            deferred.resolve();
+        });
 
     return deferred.promise;
 }
@@ -160,6 +162,10 @@ function update(id_zona, id_recinto, body) {
             if (err) deferred.reject(err);
             rec.name = obj.name;
             rec.code = obj.code;
+            rec.address = obj.address;
+            rec.phone = obj.phone;
+            rec.lat_recinto = obj.lat_recinto;
+            rec.long_recinto = obj.long_recinto;
             rec.save(function (err) {
                 if (err)deferred.reject(err);
                 deferred.resolve();
