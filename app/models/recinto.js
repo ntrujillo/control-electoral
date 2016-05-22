@@ -19,34 +19,6 @@ var RecintoSchema = new Schema({
         type: String,
         trim: true
     },
-    jun_fem: {
-        type: Number,
-        trim: true
-    },
-    jun_mas: {
-        type: Number,
-        trim: true
-    },
-    num_junr: {
-        type: Number,
-        trim: true
-    },
-    jun_inim: {
-        type: Number,
-        trim: true
-    },
-    jun_finm: {
-        type: Number,
-        trim: true
-    },
-    jun_inif: {
-        type: Number,
-        trim: true
-    },
-    jun_finf: {
-        type: Number,
-        trim: true
-    },
     status: {
         type: String,
         trim: true
