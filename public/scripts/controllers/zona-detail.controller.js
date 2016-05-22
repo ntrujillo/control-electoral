@@ -56,7 +56,7 @@
                     var modalInstance = $modal.open({
                         templateUrl: template,
                         controller: 'RecintoDialogCtrl as ctrl',
-                        size: 'sm',
+                        size: 'md',
                         backdrop: 'static',
                         animation: true,
                         resolve: {
