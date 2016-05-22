@@ -47,7 +47,7 @@ module.exports = function () {
     require('../app/routes/canton.route.js')(app);
     require('../app/routes/parroquia.route.js')(app);
     require('../app/routes/zona.route.js')(app);
-    require('../app/routes/recinto.server.route.js')(app);
+    require('../app/routes/recinto.route.js')(app);
     require('../app/routes/junta.server.route.js')(app);
     require('../app/routes/lista.server.route.js')(app);
     require('../app/routes/votos.server.route.js')(app);
