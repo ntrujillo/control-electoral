@@ -239,6 +239,42 @@ angular
                         }]
                     }, data: {title: 'CONTAINER.COMMONS.TITLE_RECINTO'}
                 })
+                .state('app.general.recintos', {
+                    url: '/recinto',
+                    templateUrl: 'views/admin/recintos/recintos.html',
+                    controller: 'RecintoCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'recintos',
+                                    files: [
+                                        'scripts/services/recinto.service.js',
+                                        'scripts/controllers/recinto.controller.js'
+                                    ]
+                                }])
+                        }]
+                    },
+                    data: {title: 'CONTAINER.COMMONS.TITLE_RECINTO'}
+                }).
+                state('app.general.recinto-detail', {
+                    url: '/recinto/{id}/junta',
+                    templateUrl: 'views/admin/recintos/recinto-detail.html',
+                    controller: 'RecintoDetailCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'recinto-detail',
+                                    files: [
+                                        'scripts/services/recinto.service.js',
+                                        'scripts/services/recinto.junta.service.js',
+                                        'scripts/controllers/recinto-detail.controller.js'
+                                    ]
+                                }])
+                        }]
+                    }, data: {title: 'CONTAINER.COMMONS.TITLE_JUNTA'}
+                })
                 // UI Routes
                 .state('app.ui', {
                     template: '<div ui-view></div>',
