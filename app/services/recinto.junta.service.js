@@ -85,45 +85,24 @@ function getById(id_recinto, id_junta) {
 
 function create(id_recinto, body) {
     var deferred = Q.defer();
-
-    // validation  
-    Junta.findOne(
-        {code: body.code},
-        function (err, item) {
-            if (err) deferred.reject(err);
-
-            if (item) {
-                // already exists
-                deferred.reject('Code "' + body.code + '" is already taken');
+    body.recinto = id_recinto;
+    Junta.create(
+        body,
+        function (err, doc) {
+            if (err) {
+                deferred.reject(err);
             } else {
-                createJunta(body);
-            }
-        });
 
-
-    function createJunta(obj) {
-        obj.recinto = id_recinto;
-
-        Junta.create(
-            obj,
-            function (err, doc) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-
-                    Recinto.findById(id_recinto, function (err, recinto) {
-                        recinto.juntas.push(doc);
-                        recinto.save(function (error) {
-                            if (error) deferred.reject(error);
-                        });
+                Recinto.findById(id_recinto, function (err, recinto) {
+                    recinto.juntas.push(doc);
+                    recinto.save(function (error) {
+                        if (error) deferred.reject(error);
                     });
-                }
+                });
+            }
 
-                deferred.resolve();
-            });
-
-
-    }
+            deferred.resolve();
+        });
 
     return deferred.promise;
 }
@@ -134,16 +113,16 @@ function update(id_recinto, id_junta, body) {
     Junta.findOne({recinto: id_recinto, _id: id_junta}, function (err, item) {
         if (err) deferred.reject(err);
 
-        if (item.code !== body.code) {
+        if (item.junta !== body.junta) {
             // code has changed so check if the new code is already taken
             Junta.findOne(
-                {code: body.code},
+                {junta: body.junta},
                 function (err, item) {
                     if (err) deferred.reject(err);
 
                     if (item) {
                         // username already exists
-                        deferred.reject('Code "' + body.code + '" is already taken')
+                        deferred.reject('Code "' + body.junta + '" is already taken')
                     } else {
                         updateJunta(body);
                     }
@@ -156,8 +135,9 @@ function update(id_recinto, id_junta, body) {
     function updateJunta(obj) {
         Junta.findOne({recinto: id_recinto, _id: id_junta}, function (err, jun) {
             if (err) deferred.reject(err);
-            jun.name = obj.name;
-            jun.code = obj.code;
+            jun.junta = obj.junta;
+            jun.gender = obj.gender;
+            jun.empadronados = obj.empadronados;
             jun.save(function (err) {
                 if (err)deferred.reject(err);
                 deferred.resolve();
