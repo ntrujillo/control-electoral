@@ -16,6 +16,7 @@
       "TITLE_CANTONES": "Cantones",
       "TITLE_PARROQUIAS": "Parroquias",
       "TITLE_ZONA": "Zonas",
+      "TITLE_RECINTO": "Recintos",
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_NAME": "Nombre"
     },
@@ -34,13 +35,35 @@
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
     },
+    "RECINTO": {
+      "CREATE_RECINTO": "Creaci\u00f3n de recinto",
+      "EDIT_RECINTO": "Edici\u00f3n de recinto",
+      "TITLE_CODE": "C\u00f3digo",
+      "TITLE_RECINTO": "Recinto",
+      "TITLE_DIRECCION": "Direcci\u00f3n",
+      "TITLE_TELEFONO": "Tel\u00e9fono",
+      "TITLE_LATITUD": "Latitud",
+      "TITLE_LONGITUD": "Longitud",
+      "MESSAGE_REQUIRED": "El c\u00f3digo es requerido",
+      "MESSAGE_RECINTO_REQUIRED": "El nombre del recinto es requerido",
+      "MESSAGE_DIRECCION_REQUIRED": "La direcci\u00f3n del recinto es requerido",
+      "MESSAGE_TELEFONO_REQUIRED": "El tel\u00e9fono del recinto es requerido",
+      "MESSAGE_LATITUD_REQUIRED": "La latitud del recinto es requerido",
+      "MESSAGE_LONGITUD_REQUIRED": "La longitud del recinto es requerido",
+      "MESSAGE_RECINTO": "Recinto guardado",
+      "MESSAGE_UPDATE": "Recinto actualizado"
+    },
     "ZONA": {
       "CREATE_ZONA": "Creaci\u00f3n de zona",
       "EDIT_ZONA": "Edici\u00f3n de zona",
       "TITLE_ZONA": "Zona",
+      "BTN_RECINTO": "Ver recintos",
+      "TITLE_CODE": "C\u00f3digo",
+      "MESSAGE_REQUIRED": "El c\u00f3digo es requerido",
       "MESSAGE_ZONA_REQUIRED": "El nombre de la zona es requerido",
       "MESSAGE_ZONA": "Zona guardada",
-      "MESSAGE_UPDATE": "Zona actualizada"
+      "MESSAGE_UPDATE": "Zona actualizada",
+      "TITLE_RECINTO_ZONAS": "Recintos de la zona {{name}}"
     },
     "PARROQUIA": {
       "CREATE_PARROQUIA": "Creaci\u00f3n de parroquia",
