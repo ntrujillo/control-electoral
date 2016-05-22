@@ -11,7 +11,7 @@
                          ng-class="{ 'has-error' : zonaForm.codigo.$invalid && !zonaForm.codigo.$pristine }">
                         <div class="form-group cb-required">
                             <label for="idCode"
-                                   class="control-label">{{'CONTAINER.PARROQUIA.TITLE_CODE'|translate}}</label>
+                                   class="control-label">{{'CONTAINER.ZONA.TITLE_CODE'|translate}}</label>
 
                             <div class="cb-control">
                                 <input id="idCode" type="text" name="codigo" class="form-control"
@@ -20,7 +20,7 @@
                                        required>
                             <span ng-show="zonaForm.codigo.$invalid && !zonaForm.codigo.$pristine"
                                   class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                                {{'CONTAINER.PARROQUIA.MESSAGE_REQUIRED'|translate}}
+                                {{'CONTAINER.ZONA.MESSAGE_REQUIRED'|translate}}
                                 </span>
                             <span ng-show="zonaForm.codigo.$error.pattern"
                                   class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
