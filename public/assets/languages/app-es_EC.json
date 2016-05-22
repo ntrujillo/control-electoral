@@ -17,6 +17,7 @@
       "TITLE_PARROQUIAS": "Parroquias",
       "TITLE_ZONA": "Zonas",
       "TITLE_RECINTO": "Recintos",
+      "TITLE_JUNTA": "Juntas",
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_NAME": "Nombre"
     },
@@ -35,6 +36,18 @@
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
     },
+    "JUNTA": {
+      "CREATE_JUNTA": "Creaci\u00f3n de junta",
+      "EDIT_JUNTA": "Edici\u00f3n de junta",
+      "TITLE_JUNTA": "Junta",
+      "TITLE_GENERO": "G\u00e9nero",
+      "TITLE_EMPADRONADOS": "Empadronados",
+      "MESSAGE_JUNTA": "Junta guardada",
+      "MESSAGE_UPDATE": "Junta actualizada",
+      "TITLE_JUNTAS_RECINTO": "Juntas del recinto {{name}}",
+      "MESSAGE_REQUIRED": "La junta es requerida",
+      "MESSAGE_EMPADRONADOS_REQUIRED": "El n\u00famero de empadronados es requerido"
+    },
     "RECINTO": {
       "CREATE_RECINTO": "Creaci\u00f3n de recinto",
       "EDIT_RECINTO": "Edici\u00f3n de recinto",
@@ -52,7 +65,8 @@
       "MESSAGE_LONGITUD_REQUIRED": "La longitud del recinto es requerido",
       "MESSAGE_RECINTO": "Recinto guardado",
       "MESSAGE_UPDATE": "Recinto actualizado",
-      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de recinto ya existe"
+      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de recinto ya existe",
+      "BTN_JUNTA": "Ver juntas"
     },
     "ZONA": {
       "CREATE_ZONA": "Creaci\u00f3n de zona",
