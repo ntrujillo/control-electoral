@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="clear()">&times;</button>
+    <h4 class="modal-title"><b>{{'CONTAINER.JUNTA.EDIT_JUNTA'|translate}}</b></h4>
+</div>
+<div class="modal-body">
+    <form name="juntaForm" novalidate>
+        <div id="group-junta" class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-12"
+                         ng-class="{ 'has-error' : juntaForm.junta.$invalid && !juntaForm.junta.$pristine }">
+                        <div class="form-group">
+                            <label for="junta"
+                                   class="control-label">{{'CONTAINER.JUNTA.TITLE_JUNTA'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="junta" type="text" name="junta" class="form-control" disabled="true"
+                                       ng-model="junta.junta"
+                                       ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="juntaForm.junta.$invalid && !juntaForm.junta.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.JUNTA.MESSAGE_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="juntaForm.junta.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12"
+                         ng-class="{ 'has-error' : juntaForm.gender.$invalid && !juntaForm.gender.$pristine }">
+                        <div class="form-group">
+                            <label for="gender"
+                                   class="control-label">{{'CONTAINER.JUNTA.TITLE_GENERO'|translate}}</label>
+
+                            <div class="cb-control">
+                                <select id="gender" name="gender" class="form-control" ng-model="junta.gender"
+                                        ng-options="c.code as c.value for c in genero"
+                                        required></select>
+                            <span ng-show="juntaForm.gender.$invalid && !juntaForm.gender.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.JUNTA.MESSAGE_RECINTO_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12"
+                         ng-class="{ 'has-error' : juntaForm.empadronados.$invalid && !juntaForm.empadronados.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="empadronados"
+                                   class="control-label">{{'CONTAINER.JUNTA.TITLE_EMPADRONADOS'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="empadronados" type="text" name="empadronados" class="form-control"
+                                       ng-model="junta.empadronados" ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="juntaForm.empadronados.$invalid && !juntaForm.empadronados.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.JUNTA.MESSAGE_EMPADRONADOS_REQUIRED'|translate}}
+                                </span>
+                                <span ng-show="juntaForm.empadronados.$error.pattern"
+                                      class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" data-ng-click="save()" ng-disabled="juntaForm.$invalid">
+        {{'CONTAINER.COMMONS.BTN_UPDATE'|translate}}
+    </button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="clear()">
+        {{'CONTAINER.COMMONS.BTN_CANCEL'|translate}}
+    </button>
+</div>
