@@ -51,7 +51,8 @@
       "MESSAGE_LATITUD_REQUIRED": "La latitud del recinto es requerido",
       "MESSAGE_LONGITUD_REQUIRED": "La longitud del recinto es requerido",
       "MESSAGE_RECINTO": "Recinto guardado",
-      "MESSAGE_UPDATE": "Recinto actualizado"
+      "MESSAGE_UPDATE": "Recinto actualizado",
+      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de recinto ya existe"
     },
     "ZONA": {
       "CREATE_ZONA": "Creaci\u00f3n de zona",
