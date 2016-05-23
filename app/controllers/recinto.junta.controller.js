@@ -3,12 +3,14 @@ var service = require('../../app/services/recinto.junta.service'),
 
 function queryJunta(req, res) {
     var q = req.query.q;
+    var status = req.query.status;
+    var gender = req.query.gender;
     var fields = req.query.fields;
     var sort = req.query.sort;
     var page = req.query.page;
     var perPage = req.query.per_page;
 
-    service.query(req.params.id_recinto, q, fields, sort, page, perPage)
+    service.query(req.params.id_recinto, q, status, gender, fields, sort, page, perPage)
         .then(function (response) {
             if (response.juntas) {
                 Logger.logInfo('[RecintoJuntaCtrl] Se recuper\u00f3 las juntas correctamente del recinto', req.params.id_recinto);
