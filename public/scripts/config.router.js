@@ -356,6 +356,31 @@ angular
                         contentClasses: 'full-height'
                     }
                 })
+                .state('app.asignacionJuntas', {
+                    url: '/asignación de juntas',
+                    templateUrl: 'views/coordinador/asignacionJuntas/asignacion-juntas.html',
+                    controller: 'AsignacionCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    files: [
+                                        'factory/factory-genero.js',
+                                        'scripts/services/provincia.service.js',
+                                        'scripts/services/provincia.canton.service.js',
+                                        'scripts/services/canton.parroquia.service.js',
+                                        'scripts/services/parroquia.zona.service.js',
+                                        'scripts/services/zona.recinto.service.js',
+                                        'scripts/services/recinto.junta.service.js',
+                                        'scripts/controllers/asignacion.client.controller.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        title: 'CONTAINER.COMMONS.TITLE_ASIGNACION_JUNTAS'
+                    }
+                })
                 .state('user.forgot', {
                     url: '/forgot',
                     templateUrl: 'views/extras-forgot.html',
