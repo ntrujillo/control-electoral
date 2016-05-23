@@ -12,7 +12,8 @@
                 CantonResource.query({
                     page: page,
                     per_page: ctrl.itemsPerPage,
-                    q: ctrl.code
+                    q: ctrl.code,
+                    sort: 'name'
                 }, function (result, headers) {
                     ctrl.registros = result;
                     ctrl.total_count = headers('X-Total-Count');
