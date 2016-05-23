@@ -14,6 +14,10 @@ var JuntaSchema = new Schema({
         type: Number,
         trim: true
     },
+    status: {
+        type: String,
+        default: 'NA'
+    },
     recinto: {type: mongoose.Schema.Types.ObjectId, ref: 'Recinto'}
 
 });
