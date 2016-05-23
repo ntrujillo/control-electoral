@@ -1,6 +1,4 @@
 (function (angular) {
-    'use strict';
-
     angular.module('ControlElectoralApp').controller('ParroquiaDialogCtrl',
         ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'CantonParroquiaResource', 'Notification',
             function ($scope, $stateParams, $modalInstance, entity, CantonParroquiaResource, Notification) {
