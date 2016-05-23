@@ -85,24 +85,42 @@ function getById(id_recinto, id_junta) {
 
 function create(id_recinto, body) {
     var deferred = Q.defer();
-    body.recinto = id_recinto;
-    Junta.create(
-        body,
-        function (err, doc) {
-            if (err) {
-                deferred.reject(err);
+    // validation
+    Junta.findOne(
+        {code: body.code, recinto: id_recinto, gender: body.gender},
+        function (err, item) {
+            if (err) deferred.reject(err);
+
+            if (item) {
+                // already exists
+                deferred.reject('CONTAINER.JUNTA.MESSAGE_ALREADY_CODE');
             } else {
-
-                Recinto.findById(id_recinto, function (err, recinto) {
-                    recinto.juntas.push(doc);
-                    recinto.save(function (error) {
-                        if (error) deferred.reject(error);
-                    });
-                });
+                createJunta(body);
             }
-
-            deferred.resolve();
         });
+
+
+    function createJunta(obj) {
+        obj.recinto = id_recinto;
+
+        Junta.create(
+            obj,
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+
+                    Recinto.findById(id_recinto, function (err, recinto) {
+                        recinto.juntas.push(doc);
+                        recinto.save(function (error) {
+                            if (error) deferred.reject(error);
+                        });
+                    });
+                }
+
+                deferred.resolve();
+            });
+    }
 
     return deferred.promise;
 }
