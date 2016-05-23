@@ -1,5 +1,6 @@
 var Parroquia = require('mongoose').model('Parroquia');
 var Zona = require('mongoose').model('Zona');
+
 var Q = require('q');
 var service = {};
 var plus = "+";
@@ -88,15 +89,15 @@ function getById(id_parroquia, id_zona) {
 function create(id_parroquia, body) {
     var deferred = Q.defer();
 
-    // validation  
+    // validation
     Zona.findOne(
-        {code: body.code},
+        {code: body.code, parroquia: id_parroquia},
         function (err, item) {
             if (err) deferred.reject(err);
 
             if (item) {
                 // already exists
-                deferred.reject('Code "' + body.code + '" is already taken');
+                deferred.reject('CONTAINER.ZONA.MESSAGE_ALREADY_CODE');
             } else {
                 createZona(body);
             }
