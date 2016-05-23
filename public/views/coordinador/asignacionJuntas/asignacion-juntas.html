@@ -1,0 +1,91 @@
+<div id="asignacionJuntasForm" class="group-simple">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="provincia"
+                           class="control-label">{{'CONTAINER.PROVINCIA.TITLE_PROVINCIA'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="provincia" class="form-control" ng-change="getCantones(selectedProvincia)"
+                                ng-model="selectedProvincia"
+                                ng-options="c._id as c.name for c in provincesList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="canton"
+                           class="control-label">{{'CONTAINER.CANTON.TITLE_CANTON'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="canton" class="form-control" ng-disabled="selectedProvincia===null?true:false"
+                                ng-change="getParroquias(selectedCanton)" ng-model="selectedCanton"
+                                ng-options="c._id as c.name for c in cantonesByProvinceList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="parroquia"
+                           class="control-label">{{'CONTAINER.PARROQUIA.TITLE_PARROQUIA'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="parroquia" class="form-control" ng-disabled="selectedCanton===null?true:false"
+                                ng-change="getZonas(selectedParroquia)" ng-model="selectedParroquia"
+                                ng-options="c._id as c.name for c in parroquiasByCantonList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="zona"
+                           class="control-label">{{'CONTAINER.ZONA.TITLE_ZONA'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="zona" class="form-control" ng-disabled="selectedParroquia===null?true:false"
+                                ng-change="getRecintos(selectedZona)" ng-model="selectedZona"
+                                ng-options="c._id as c.name for c in zonasByParroquiaList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="recinto"
+                           class="control-label">{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="recinto" class="form-control" ng-disabled="selectedZona===null?true:false"
+                                ng-change="getGeneros(selectedRecinto!=null?true:false)" ng-model="selectedRecinto"
+                                ng-options="c._id as c.name for c in recintosByZona"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="genero"
+                           class="control-label">{{'CONTAINER.JUNTA.TITLE_GENERO'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="genero" class="form-control" ng-disabled="selectedRecinto===null?true:false"
+                                ng-model="selectedGenero"
+                                ng-change="getJuntas(selectedRecinto,selectedGenero)"
+                                ng-options="c.code as c.value for c in generoList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="junta"
+                           class="control-label">{{'CONTAINER.JUNTA.TITLE_JUNTA'|translate}}</label>
+
+                    <div class="cb-control">
+                        <select id="junta" class="form-control" ng-disabled="selectedGenero===null?true:false"
+                                ng-model="selectedJunta"
+                                ng-options="c._id as c.junta for c in juntasList"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
