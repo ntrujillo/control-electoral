@@ -71,6 +71,14 @@
             </ul>
         </li>
         <!--end Informacion General-->
+        <!--Listas-->
+        <li data-ng-class="{open: $state.includes('app.listas')}">
+            <a ui-sref="app.listas">
+                <i class="fa fa-user"></i>
+                <span>{{'CONTAINER.COMMONS.TITLE_LISTA'|translate}}</span>
+            </a>
+        </li>
+        <!--end Listas-->
 
         <!-- ui -->
         <li data-ng-class="{open: $state.includes('app.ui')}">
