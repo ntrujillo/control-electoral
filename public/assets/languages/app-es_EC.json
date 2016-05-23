@@ -16,6 +16,7 @@
       "TITLE_CANTONES": "Cantones",
       "TITLE_PARROQUIAS": "Parroquias",
       "TITLE_ZONA": "Zonas",
+      "TITLE_LISTA": "Listas",
       "TITLE_RECINTO": "Recintos",
       "TITLE_JUNTA": "Juntas",
       "TITLE_CODE": "C\u00f3digo",
@@ -36,6 +37,22 @@
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
     },
+    "LISTA": {
+      "CREATE_LISTA": "Creaci\u00f3n de lista",
+      "EDIT_LISTA": "Edici\u00f3n de lista",
+      "CODE_LISTA": "C\u00f3digo de lista",
+      "TITLE_NUMERO": "N\u00famero de lista",
+      "TITLE_LISTA": "Lista",
+      "TITLE_PRESIDENTE": "Presidente",
+      "TITLE_VICEPRESIDENTE": "Vicepresidente",
+      "MESSAGE_LISTA": "Lista guardada",
+      "MESSAGE_UPDATE": "Lista actualizada",
+      "MESSAGE_ALREADY_CODE": "El n\u00fbmero de lista ya exite",
+      "MESSAGE_REQUIRED": "El n\u00fbmero de lista es requerido",
+      "MESSAGE_LISTA_REQUIRED": "El nombre de lista es requerido",
+      "MESSAGE_PRESIDENTE_REQUIRED": "El nombre del presidente es requerido",
+      "MESSAGE_VICEPRESIDENTE_REQUIRED": "El nombre del vicepresidente es requerido"
+    },
     "JUNTA": {
       "CREATE_JUNTA": "Creaci\u00f3n de junta",
       "EDIT_JUNTA": "Edici\u00f3n de junta",
@@ -46,7 +63,8 @@
       "MESSAGE_UPDATE": "Junta actualizada",
       "TITLE_JUNTAS_RECINTO": "Juntas del recinto {{name}}",
       "MESSAGE_REQUIRED": "La junta es requerida",
-      "MESSAGE_EMPADRONADOS_REQUIRED": "El n\u00famero de empadronados es requerido"
+      "MESSAGE_EMPADRONADOS_REQUIRED": "El n\u00famero de empadronados es requerido",
+      "MESSAGE_ALREADY_CODE": "El n\u00fbmero de junta ya existe"
     },
     "RECINTO": {
       "CREATE_RECINTO": "Creaci\u00f3n de recinto",
@@ -78,7 +96,8 @@
       "MESSAGE_ZONA_REQUIRED": "El nombre de la zona es requerido",
       "MESSAGE_ZONA": "Zona guardada",
       "MESSAGE_UPDATE": "Zona actualizada",
-      "TITLE_RECINTO_ZONAS": "Recintos de la zona {{name}}"
+      "TITLE_RECINTO_ZONAS": "Recintos de la zona {{name}}",
+      "MESSAGE_ALREADY_CODE": "El c\u00f3digo de zona ya existe"
     },
     "PARROQUIA": {
       "CREATE_PARROQUIA": "Creaci\u00f3n de parroquia",
