@@ -275,6 +275,23 @@ angular
                         }]
                     }, data: {title: 'CONTAINER.COMMONS.TITLE_JUNTA'}
                 })
+                .state('app.listas', {
+                    url: '/listas',
+                    templateUrl: 'views/admin/listas/listas.html',
+                    controller: 'ListaCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'listas',
+                                    files: [
+                                        'scripts/services/lista.client.service.js',
+                                        'scripts/controllers/lista.controller.js'
+                                    ]
+                                }])
+                        }]
+                    }, data: {title: 'CONTAINER.COMMONS.TITLE_LISTA'}
+                })
                 // UI Routes
                 .state('app.ui', {
                     template: '<div ui-view></div>',
