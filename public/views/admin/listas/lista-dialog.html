@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="clear()">&times;</button>
+    <h4 class="modal-title"><b>{{'CONTAINER.LISTA.CREATE_LISTA'|translate}}</b></h4>
+</div>
+<div class="modal-body">
+    <form name="listaForm" novalidate>
+        <div id="group-junta" class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : listaForm.numeroLista.$invalid && !listaForm.numeroLista.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="numeroLista"
+                                   class="control-label">{{'CONTAINER.LISTA.TITLE_NUMERO'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="numeroLista" type="text" name="numeroLista" class="form-control"
+                                       ng-model="lista.CODE_LISTA"
+                                       ng-pattern="/^[0-9]*$/"
+                                       required>
+                            <span ng-show="listaForm.numeroLista.$invalid && !listaForm.numeroLista.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.LISTA.MESSAGE_REQUIRED'|translate}}
+                                </span>
+                            <span ng-show="listaForm.numeroLista.$error.pattern"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : listaForm.lista.$invalid && !listaForm.lista.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="lista"
+                                   class="control-label">{{'CONTAINER.LISTA.TITLE_LISTA'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="lista" type="text" name="lista" class="form-control"
+                                       ng-model="lista.NOM_LISTA"
+                                       required>
+                            <span ng-show="listaForm.lista.$invalid && !listaForm.lista.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.LISTA.MESSAGE_LISTA_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : listaForm.presidente.$invalid && !listaForm.presidente.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="lista"
+                                   class="control-label">{{'CONTAINER.LISTA.TITLE_PRESIDENTE'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="presidente" type="text" name="presidente" class="form-control"
+                                       ng-model="lista.NOM_PRE"
+                                       required>
+                            <span ng-show="listaForm.presidente.$invalid && !listaForm.presidente.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.LISTA.MESSAGE_PRESIDENTE_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-error' : listaForm.vicepresidente.$invalid && !listaForm.vicepresidente.$pristine }">
+                        <div class="form-group cb-required">
+                            <label for="lista"
+                                   class="control-label">{{'CONTAINER.LISTA.TITLE_VICEPRESIDENTE'|translate}}</label>
+
+                            <div class="cb-control">
+                                <input id="vicepresidente" type="text" name="vicepresidente" class="form-control"
+                                       ng-model="lista.NOM_VIC"
+                                       required>
+                            <span ng-show="listaForm.vicepresidente.$invalid && !listaForm.vicepresidente.$pristine"
+                                  class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
+                                {{'CONTAINER.LISTA.MESSAGE_VICEPRESIDENTE_REQUIRED'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" data-ng-click="save()" ng-disabled="juntaForm.$invalid">
+        {{'CONTAINER.COMMONS.BTN_SAVE'|translate}}
+    </button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="clear()">
+        {{'CONTAINER.COMMONS.BTN_CANCEL'|translate}}
+    </button>
+</div>

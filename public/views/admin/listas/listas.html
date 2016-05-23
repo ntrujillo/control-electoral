@@ -1,0 +1,86 @@
+<div id="Listas" class="group-simple">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="idCodigo"
+                           class="control-label">{{'CONTAINER.LISTA.CODE_LISTA'|translate}}</label>
+
+                    <div class="cb-control">
+                        <input id="idCodigo" placeholder="{{'CONTAINER.LISTA.CODE_LISTA'|translate}}"
+                               data-ng-model="ctrl.code"
+                               class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+
+                    <div class="cb-control">
+                        <button class="form-control btn btn-primary"
+                                data-ng-click="ctrl.refresh()">
+                            {{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gridListas" class="form-grid">
+    <div class="form-vertical">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="bs-component form-group">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <td colspan='5'>
+                                    <button type="submit" title="{{'CONTAINER.COMMONS.BTN_NEW'|translate}}"
+                                            ng-click="ctrl.showModal()"
+                                            class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-plus-sign"></span>
+                                        {{'CONTAINER.COMMONS.BTN_NEW'|translate}}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{{'CONTAINER.LISTA.TITLE_NUMERO'|translate}}</th>
+                                <th>{{'CONTAINER.LISTA.TITLE_LISTA'|translate}}</th>
+                                <th>{{'CONTAINER.LISTA.TITLE_PRESIDENTE'|translate}}</th>
+                                <th>{{'CONTAINER.LISTA.TITLE_VICEPRESIDENTE'|translate}}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr dir-paginate="registro in ctrl.registros | itemsPerPage:ctrl.itemsPerPage"
+                                total-items="ctrl.total_count">
+                                <td>{{registro.CODE_LISTA}}</td>
+                                <td>{{registro.NOM_LISTA}}</td>
+                                <td>{{registro.NOM_PRE}}</td>
+                                <td>{{registro.NOM_VIC}}</td>
+                                <td>
+                                    <button type="button" title="{{'CONTAINER.COMMONS.BTN_EDIT'|translate}}"
+                                            ng-click="ctrl.showModal(registro)"
+                                            class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <dir-pagination-controls
+                            max-size="8"
+                            direction-links="true"
+                            boundary-links="true"
+                            on-page-change="ctrl.loadData(newPageNumber)">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
