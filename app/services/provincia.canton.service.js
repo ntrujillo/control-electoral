@@ -45,7 +45,7 @@ function query(id_provincia, q, fields, sort, page, perPage) {
     }
 
     if (q) {
-        criteria = {code: q};
+        criteria.code = q;
     }
     if (sort) {
         sort = sort.replace(plus, '');
