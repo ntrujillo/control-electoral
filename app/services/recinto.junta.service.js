@@ -13,7 +13,7 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(id_recinto, q, fields, sort, page, perPage) {
+function query(id_recinto, q, status, gender, fields, sort, page, perPage) {
 
     var criteria = {};
     var response = {};
@@ -22,9 +22,15 @@ function query(id_recinto, q, fields, sort, page, perPage) {
     if (id_recinto) {
         criteria.recinto = id_recinto;
     }
+    if (status) {
+        criteria.status = status;
+    }
+    if (gender) {
+        criteria.gender = gender;
+    }
 
     if (q) {
-        criteria = {junta: q};
+        criteria.junta = q;
     }
     if (sort) {
         sort = sort.replace(plus, '');
@@ -86,8 +92,9 @@ function getById(id_recinto, id_junta) {
 function create(id_recinto, body) {
     var deferred = Q.defer();
     // validation
+    console.log('id: ' + id_recinto + 'code: ' + body.code + ' gnder: ' + body.gender);
     Junta.findOne(
-        {code: body.code, recinto: id_recinto, gender: body.gender},
+        {junta: body.junta, recinto: id_recinto, gender: body.gender},
         function (err, item) {
             if (err) deferred.reject(err);
 
@@ -128,42 +135,17 @@ function create(id_recinto, body) {
 function update(id_recinto, id_junta, body) {
     var deferred = Q.defer();
     // validation
-    Junta.findOne({recinto: id_recinto, _id: id_junta}, function (err, item) {
+    Junta.findOne({recinto: id_recinto, _id: id_junta}, function (err, jun) {
         if (err) deferred.reject(err);
-
-        if (item.junta !== body.junta) {
-            // code has changed so check if the new code is already taken
-            Junta.findOne(
-                {junta: body.junta},
-                function (err, item) {
-                    if (err) deferred.reject(err);
-
-                    if (item) {
-                        // username already exists
-                        deferred.reject('Code "' + body.junta + '" is already taken')
-                    } else {
-                        updateJunta(body);
-                    }
-                });
-        } else {
-            updateJunta(body);
-        }
-    });
-
-    function updateJunta(obj) {
-        Junta.findOne({recinto: id_recinto, _id: id_junta}, function (err, jun) {
-            if (err) deferred.reject(err);
-            jun.junta = obj.junta;
-            jun.gender = obj.gender;
-            jun.empadronados = obj.empadronados;
-            jun.save(function (err) {
-                if (err)deferred.reject(err);
-                deferred.resolve();
-            });
-
-
+        jun.junta = body.junta;
+        jun.gender = body.gender;
+        jun.empadronados = body.empadronados;
+        jun.status = body.status;
+        jun.save(function (err) {
+            if (err)deferred.reject(err);
+            deferred.resolve();
         });
-    }
+    });
 
     return deferred.promise;
 }
@@ -181,3 +163,4 @@ function _delete(id_junta) {
 
     return deferred.promise;
 }
+
