@@ -66,7 +66,8 @@
       "TITLE_JUNTAS_RECINTO": "Juntas del recinto {{name}}",
       "MESSAGE_REQUIRED": "La junta es requerida",
       "MESSAGE_EMPADRONADOS_REQUIRED": "El n\u00famero de empadronados es requerido",
-      "MESSAGE_ALREADY_CODE": "El n\u00fbmero de junta ya existe"
+      "MESSAGE_ALREADY_CODE": "El n\u00fbmero de junta ya existe",
+      "ADD_JUNTA": "Se agreg\u00f3 la junta al usuario seleccionado"
     },
     "RECINTO": {
       "CREATE_RECINTO": "Creaci\u00f3n de recinto",
