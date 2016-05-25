@@ -50,6 +50,7 @@ module.exports = function () {
     require('../app/routes/recinto.route.js')(app);
     require('../app/routes/junta.server.route.js')(app);
     require('../app/routes/lista.server.route.js')(app);
+    require('../app/routes/junta.user.route.js')(app);
     require('../app/routes/votos.server.route.js')(app);
     require('../app/routes/rol.server.route.js')(app);
     require('../app/routes/usuarioRol.server.route.js')(app);
