@@ -21,7 +21,8 @@
       "TITLE_JUNTA": "Juntas",
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_NAME": "Nombre",
-      "TITLE_ASIGNACION_JUNTAS": "Asignaci\u00f3n de juntas"
+      "TITLE_ASIGNACION_JUNTAS": "Asignaci\u00f3n de juntas",
+      "USER_SELECT": "Escojer usuario "
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
