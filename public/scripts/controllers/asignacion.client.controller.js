@@ -1,9 +1,11 @@
 (function (angular) {
-    angular.module('ControlElectoralApp').controller('AsignacionCtrl', ['$scope', '$http', '$state', '$uibModal', 'FactoryGenero', 'ProvinciaCantonResource', 'ProvinciaResource', 'CantonParroquiaResource', 'ParroquiaZonaResource', 'ZonaRecintoResource', 'RecintoJuntaResource',
-        function ($scope, $http, $state, $modal, generos, ProvinciaCantonResource, ProvinciaResource, CantonParroquiaResource, ParroquiaZonaResource, recintos, RecintoJuntaResource) {
+    angular.module('ControlElectoralApp').controller('AsignacionCtrl', ['$scope', '$uibModal', 'FactoryGenero', 'ProvinciaCantonResource', 'ProvinciaResource', 'CantonParroquiaResource', 'ParroquiaZonaResource', 'ZonaRecintoResource',
+        'RecintoJuntaResource', 'Users',
+        function ($scope, $modal, generos, ProvinciaCantonResource, ProvinciaResource, CantonParroquiaResource, ParroquiaZonaResource, recintos, RecintoJuntaResource, UserSrv) {
 
             var ctrl = this;
 
+            $scope.selectedUser = null;
             $scope.selectedProvincia = null;
             $scope.selectedCanton = null;
             $scope.selectedParroquia = null;
@@ -19,6 +21,14 @@
             $scope.recintosByZona = [];
             $scope.generoList = [];
             $scope.juntasList = [];
+
+
+            //return users
+            UserSrv.query({status: 'V'}, function (response) {
+                $scope.usersAll = angular.fromJson(response);
+            }, function (errorResponse) {
+                $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
+            });
 
             //return provinces
             ProvinciaResource.query(function (provinces) {
