@@ -87,17 +87,21 @@ exports.signout = function (req, res) {
 };
 
 exports.getUsers = function (req, res) {
-    var pagina, registros;
+    var criteria = {}, pagina, registros;
+    if (req.query.status) {
+        criteria.status = req.query.status;
+    }
+    Logger.logInfo('[UserCtrl] criterio', criteria);
     pagina = req.query.page;
     registros = req.query.numRegistros;
-    User.find({}).count(function (err, count) {
+    User.find(criteria).count(function (err, count) {
         if (err) {
             Logger.logError('[UserCtrl] Error al obtener el número de usuarios', err);
             res.status(500);
         }
 
         res.header('X-Total-Count', count);
-        User.find({}, '-password -salt -provider').sort({lastName: 1}).limit(parseInt(registros)).skip(parseInt(registros) * (parseInt(pagina) - 1)).exec(function (err, users) {
+        User.find(criteria, '-password -salt -provider').sort({lastName: 1}).limit(parseInt(registros)).skip(parseInt(registros) * (parseInt(pagina) - 1)).exec(function (err, users) {
             if (err) {
                 var message = getErrorMessage(err);
                 Logger.logError('[UserCtrl] Falla de infraestructura', message);
@@ -109,6 +113,7 @@ exports.getUsers = function (req, res) {
         });
     });
 };
+
 exports.getUserById = function (req, res) {
     var idUser = req.params.idUser;
     User.findById({_id: idUser}, '-password -salt -provider', function (err, user) {
