@@ -373,6 +373,7 @@ angular
                                         'scripts/services/zona.recinto.service.js',
                                         'scripts/services/recinto.junta.service.js',
                                         'scripts/services/admin/user.client.service.js',
+                                        'scripts/services/junta.user.service.js',
                                         'scripts/controllers/asignacion.client.controller.js'
                                     ]
                                 }]);
