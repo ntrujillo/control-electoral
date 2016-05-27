@@ -76,7 +76,7 @@
 
                         <div class="cb-control">
                             <select id="recinto" class="form-control" ng-disabled="selectedZona===null?true:false"
-                                    ng-change="getGeneros(selectedRecinto!=null?true:false)" ng-model="selectedRecinto"
+                                    ng-change="getGeneros(selectedRecinto)" ng-model="selectedRecinto"
                                     ng-options="c._id as c.name for c in recintosByZona"></select>
                         </div>
                     </div>
