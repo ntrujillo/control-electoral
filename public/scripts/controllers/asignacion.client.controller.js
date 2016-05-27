@@ -1,7 +1,7 @@
 (function (angular) {
     angular.module('ControlElectoralApp').controller('AsignacionCtrl', ['$scope', '$uibModal', 'FactoryGenero', 'ProvinciaCantonResource', 'ProvinciaResource', 'CantonParroquiaResource', 'ParroquiaZonaResource', 'ZonaRecintoResource',
-        'RecintoJuntaResource', 'Users',
-        function ($scope, $modal, generos, ProvinciaCantonResource, ProvinciaResource, CantonParroquiaResource, ParroquiaZonaResource, recintos, RecintoJuntaResource, UserSrv) {
+        'RecintoJuntaResource', 'Users', 'APP', 'JuntaUserResource',
+        function ($scope, $modal, generos, ProvinciaCantonResource, ProvinciaResource, CantonParroquiaResource, ParroquiaZonaResource, recintos, RecintoJuntaResource, UserSrv, constant, JuntaUserResource) {
 
             var ctrl = this;
 
@@ -33,16 +33,16 @@
             //return provinces
             ProvinciaResource.query(function (provinces) {
                 $scope.provincesList = angular.fromJson(provinces);
-            }, function (err) {
-                console.err(err);
+            }, function (errorResponse) {
+                $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
             });
 
             //return cantones by Province
             $scope.getCantones = function (provinceCode) {
                 ProvinciaCantonResource.query({id_provincia: provinceCode}, function (cantones) {
                     $scope.cantonesByProvinceList = angular.fromJson(cantones);
-                }, function (err) {
-                    console.err(err);
+                }, function (errorResponse) {
+                    $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                 });
             };
 
@@ -51,8 +51,8 @@
                 if (cantonCode !== null) {
                     CantonParroquiaResource.query({id_canton: cantonCode}, function (parroquias) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
-                    }, function (err) {
-                        console.err(err);
+                    }, function (errorResponse) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 } else {
                     $scope.parroquiasByCantonList = [];
@@ -66,8 +66,8 @@
                 if (parroquiaCode !== null) {
                     ParroquiaZonaResource.query({id_parroquia: parroquiaCode}, function (zonas) {
                         $scope.zonasByParroquiaList = angular.fromJson(zonas);
-                    }, function (err) {
-                        console.err(err);
+                    }, function (errorResponse) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 } else {
                     $scope.zonasByParroquiaList = [];
@@ -80,9 +80,10 @@
                 $scope.recintosByZona = [];
                 if (zonaCode !== null) {
                     recintos.query({id_zona: zonaCode}, function (recintos) {
+                        $scope.generoList = [];
                         $scope.recintosByZona = angular.fromJson(recintos);
-                    }, function (err) {
-                        console.err(err);
+                    }, function (errorResponse) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 } else {
                     $scope.recintosByZona = [];
@@ -91,7 +92,10 @@
             };
 
             $scope.getGeneros = function (flag) {
-                if (flag) {
+                $scope.generoList = [];
+                $scope.selectedGenero = null;
+                if (flag != null) {
+                    $scope.selectedJunta = null;
                     $scope.generoList = generos.getGenero();
                 } else {
                     $scope.generoList = [];
@@ -108,12 +112,29 @@
                         gender: genero
                     }, function (juntas) {
                         $scope.juntasList = angular.fromJson(juntas);
-                    }, function (err) {
-                        console.err(err);
+                    }, function (errorResponse) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                     });
                 } else {
                     $scope.juntasList = [];
                 }
+            };
+
+            $scope.create = function () {
+                var junta = {
+                    junta: $scope.selectedJunta,
+                    status: 'A'
+                };
+                JuntaUserResource.save({id_user: $scope.selectedUser}, junta, function (response) {
+                    $scope.notification.success(response.message, 'CONTAINER.MESSAGES.MESSAGE_SUCCESS', 2000);
+                    $scope.getJuntas($scope.selectedRecinto, $scope.selectedGenero);
+                }, function (errorResponse) {
+                    if (angular.isDefined(errorResponse.data.message)) {
+                        $scope.notification.showErrorWithFilter(errorResponse.data.message, 'CONTAINER.MESSAGES.MESSAGE_ERROR');
+                    } else {
+                        $scope.notification.showErrorWithFilter(errorResponse.data, 'CONTAINER.MESSAGES.MESSAGE_ERROR');
+                    }
+                });
             };
 
             function showModal() {
