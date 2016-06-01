@@ -383,6 +383,25 @@ angular
                         title: 'CONTAINER.COMMONS.TITLE_ASIGNACION_JUNTAS'
                     }
                 })
+                .state('app.registroVotos', {
+                    url: '/registroVotos',
+                    templateUrl: 'views/usuario/registro-votos.html',
+                    controller: 'RegistroVotoCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    files: [
+                                        'scripts/controllers/junta.user.client.controller.js',
+                                        'scripts/services/junta.user.service.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        title: 'CONTAINER.VOTO.TITLE_REGISTRO'
+                    }
+                })
                 .state('user.forgot', {
                     url: '/forgot',
                     templateUrl: 'views/extras-forgot.html',
