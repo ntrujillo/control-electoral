@@ -22,6 +22,7 @@
       "TITLE_CODE": "C\u00f3digo",
       "TITLE_NAME": "Nombre",
       "TITLE_ASIGNACION_JUNTAS": "Asignaci\u00f3n de juntas",
+      "TITLE_REGISTRO_VOTO": "Registrar voto",
       "USER_SELECT": "Escojer usuario "
     },
     "SECURITY": {
@@ -38,6 +39,9 @@
       "LBL_SWITCH_USER": "Cambiar de usuario",
       "LBL_SING": "Ingresar",
       "LBL_USER_STATUS": "Usuario no vigente"
+    },
+    "VOTO": {
+      "TITLE_REGISTRO": "Registro de votos"
     },
     "LISTA": {
       "CREATE_LISTA": "Creaci\u00f3n de lista",
@@ -58,7 +62,7 @@
     "JUNTA": {
       "CREATE_JUNTA": "Creaci\u00f3n de junta",
       "EDIT_JUNTA": "Edici\u00f3n de junta",
-      "TITLE_JUNTA": "Junta",
+      "TITLE_JUNTA": "Junta Asignadas",
       "TITLE_GENERO": "G\u00e9nero",
       "TITLE_EMPADRONADOS": "Empadronados",
       "MESSAGE_JUNTA": "Junta guardada",
