@@ -1,9 +1,14 @@
 var JuntaUser = require('mongoose').model('JuntaUser'),
     Junta = require('mongoose').model('Junta'),
+    Logger = require(__dirname + '/../../app/log/Logger'),
     Q = require('q');
+
+var plus = "+";
+var comma = ",";
 
 var service = {};
 service.create = create;
+service.query = query;
 
 module.exports = service;
 
@@ -32,3 +37,54 @@ function create(id_user, body) {
     });
     return deferred.promise;
 }
+
+function query(id_user, fields, sort, page, perPage) {
+
+    var criteria = {};
+    var response = {};
+    var deferred = Q.defer();
+
+    if (id_user) {
+        criteria.id_user = id_user;
+    }
+
+    if (sort) {
+        sort = sort.replace(plus, '');
+        sort = sort.replace(comma, ' ');
+    }
+    if (fields) {
+        fields = fields.replace(comma, ' ');
+    }
+    if (page) {
+        page = parseInt(page);
+        if (perPage) {
+            perPage = parseInt(perPage);
+        } else {
+            perPage = 10;
+        }
+    }
+
+    JuntaUser.find(criteria).count(function (error, count) {
+
+        if (error) {
+            deferred.reject(err);
+        }
+
+        response.count = count;
+        JuntaUser.findOne(criteria)
+            .populate({
+                path: 'junta',
+                select: 'gender junta empadronados recinto status',
+                populate: {path: 'recinto', model: 'Recinto'}
+            })
+            .exec(function (error, juntas) {
+                if (error) {
+                    deferred.reject(err);
+                }
+                response.juntasUser = juntas;
+                deferred.resolve(response);
+            });
+    });
+    return deferred.promise;
+}
+
