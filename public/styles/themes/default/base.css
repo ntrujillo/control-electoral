@@ -97,6 +97,10 @@ strong {
     color: rgb(40, 53, 147);
 }
 
+.kendo-numeric {
+    width: 80%;
+}
+
 /**/
 
 body,
