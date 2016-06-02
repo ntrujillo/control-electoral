@@ -41,7 +41,12 @@
       "LBL_USER_STATUS": "Usuario no vigente"
     },
     "VOTO": {
-      "TITLE_REGISTRO": "Registro de votos"
+      "TITLE_REGISTRO": "Registro de votos",
+      "TITLE_VOTOS": "Votos",
+      "TITLE_BLANCOS": "Blancos",
+      "TITLE_NULOS": "Nulos",
+      "TITLE_TOTAL": "Total",
+      "BTN_SAVE_VOTO": "Guardar voto"
     },
     "LISTA": {
       "CREATE_LISTA": "Creaci\u00f3n de lista",
@@ -71,7 +76,9 @@
       "MESSAGE_REQUIRED": "La junta es requerida",
       "MESSAGE_EMPADRONADOS_REQUIRED": "El n\u00famero de empadronados es requerido",
       "MESSAGE_ALREADY_CODE": "El n\u00fbmero de junta ya existe",
-      "ADD_JUNTA": "Se agreg\u00f3 la junta al usuario seleccionado"
+      "ADD_JUNTA": "Se agreg\u00f3 la junta al usuario seleccionado",
+      "NUMERO_JUNTA": "N\u00famero de empadronados",
+      "TITLE_JUNTA": "Junta"
     },
     "RECINTO": {
       "CREATE_RECINTO": "Creaci\u00f3n de recinto",
