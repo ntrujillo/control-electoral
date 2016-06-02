@@ -93,6 +93,10 @@ th {
     text-align: center;
 }
 
+strong {
+    color: rgb(40, 53, 147);
+}
+
 /**/
 
 body,
