@@ -3,42 +3,55 @@
         <div class="row">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Filtros</h3>
+                    <h3 class="panel-title">{{'CONTAINER.COMMONS.TITLE_FILTROS'|translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-2 col-xs-6">
-                            <label class="control-label col-md-1" for="provincia">Provincia</label>
-                            <select id="provincia" class="form-control" ng-change="getCantones(selectedProvincia)"
-                                    ng-model="selectedProvincia"
-                                    ng-options="c._id as c.NOM_PROVINCIA for c in provincesList"></select>
+                            <div class="input-group">
+                                <label class="control-label" for="provincia">{{'CONTAINER.PROVINCIA.TITLE_PROVINCIA'|translate}}</label>
+                                <select id="provincia" class="form-control" ng-change="getCantones(selectedProvincia)"
+                                        ng-model="selectedProvincia"
+                                        ng-options="c._id as c.name for c in provincesList"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByProvoncia()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                         <div class="col-md-2 col-xs-6">
-                            <label>Resultados</label>
-                            <button class="form-control btn btn-primary" data-ng-click="SearchByProvoncia()">Buscar
-                            </button>
+                            <div class="input-group">
+                                <label for="canton"
+                                       class="control-label">{{'CONTAINER.CANTON.TITLE_CANTON'|translate}}</label>
+                                <select id="canton" class="form-control"
+                                        ng-disabled="selectedProvincia===null?true:false"
+                                        ng-change="getParroquias(selectedCanton)" ng-model="selectedCanton"
+                                        ng-options="c._id as c.name for c in cantonesByProvinceList"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByCanton()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                         <div class="col-md-2 col-xs-6">
-                            <label for="canton" class="col-md-1">Canton</label>
-                            <select id="canton" class="form-control" ng-disabled="selectedProvincia===null?true:false"
-                                    ng-change="getParroquias(selectedCanton)" ng-model="selectedCanton"
-                                    ng-options="c._id as c.NOM_CANTON for c in cantonesByProvinceList"></select>
-                        </div>
-                        <div class="col-md-2 col-xs-6">
-                            <label>Resultados</label>
-                            <button class="form-control btn btn-primary" data-ng-click="SearchByCanton()">Buscar
-                            </button>
-                        </div>
-                        <div class="col-md-2 col-xs-6">
-                            <label for="parroquia">Parroquia</label>
-                            <select id="parroquia" class="form-control" ng-disabled="selectedCanton===null?true:false"
-                                    ng-change="getZonas(selectedParroquia)" ng-model="selectedParroquia"
-                                    ng-options="c._id as c.NOM_PARROQUIA for c in parroquiasByCantonList"></select>
-                        </div>
-                        <div class="col-md-2 col-xs-6">
-                            <label>Resultados</label>
-                            <button class="form-control btn btn-primary" data-ng-click="SearchByParroquia()">Buscar
-                            </button>
+                            <div class="input-group">
+                                <label for="parroquia"
+                                       class="control-label">{{'CONTAINER.PARROQUIA.TITLE_PARROQUIA'|translate}}</label>
+                                <select id="parroquia" class="form-control"
+                                        ng-disabled="selectedCanton===null?true:false"
+                                        ng-change="getZonas(selectedParroquia)" ng-model="selectedParroquia"
+                                        ng-options="c._id as c.name for c in parroquiasByCantonList"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,11 +61,14 @@
     <div div class="col-md-12">
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading"><strong>{{titleGrafico}}</strong></div>
+                <div class="panel-heading"><strong>{{'CONTAINER.VOTO.TITLE_RESULTADOS'|translate}}</strong></div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12 col-xs-12" ng-init="initData()">
+                        <div class="col-md-6 col-xs-12" ng-init="initData()">
                             <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="558px"></div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div id="container"></div>
                         </div>
                     </div>
                 </div>
