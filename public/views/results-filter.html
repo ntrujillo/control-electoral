@@ -53,6 +53,51 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="col-md-2 col-xs-6">
+                            <div class="input-group">
+                                <label for="zona"
+                                       class="control-label">{{'CONTAINER.ZONA.TITLE_ZONA'|translate}}</label>
+                                <select id="zona" class="form-control" ng-disabled="selectedParroquia===null?true:false"
+                                        ng-change="getRecintos(selectedZona)" ng-model="selectedZona"
+                                        ng-options="c._id as c.name for c in zonasByParroquiaList"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <div class="input-group">
+                                <label for="recinto"
+                                       class="control-label">{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</label>
+                                <select id="recinto" class="form-control" ng-disabled="selectedZona===null?true:false"
+                                        ng-change="getJuntas(selectedRecinto)" ng-model="selectedRecinto"
+                                        ng-options="c._id as c.name for c in recintosByZona"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <div class="input-group">
+                                <label for="junta"
+                                       class="control-label">{{'CONTAINER.JUNTA.TITULO_JUNTA'|translate}}</label>
+                                <select id="junta" class="form-control" ng-disabled="selectedRecinto===null?true:false"
+                                        ng-model="selectedJunta"
+                                        ng-options="c._id as c.junta + c.gender for c in juntasList"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
