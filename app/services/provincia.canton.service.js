@@ -66,7 +66,7 @@ function query(id_provincia, q, fields, sort, page, perPage) {
     Canton.find(criteria).count(function (error, count) {
 
         if (error) {
-            deferred.reject(err);
+            deferred.reject(error);
         }
 
         response.count = count;
@@ -78,7 +78,7 @@ function query(id_provincia, q, fields, sort, page, perPage) {
             .limit(perPage)
             .exec(function (error, cantons) {
                 if (error) {
-                    deferred.reject(err);
+                    deferred.reject(error);
                 }
                 response.cantons = cantons;
                 deferred.resolve(response);
