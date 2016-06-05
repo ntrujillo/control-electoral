@@ -1,63 +1,65 @@
-var Votos = require('../../app/controllers/votos.server.controller');
+var Votos = require('../../app/controllers/votos.server.controller'),
+    usuario = require('../../app/controllers/users.server.controller');
 
 module.exports = function (app) {
     //votos Blancos
     app.route('/api/votos/votosBlancos').
-        get(Votos.votosBlancoTotal);
+        get(usuario.requiresLogin, Votos.votosBlancoTotal);
 
     app.route('/api/votos/votosBlancosProvincia/:codeProvince').
-        get(Votos.votosBlancoByProvince);
+        get(usuario.requiresLogin, Votos.votosBlancoByProvince);
 
     app.route('/api/votos/votosBlancosCanton/:codeCanton').
-        get(Votos.votosBlancoByCanton);
+        get(usuario.requiresLogin, Votos.votosBlancoByCanton);
 
     app.route('/api/votos/votosBlancosParroquia/:codeParroquia').
-        get(Votos.votosBlancoByParroquia);
+        get(usuario.requiresLogin, Votos.votosBlancoByParroquia);
 
     //votos Nulos
     app.route('/api/votos/votosNulos').
-        get(Votos.votosNulosTotal);
+        get(usuario.requiresLogin, Votos.votosNulosTotal);
 
     app.route('/api/votos/votosNulosProvincia/:codeProvince').
-        get(Votos.votosNulosByProvince);
+        get(usuario.requiresLogin, Votos.votosNulosByProvince);
 
     app.route('/api/votos/votosNulosCanton/:codeCanton').
-        get(Votos.votosNulosByCanton);
+        get(usuario.requiresLogin, Votos.votosNulosByCanton);
 
     app.route('/api/votos/votosNulosParroquia/:codeParroquia').
-        get(Votos.votosNulosByParroquia);
+        get(usuario.requiresLogin, Votos.votosNulosByParroquia);
 
     //votos totales
     app.route('/api/votos/votosTotales').
-        get(Votos.votosTotales);
+        get(usuario.requiresLogin, Votos.votosTotales);
 
     app.route('/api/votos/votosTotalesProvincia/:codeProvince').
-        get(Votos.totalVotosByProvince);
+        get(usuario.requiresLogin, Votos.totalVotosByProvince);
 
     app.route('/api/votos/votosTotalesCanton/:codeCanton').
-        get(Votos.totalVotosByCanton);
+        get(usuario.requiresLogin, Votos.totalVotosByCanton);
 
     app.route('/api/votos/votosTotalesParroquia/:codeParroquia').
-        get(Votos.totalVotosByParroquia);
+        get(usuario.requiresLogin, Votos.totalVotosByParroquia);
 
     //votos por lista
     app.route('/api/votos/votosLista/:codeLista').
-        get(Votos.totalVotosLista);
+        get(usuario.requiresLogin, Votos.totalVotosLista);
 
     app.route('/api/votos/votosListaProvince/:codeProvince/:codeLista').
-        get(Votos.totalVotosListaProvincia);
+        get(usuario.requiresLogin, Votos.totalVotosListaProvincia);
 
     app.route('/api/votos/votosListaCanton/:codeCanton/:codeLista').
-        get(Votos.totalVotosListaCanton);
+        get(usuario.requiresLogin, Votos.totalVotosListaCanton);
 
     app.route('/api/votos/votosListaParroquia/:codeParroquia/:codeLista').
-        get(Votos.totalVotosListaParroquia);
+        get(usuario.requiresLogin, Votos.totalVotosListaParroquia);
 
 
     app.route('/api/votos').
-        post(Votos.saveVoto);
+        get(usuario.requiresLogin, Votos.getVoto).
+        post(usuario.requiresLogin, Votos.saveVoto);
 
     app.route('/api/votos/:codeProvince').
-        get(Votos.countVotBlancos);
+        get(usuario.requiresLogin, Votos.countVotBlancos);
 
 };
