@@ -56,10 +56,10 @@
                                                 <td align="center">
                                                     <input class="kendo-numeric" kendo-numeric-text-box k-min="0"
                                                            k-max="juntaInformation.empadronados"
-                                                           k-on-change="ctrl.sum(lista.votos)"
+                                                           k-on-change="ctrl.sum(lista.votos,lista)"
                                                            k-format="'n0'"
                                                            required
-                                                           ng-disabled="selectedJunta===null?true:false"
+                                                           ng-disabled="(selectedJunta===null || estaVotoRegistrado)?true:false"
                                                            k-ng-model="lista.votos"/>
                                                 </td>
                                             </tr>
@@ -69,19 +69,20 @@
                                                                           k-min="0"
                                                                           k-max="juntaInformation.empadronados"
                                                                           k-format="'n0'"
-                                                                          k-on-change="ctrl.sum(votosBlancos)"
-                                                                          ng-disabled="selectedJunta===null?true:false"
-                                                                          k-ng-model=" votosBlancos"/></td>
+                                                                          k-on-change="ctrl.sum(votosBlancos,'votosBlancos')"
+                                                                          ng-disabled="(selectedJunta===null || estaVotoRegistrado)?true:false"
+                                                                          k-ng-model="votosBlancos"/></td>
                                             </tr>
                                             <tr>
                                                 <td align="center">{{'CONTAINER.VOTO.TITLE_NULOS'|translate}}</td>
-                                                <td align="center"><input class="kendo-numeric" kendo-numeric-text-box
+                                                <td align="center"><input id="nulosKendoNumeric" class="kendo-numeric"
+                                                                          kendo-numeric-text-box
                                                                           k-min="0"
                                                                           k-max="juntaInformation.empadronados"
                                                                           k-format="'n0'"
-                                                                          k-on-change="ctrl.sum(votosNulos)"
-                                                                          ng-disabled="selectedJunta===null?true:false"
-                                                                          k-ng-model=" votosNulos"/></td>
+                                                                          k-on-change="ctrl.sum(votosNulos,'votosNulos')"
+                                                                          ng-disabled="(selectedJunta===null || estaVotoRegistrado)?true:false"
+                                                                          k-ng-model="votosNulos"/></td>
                                             </tr>
                                             <tr>
                                                 <td align="center">{{'CONTAINER.VOTO.TITLE_TOTAL'|translate}}</td>
@@ -115,8 +116,8 @@
 
                                     <div class="">
                                         <button class="btn btn-primary btn-block" type="submit"
-                                                data-ng-click="ctrl.saveVoto()"
-                                                ng-disabled="(totalVotos <= juntaInformation.empadronados) && totalVotos >0 ?false:true">
+                                                data-ng-click="ctrl.saveModalVoto()"
+                                                ng-disabled="(totalVotos <= juntaInformation.empadronados) && totalVotos >0 && !estaVotoRegistrado?false:true">
                                             {{'CONTAINER.VOTO.BTN_SAVE_VOTO'|translate}}
                                         </button>
                                     </div>
@@ -135,22 +136,49 @@
         </div>
     </div>
 </form>
-<div class="modal fade" id="deleteRegistroConfirmation">
-    <div class="modal-dialog">
+<div class="modal fade" id="modalTotalVotosPermitidos" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <form name="deleteForm" ng-submit="ctrl.confirmDelete(ctrl.registro._id)">
+            <form name="votosPermitidos">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false"
                             ng-click="clear()">&times;</button>
-                    <h4 class="modal-title">Confirm delete operation</h4>
+                    <h4 class="modal-title">{{'CONTAINER.COMMONS.TITLE_ERROR'|translate}}</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are
-                        you sure you want to delete this Provincia?</p>
+                    <b><p align="center" translate translate-values="{votos : '{{juntaInformation.empadronados}}'}">
+                        {{'CONTAINER.VOTO.MESSAGE_VOTOS_PERMITIDOS'}}
+                    </p></b>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
                         <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="saveVotos" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form name="formVotos">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">{{'CONTAINER.VOTO.TITLE_VOTOS'|translate}}</h4>
+                </div>
+                <div class="modal-body">
+                    <b><p align="center" translate translate-values="{votos : '{{juntaInformation.empadronados}}'}">
+                        {{'CONTAINER.VOTO.MESSAGE_SAVE_VOTO'}}
+                    </p></b>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        {{'CONTAINER.COMMONS.TITLE_NO'|translate}}
+                    </button>
+                    <button type="submit" class="btn btn-primary" data-ng-click="saveVoto()">
+                        {{'CONTAINER.COMMONS.TITLE_SI'|translate}}
                     </button>
                 </div>
             </form>
