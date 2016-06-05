@@ -19,7 +19,7 @@ var VotoSchema = new Schema({
         LISTA: {type: Schema.ObjectId, ref: 'Lista'}
     }],
     JUNTA: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Junta'
+        type: Object
     },
     FECHA_REGISTRO: {
         type: Date,
