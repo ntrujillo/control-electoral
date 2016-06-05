@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     angular.module('ControlElectoralApp').factory('Voto', ['$resource', function ($resource) {
-        var service = {};
+        var service = $resource('/api/votos', {query: {method: "GET", isArray: true}});
         service.SaveVoto = $resource('/api/votos');
 
         service.votosBlancoTotal = $resource('/api/votos/votosBlancos');
