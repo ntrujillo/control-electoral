@@ -3,6 +3,7 @@
         function ($scope, $http, $state, $modal, filtros, votos, lista) {
             var listas = [];
             var series = [];
+            var series2 = [];
 
             $scope.selectedProvincia = null;
             $scope.selectedCanton = null;
@@ -11,8 +12,6 @@
             $scope.provincesList = [];
             $scope.cantonesByProvinceList = [];
             $scope.parroquiasByCantonList = [];
-
-            $scope.titleGrafico = "Resultados Generales";
 
             //return provinces
             filtros.Provincias.query(function (provinces) {
@@ -23,7 +22,7 @@
 
             //return cantones by Province
             $scope.getCantones = function (provinceCode) {
-                filtros.Canton.query({codeProvince: provinceCode}, function (cantones) {
+                filtros.Canton.query({id_provincia: provinceCode}, function (cantones) {
                     $scope.cantonesByProvinceList = angular.fromJson(cantones);
                 }, function (err) {
                     console.err(err);
@@ -33,7 +32,7 @@
             //return parroquias by Cantones
             $scope.getParroquias = function (cantonCode) {
                 if (cantonCode !== null) {
-                    filtros.Parroquia.query({codeCanton: cantonCode}, function (parroquias) {
+                    filtros.Parroquia.query({id_canton: cantonCode}, function (parroquias) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
                     }, function (err) {
                         console.err(err);
@@ -52,8 +51,18 @@
                     var serie = {
                         text: nameLista,
                         values: [vots]
-                    }
+                    };
                     series.push(serie);
+                    series2.push({
+                        y: vots,
+                        name: nameLista,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    });
+                    grafico(series2, 'Resultados generales');
                 });
             }
 
@@ -67,8 +76,18 @@
                     var serie = {
                         text: nameList,
                         values: [vots]
-                    }
+                    };
+                    var serie2 = {
+                        y: vots,
+                        name: nameList,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
                     series.push(serie);
+                    series2.push(serie2);
                 });
             }
 
@@ -82,7 +101,17 @@
                     var serie = {
                         text: nameList,
                         values: [vots]
-                    }
+                    };
+                    var serie2 = {
+                        y: vots,
+                        name: nameList,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    series2.push(serie2);
                     series.push(serie);
                 });
             }
@@ -97,7 +126,17 @@
                     var serie = {
                         text: nameList,
                         values: [vots]
-                    }
+                    };
+                    var serie2 = {
+                        name: nameList,
+                        y: vots,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    series2.push(serie2);
                     series.push(serie);
                 });
             }
@@ -109,7 +148,18 @@
                     var votBlanco = {
                         text: "Blancos",
                         values: [votosBlancoTotal]
-                    }
+                    };
+                    var serie2 = {
+                        name: "Blancos",
+                        y: votosBlancoTotal,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    $scope.bl = votosBlancoTotal;
+                    series2.push(serie2);
                     series.push(votBlanco);
 
                 });
@@ -120,7 +170,18 @@
                     var votNulos = {
                         text: "Nulos",
                         values: [votosNulosTotal]
-                    }
+                    };
+                    var serie2 = {
+                        name: "Nulos",
+                        y: votosNulosTotal,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    $scope.nl = votosNulosTotal;
+                    series2.push(serie2);
                     series.push(votNulos);
 
                 });
@@ -129,12 +190,9 @@
                     listas.forEach(function (item) {
                         votosTotalLista(item._id, item.NOM_LISTA);
                     });
-
+                    grafico(series2, 'Resultados generales');
                 });
-
-
             };
-
 
             //votos por filtros
             //por Provincia
@@ -147,7 +205,17 @@
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
-                        }
+                        };
+                        var serie2 = {
+                            name: "Blancos",
+                            y: votosBlanco,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
                         series.push(votBlanco);
                     });
 
@@ -156,7 +224,17 @@
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
-                        }
+                        };
+                        var serie2 = {
+                            name: "Nulos",
+                            y: votosNulosTotal,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
                         series.push(votNulos);
                     });
 
@@ -164,6 +242,7 @@
                         votosTotalListaByProvincia(item._id, item.NOM_LISTA, $scope.selectedProvincia);
                     });
                     $scope.myJson.series = series;
+                    grafico(series2);
 
                 } else {
                     alert('Seleccione Provincia');
@@ -181,7 +260,17 @@
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
-                        }
+                        };
+                        var serie2 = {
+                            name: "Blancos",
+                            y: votosBlanco,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
                         series.push(votBlanco);
                     });
 
@@ -190,7 +279,17 @@
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
-                        }
+                        };
+                        var serie2 = {
+                            name: "Nulos",
+                            y: votosNulosTotal,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
                         series.push(votNulos);
                     });
 
@@ -198,6 +297,7 @@
                         votosTotalListaByCanton(item._id, item.NOM_LISTA, $scope.selectedCanton);
                     });
                     $scope.myJson.series = series;
+                    grafico(series2);
 
                 } else {
                     alert('Seleccione Canton');
@@ -215,7 +315,17 @@
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
-                        }
+                        };
+                        var serie2 = {
+                            name: "Blancos",
+                            y: votosBlanco,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
                         series.push(votBlanco);
                     });
 
@@ -224,7 +334,17 @@
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
-                        }
+                        };
+                        var serie2 = {
+                            name: "Nulos",
+                            y: votosNulosTotal,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
                         series.push(votNulos);
                     });
 
@@ -232,6 +352,7 @@
                         votosTotalListaByParroquia(item._id, item.NOM_LISTA, $scope.selectedParroquia);
                     });
                     $scope.myJson.series = series;
+                    grafico(series2);
 
                 } else {
                     alert('Seleccione Parroquia');
@@ -275,7 +396,37 @@
                 series: series
             };
 
-
+            function grafico(series2, title) {
+                $('#container').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: title
+                    },
+                    tooltip: {
+                        pointFormat: '<b>{point.percentage:.1f}%</b><br><b>{point.y} votos</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: series2
+                    }]
+                });
+            }
         }
     ]);
 
