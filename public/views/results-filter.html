@@ -10,9 +10,10 @@
                         <div class="col-md-2 col-xs-6">
                             <div class="input-group">
                                 <label class="control-label" for="provincia">{{'CONTAINER.PROVINCIA.TITLE_PROVINCIA'|translate}}</label>
-                                <select id="provincia" class="form-control" ng-change="getCantones(selectedProvincia)"
+                                <select id="provincia" class="form-control"
+                                        ng-change="getCantones(selectedProvincia._id)"
                                         ng-model="selectedProvincia"
-                                        ng-options="c._id as c.name for c in provincesList"></select>
+                                        ng-options="c as c.name for c in provincesList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByProvoncia()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
@@ -27,8 +28,8 @@
                                        class="control-label">{{'CONTAINER.CANTON.TITLE_CANTON'|translate}}</label>
                                 <select id="canton" class="form-control"
                                         ng-disabled="selectedProvincia===null?true:false"
-                                        ng-change="getParroquias(selectedCanton)" ng-model="selectedCanton"
-                                        ng-options="c._id as c.name for c in cantonesByProvinceList"></select>
+                                        ng-change="getParroquias(selectedCanton._id)" ng-model="selectedCanton"
+                                        ng-options="c as c.name for c in cantonesByProvinceList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByCanton()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
@@ -43,8 +44,8 @@
                                        class="control-label">{{'CONTAINER.PARROQUIA.TITLE_PARROQUIA'|translate}}</label>
                                 <select id="parroquia" class="form-control"
                                         ng-disabled="selectedCanton===null?true:false"
-                                        ng-change="getZonas(selectedParroquia)" ng-model="selectedParroquia"
-                                        ng-options="c._id as c.name for c in parroquiasByCantonList"></select>
+                                        ng-change="getZonas(selectedParroquia._id)" ng-model="selectedParroquia"
+                                        ng-options="c as c.name for c in parroquiasByCantonList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
@@ -58,10 +59,10 @@
                                 <label for="zona"
                                        class="control-label">{{'CONTAINER.ZONA.TITLE_ZONA'|translate}}</label>
                                 <select id="zona" class="form-control" ng-disabled="selectedParroquia===null?true:false"
-                                        ng-change="getRecintos(selectedZona)" ng-model="selectedZona"
-                                        ng-options="c._id as c.name for c in zonasByParroquiaList"></select>
+                                        ng-change="getRecintos(selectedZona._id)" ng-model="selectedZona"
+                                        ng-options="c as c.name for c in zonasByParroquiaList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
-                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByZona()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
@@ -73,10 +74,10 @@
                                 <label for="recinto"
                                        class="control-label">{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</label>
                                 <select id="recinto" class="form-control" ng-disabled="selectedZona===null?true:false"
-                                        ng-change="getJuntas(selectedRecinto)" ng-model="selectedRecinto"
-                                        ng-options="c._id as c.name for c in recintosByZona"></select>
+                                        ng-change="getJuntas(selectedRecinto._id)" ng-model="selectedRecinto"
+                                        ng-options="c as c.name for c in recintosByZona"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
-                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByRecinto()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
@@ -89,9 +90,9 @@
                                        class="control-label">{{'CONTAINER.JUNTA.TITULO_JUNTA'|translate}}</label>
                                 <select id="junta" class="form-control" ng-disabled="selectedRecinto===null?true:false"
                                         ng-model="selectedJunta"
-                                        ng-options="c._id as c.junta + c.gender for c in juntasList"></select>
+                                        ng-options="c as c.junta + c.gender for c in juntasList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
-                                    <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
+                                    <button class="btn btn-primary" type="button" ng-click="SearchByJunta()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
@@ -113,6 +114,10 @@
                             <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="558px"></div>
                         </div>
                         <div class="col-md-6 col-xs-12">
+                            <button class="btn btn-default" type="button" ng-click="limpiar()"
+                                    title="{{'CONTAINER.COMMONS.TITLE_LIMPIAR'|translate}}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                             <div id="container"></div>
                         </div>
                     </div>
