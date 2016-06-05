@@ -23,7 +23,11 @@
       "TITLE_NAME": "Nombre",
       "TITLE_ASIGNACION_JUNTAS": "Asignaci\u00f3n de juntas",
       "TITLE_REGISTRO_VOTO": "Registrar voto",
-      "USER_SELECT": "Escojer usuario "
+      "USER_SELECT": "Escojer usuario ",
+      "TITLE_ERROR": "Error",
+      "TITLE_SI": "Si",
+      "TITLE_NO": "No",
+      "TITLE_FILTROS": "Filtros"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
@@ -46,7 +50,11 @@
       "TITLE_BLANCOS": "Blancos",
       "TITLE_NULOS": "Nulos",
       "TITLE_TOTAL": "Total",
-      "BTN_SAVE_VOTO": "Guardar voto"
+      "BTN_SAVE_VOTO": "Guardar voto",
+      "MESSAGE_VOTOS_PERMITIDOS": "El n\u00famero de votos permitidos es {{votos}}",
+      "MESSAGE_SAVE_VOTO": "Estas seguro de guardar los votos",
+      "MESSAGE_VOTO_SAVE_SERVICE": "Se guard\u00f3 el voto correctamente",
+      "TITLE_RESULTADOS": "Resultados"
     },
     "LISTA": {
       "CREATE_LISTA": "Creaci\u00f3n de lista",
@@ -58,8 +66,8 @@
       "TITLE_VICEPRESIDENTE": "Vicepresidente",
       "MESSAGE_LISTA": "Lista guardada",
       "MESSAGE_UPDATE": "Lista actualizada",
-      "MESSAGE_ALREADY_CODE": "El n\u00fbmero de lista ya exite",
-      "MESSAGE_REQUIRED": "El n\u00fbmero de lista es requerido",
+      "MESSAGE_ALREADY_CODE": "El n\u00famero de lista ya exite",
+      "MESSAGE_REQUIRED": "El n\u00famero de lista es requerido",
       "MESSAGE_LISTA_REQUIRED": "El nombre de lista es requerido",
       "MESSAGE_PRESIDENTE_REQUIRED": "El nombre del presidente es requerido",
       "MESSAGE_VICEPRESIDENTE_REQUIRED": "El nombre del vicepresidente es requerido"
@@ -78,7 +86,7 @@
       "MESSAGE_ALREADY_CODE": "El n\u00fbmero de junta ya existe",
       "ADD_JUNTA": "Se agreg\u00f3 la junta al usuario seleccionado",
       "NUMERO_JUNTA": "N\u00famero de empadronados",
-      "TITLE_JUNTA": "Junta"
+      "TITULO_JUNTA": "Junta"
     },
     "RECINTO": {
       "CREATE_RECINTO": "Creaci\u00f3n de recinto",
