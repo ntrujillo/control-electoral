@@ -19,6 +19,16 @@
             $scope.recintosByZona = [];
             $scope.juntasList = [];
 
+            $scope.limpiar = function () {
+                $scope.selectedProvincia = null;
+                $scope.selectedCanton = null;
+                $scope.selectedParroquia = null;
+                $scope.selectedZona = null;
+                $scope.selectedRecinto = null;
+                $scope.selectedJunta = null;
+                $scope.initData();
+            };
+
             //return provinces
             filtros.Provincias.query(function (provinces) {
                 $scope.provincesList = angular.fromJson(provinces);
@@ -139,7 +149,7 @@
                     };
                     series.push(serie);
                     series2.push(serie2);
-                    grafico(series2, 'Resultados generales');
+                    grafico(series2, 'Resultados de la provincia ' + $scope.selectedProvincia.name);
                 });
             }
 
@@ -165,7 +175,7 @@
                     };
                     series2.push(serie2);
                     series.push(serie);
-                    grafico(series2, 'Resultados generales');
+                    grafico(series2, 'Resultados del cant\u00f3n ' + $scope.selectedCanton.name);
                 });
             }
 
@@ -191,11 +201,92 @@
                     };
                     series2.push(serie2);
                     series.push(serie);
-                    grafico(series2, 'Resultados generales');
+                    grafico(series2, 'Resultados de la parroquia ' + $scope.selectedParroquia.name);
                 });
             }
 
+            function votosTotalListaByZona(idLista, nameList, idZona) {
+                var vots = 0;
+                votos.totalVotosListaFiltro.get({
+                    codeZona: idZona,
+                    codeLista: idLista
+                }, function (response) {
+                    vots = response.totalVotos;
+                    var serie = {
+                        text: nameList,
+                        values: [vots]
+                    };
+                    var serie2 = {
+                        name: nameList,
+                        y: vots,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    series2.push(serie2);
+                    series.push(serie);
+                    grafico(series2, 'Resultados de la zona ' + $scope.selectedZona.name);
+                });
+            }
+
+            function votosTotalListaByRecinto(idLista, nameList, idRecinto) {
+                var vots = 0;
+                votos.totalVotosListaFiltro.get({
+                    codeRecinto: idRecinto,
+                    codeLista: idLista
+                }, function (response) {
+                    vots = response.totalVotos;
+                    var serie = {
+                        text: nameList,
+                        values: [vots]
+                    };
+                    var serie2 = {
+                        name: nameList,
+                        y: vots,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    series2.push(serie2);
+                    series.push(serie);
+                    grafico(series2, 'Resultados del recinto ' + $scope.selectedRecinto.name);
+                });
+            }
+
+            function votosTotalListaByJunta(idLista, nameList, idJunta) {
+                var vots = 0;
+                votos.totalVotosListaFiltro.get({
+                    codeJunta: idJunta,
+                    codeLista: idLista
+                }, function (response) {
+                    vots = response.totalVotos;
+                    var serie = {
+                        text: nameList,
+                        values: [vots]
+                    };
+                    var serie2 = {
+                        name: nameList,
+                        y: vots,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    series2.push(serie2);
+                    series.push(serie);
+                    grafico(series2, 'Resultados de la junta ' + $scope.selectedJunta.junta + ' ' + $scope.selectedJunta.gender);
+                });
+            }
+
+
             $scope.initData = function () {
+                //series = [];
+                series2 = [];
                 //votos Blancos
                 var votosBlancoTotal = votos.votosBlancoTotal.get(function (votos) {
                     votosBlancoTotal = votos.votosBlancos;
@@ -243,7 +334,6 @@
                     listas.forEach(function (item) {
                         votosTotalLista(item._id, item.NOM_LISTA);
                     });
-                    grafico(series2, 'Resultados generales');
                 });
             };
 
@@ -253,8 +343,7 @@
                 series = [];
                 series2 = [];
                 if ($scope.selectedProvincia !== null) {
-
-                    votos.votosBlancoByProvince.get({codeProvince: $scope.selectedProvincia}, function (votos) {
+                    votos.votosBlancoByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
                         var votBlanco = {
                             text: "Blancos",
@@ -273,7 +362,7 @@
                         series.push(votBlanco);
                     });
 
-                    votos.votosNulosByProvince.get({codeProvince: $scope.selectedProvincia}, function (votos) {
+                    votos.votosNulosByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
                         var votNulos = {
                             text: "Nulos",
@@ -293,15 +382,11 @@
                     });
 
                     listas.forEach(function (item) {
-                        votosTotalListaByProvincia(item._id, item.NOM_LISTA, $scope.selectedProvincia);
+                        votosTotalListaByProvincia(item._id, item.NOM_LISTA, $scope.selectedProvincia._id);
                     });
                     $scope.myJson.series = series;
-                    grafico(series2);
 
-                } else {
-                    alert('Seleccione Provincia');
                 }
-
             };
 
             //porCanton
@@ -310,7 +395,7 @@
                 series2 = [];
                 if ($scope.selectedCanton !== null) {
 
-                    votos.votosBlancoByCanton.get({codeCanton: $scope.selectedCanton}, function (votos) {
+                    votos.votosBlancoByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
                         var votBlanco = {
                             text: "Blancos",
@@ -329,7 +414,7 @@
                         series.push(votBlanco);
                     });
 
-                    votos.votosNulosByCanton.get({codeCanton: $scope.selectedCanton}, function (votos) {
+                    votos.votosNulosByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
                         var votNulos = {
                             text: "Nulos",
@@ -349,15 +434,11 @@
                     });
 
                     listas.forEach(function (item) {
-                        votosTotalListaByCanton(item._id, item.NOM_LISTA, $scope.selectedCanton);
+                        votosTotalListaByCanton(item._id, item.NOM_LISTA, $scope.selectedCanton._id);
                     });
                     $scope.myJson.series = series;
-                    grafico(series2);
 
-                } else {
-                    alert('Seleccione Canton');
                 }
-
             };
 
             //por Parroquia
@@ -366,7 +447,7 @@
                 series2 = [];
                 if ($scope.selectedParroquia !== null) {
 
-                    votos.votosBlancoByParroquia.get({codeParroquia: $scope.selectedParroquia}, function (votos) {
+                    votos.votosBlancoByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
                         var votBlanco = {
                             text: "Blancos",
@@ -385,7 +466,7 @@
                         series.push(votBlanco);
                     });
 
-                    votos.votosNulosByParroquia.get({codeParroquia: $scope.selectedParroquia}, function (votos) {
+                    votos.votosNulosByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
                         var votNulos = {
                             text: "Nulos",
@@ -405,15 +486,164 @@
                     });
 
                     listas.forEach(function (item) {
-                        votosTotalListaByParroquia(item._id, item.NOM_LISTA, $scope.selectedParroquia);
+                        votosTotalListaByParroquia(item._id, item.NOM_LISTA, $scope.selectedParroquia._id);
                     });
                     $scope.myJson.series = series;
-                    grafico(series2);
 
-                } else {
-                    alert('Seleccione Parroquia');
                 }
+            };
 
+            //por Zona
+            $scope.SearchByZona = function () {
+                series = [];
+                series2 = [];
+                if ($scope.selectedZona !== null) {
+                    votos.votosBlancoFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
+                        var votosBlanco = votos.votosBlancos;
+                        var votBlanco = {
+                            text: "Blancos",
+                            values: [votosBlanco]
+                        };
+                        var serie2 = {
+                            name: "Blancos",
+                            y: votosBlanco,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
+                        series.push(votBlanco);
+                    });
+
+                    votos.votosNulosFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
+                        var votosNulosTotal = votos.votosNulos;
+                        var votNulos = {
+                            text: "Nulos",
+                            values: [votosNulosTotal]
+                        };
+                        var serie2 = {
+                            name: "Nulos",
+                            y: votosNulosTotal,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
+                        series.push(votNulos);
+                    });
+
+                    listas.forEach(function (item) {
+                        votosTotalListaByZona(item._id, item.NOM_LISTA, $scope.selectedZona._id);
+                    });
+                    $scope.myJson.series = series;
+
+                }
+            };
+
+            //por Recinto
+            $scope.SearchByRecinto = function () {
+                series = [];
+                series2 = [];
+                if ($scope.selectedRecinto !== null) {
+                    votos.votosBlancoFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
+                        var votosBlanco = votos.votosBlancos;
+                        var votBlanco = {
+                            text: "Blancos",
+                            values: [votosBlanco]
+                        };
+                        var serie2 = {
+                            name: "Blancos",
+                            y: votosBlanco,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
+                        series.push(votBlanco);
+                    });
+
+                    votos.votosNulosFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
+                        var votosNulosTotal = votos.votosNulos;
+                        var votNulos = {
+                            text: "Nulos",
+                            values: [votosNulosTotal]
+                        };
+                        var serie2 = {
+                            name: "Nulos",
+                            y: votosNulosTotal,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
+                        series.push(votNulos);
+                    });
+
+                    listas.forEach(function (item) {
+                        votosTotalListaByRecinto(item._id, item.NOM_LISTA, $scope.selectedRecinto._id);
+                    });
+                    $scope.myJson.series = series;
+
+                }
+            };
+
+            //por Junta
+            $scope.SearchByJunta = function () {
+                series = [];
+                series2 = [];
+                if ($scope.selectedJunta !== null) {
+                    votos.votosBlancoFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
+                        var votosBlanco = votos.votosBlancos;
+                        var votBlanco = {
+                            text: "Blancos",
+                            values: [votosBlanco]
+                        };
+                        var serie2 = {
+                            name: "Blancos",
+                            y: votosBlanco,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
+                        series.push(votBlanco);
+                    });
+
+                    votos.votosNulosFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
+                        var votosNulosTotal = votos.votosNulos;
+                        var votNulos = {
+                            text: "Nulos",
+                            values: [votosNulosTotal]
+                        };
+                        var serie2 = {
+                            name: "Nulos",
+                            y: votosNulosTotal,
+                            sliced: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name} {point.percentage:.1f}%'
+                            }
+                        };
+                        series2.push(serie2);
+                        series.push(votNulos);
+                    });
+
+                    listas.forEach(function (item) {
+                        votosTotalListaByJunta(item._id, item.NOM_LISTA, $scope.selectedJunta._id);
+                    });
+                    $scope.myJson.series = series;
+
+                }
             };
 
             $scope.myJson = {
