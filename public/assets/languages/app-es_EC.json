@@ -27,7 +27,8 @@
       "TITLE_ERROR": "Error",
       "TITLE_SI": "Si",
       "TITLE_NO": "No",
-      "TITLE_FILTROS": "Filtros"
+      "TITLE_FILTROS": "Filtros",
+      "TITLE_LIMPIAR": "Limpiar"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
