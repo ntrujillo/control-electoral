@@ -75,7 +75,21 @@ function query(id_user, fields, sort, page, perPage) {
             .populate({
                 path: 'junta',
                 select: 'gender junta empadronados recinto status',
-                populate: {path: 'recinto', model: 'Recinto'}
+                populate: {
+                    path: 'recinto', select: 'zona name', model: 'Recinto',
+                    populate: {
+                        path: 'zona', select: 'parroquia name', model: 'Zona',
+                        populate: {
+                            path: 'parroquia', select: 'canton name code', model: 'Parroquia',
+                            populate: {
+                                path: 'canton',
+                                select: 'provincia name code',
+                                model: 'Canton',
+                                populate: {path: 'provincia', select: 'name code', model: 'Provincia'}
+                            }
+                        }
+                    }
+                }
             })
             .exec(function (error, juntas) {
                 if (error) {
