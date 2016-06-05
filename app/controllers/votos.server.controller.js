@@ -50,48 +50,6 @@ exports.getVoto = function (req, res) {
     });
 };
 
-/*/exports.countVotBlancos = function (req, res) {
- var codeProvince = req.params.codeProvince;
- Voto.find({"JUNTA.RECINTO.ZONA.PARROQUIA.CANTON.PROVINCE.COD_PROVINCIA": codeProvince}, function (err, votos) {
- if (err) {
- return res.status(400).send({message: getErrorMessage(err)});
- } else {
- var votosBlancos = 0;
- var votoslista35 = 0;
- votos.forEach(function (element) {
- votosBlancos = votosBlancos + element.BLANCOS;
- votoslista35 = votoslista35 + element.VOT_VALIDOS[0].NUM_VOTOS;
- });
- var d = countV(votos);
- return res.status(200).send({
- BLANCOS: d.votosBlancos,
- LISTA35: d.votoslista35
- });
- }
-
- });
- };*/
-
-/*exports.countVotBlancos = function (req, res) {
- var codeProvince = req.params.codeProvince;
- Voto.aggregate({
- $group: {
- _id: "$JUNTA.RECINTO.ZONA.PARROQUIA.CANTON.PROVINCE._id",
- totalBlancos: {$sum: "$BLANCOS"},
- totalNulos: {$sum: "$NULOS"},
- total35: {$sum: "$VOT_VALIDOS[0].NUM_VOTOS"}
- }
- }, function (err, tot) {
- console.log('total: ' + tot);
-
- var countBlancos = 0;
- var countNulos = 0;
- res.status(200).send(tot);
-
- });
- };
- */
-
 exports.countVotBlancos = function (req, res) {
     var codeProvince = req.params.codeProvince;
     Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
@@ -196,6 +154,41 @@ exports.totalVotosByParroquia = function (req, res) {
         });
 };
 
+exports.votosTotalesFiltro = function (req, res) {
+    var filtro, match;
+    var codeZona = req.query.codeZona;
+    var codeRecinto = req.query.codeRecinto;
+    var codeJunta = req.query.codeJunta;
+    if (codeZona) {
+        match = {"JUNTA.recinto.zona._id": codeZona};
+        filtro = "JUNTA.recinto.zona._id";
+    }
+    if (codeRecinto) {
+        match = {"JUNTA.recinto._id": codeRecinto};
+        filtro = "JUNTA.recinto._id";
+    }
+    if (codeJunta) {
+        match = {"JUNTA._id": codeJunta};
+        filtro = "JUNTA._id";
+    }
+    Voto.aggregate({
+            $match: match
+        },
+        {
+            $group: {
+                _id: "$" + filtro,
+                votosTotales: {$sum: "$TOTAL_VOTOS"}
+            }
+        }, function (err, votosTotales) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(votosTotales[0]);
+            }
+        });
+};
+
 //Votos Blancos
 
 exports.votosBlancoTotal = function (req, res) {
@@ -281,6 +274,41 @@ exports.votosBlancoByParroquia = function (req, res) {
         });
 };
 
+exports.votosBlancoFiltro = function (req, res) {
+    var filtro, match;
+    var codeZona = req.query.codeZona;
+    var codeRecinto = req.query.codeRecinto;
+    var codeJunta = req.query.codeJunta;
+    if (codeZona) {
+        match = {"JUNTA.recinto.zona._id": codeZona};
+        filtro = "JUNTA.recinto.zona._id";
+    }
+    if (codeRecinto) {
+        match = {"JUNTA.recinto._id": codeRecinto};
+        filtro = "JUNTA.recinto._id";
+    }
+    if (codeJunta) {
+        match = {"JUNTA._id": codeJunta};
+        filtro = "JUNTA._id";
+    }
+    Voto.aggregate({
+            $match: match
+        },
+        {
+            $group: {
+                _id: "$" + filtro,
+                votosBlancos: {$sum: "$BLANCOS"}
+            }
+        }, function (err, votosBlancoFiltro) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(votosBlancoFiltro[0]);
+            }
+        });
+};
+
 //Votos Nulos
 
 exports.votosNulosTotal = function (req, res) {
@@ -354,6 +382,41 @@ exports.votosNulosByParroquia = function (req, res) {
         {
             $group: {
                 _id: "$JUNTA.recinto.zona.parroquia._id",
+                votosNulos: {$sum: "$NULOS"}
+            }
+        }, function (err, votosNulos) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(votosNulos[0]);
+            }
+        });
+};
+
+exports.votosNulosFiltro = function (req, res) {
+    var filtro, match;
+    var codeZona = req.query.codeZona;
+    var codeRecinto = req.query.codeRecinto;
+    var codeJunta = req.query.codeJunta;
+    if (codeZona) {
+        match = {"JUNTA.recinto.zona._id": codeZona};
+        filtro = "JUNTA.recinto.zona._id";
+    }
+    if (codeRecinto) {
+        match = {"JUNTA.recinto._id": codeRecinto};
+        filtro = "JUNTA.recinto._id";
+    }
+    if (codeJunta) {
+        match = {"JUNTA._id": codeJunta};
+        filtro = "JUNTA._id";
+    }
+    Voto.aggregate({
+            $match: match
+        },
+        {
+            $group: {
+                _id: "$" + filtro,
                 votosNulos: {$sum: "$NULOS"}
             }
         }, function (err, votosNulos) {
@@ -449,6 +512,42 @@ exports.totalVotosListaParroquia = function (req, res) {
         {
             $group: {
                 _id: "$JUNTA.recinto.zona.parroquia._id",
+                totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+            }
+        }, function (err, votosTotales) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(votosTotales[0]);
+            }
+        });
+};
+
+exports.totalVotosListaFiltro = function (req, res) {
+    var filtro, match;
+    var codeZona = req.query.codeZona;
+    var codeRecinto = req.query.codeRecinto;
+    var codeJunta = req.query.codeJunta;
+    var codeLista = req.query.codeLista;
+    if (codeZona) {
+        match = {"JUNTA.recinto.zona._id": codeZona, "VOT_VALIDOS.LISTA": codeLista};
+        filtro = "JUNTA.recinto.zona._id";
+    }
+    if (codeRecinto) {
+        match = {"JUNTA.recinto._id": codeRecinto, "VOT_VALIDOS.LISTA": codeLista};
+        filtro = "JUNTA.recinto._id";
+    }
+    if (codeJunta) {
+        match = {"JUNTA._id": codeJunta, "VOT_VALIDOS.LISTA": codeLista};
+        filtro = "JUNTA._id";
+    }
+    Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
+            $match: match
+        },
+        {
+            $group: {
+                _id: "$" + filtro,
                 totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
             }
         }, function (err, votosTotales) {
