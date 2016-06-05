@@ -15,6 +15,9 @@ module.exports = function (app) {
     app.route('/api/votos/votosBlancosParroquia/:codeParroquia').
         get(usuario.requiresLogin, Votos.votosBlancoByParroquia);
 
+    app.route('/api/votos/votosBlancosFiltro').
+        get(usuario.requiresLogin, Votos.votosBlancoFiltro);
+
     //votos Nulos
     app.route('/api/votos/votosNulos').
         get(usuario.requiresLogin, Votos.votosNulosTotal);
@@ -27,6 +30,9 @@ module.exports = function (app) {
 
     app.route('/api/votos/votosNulosParroquia/:codeParroquia').
         get(usuario.requiresLogin, Votos.votosNulosByParroquia);
+
+    app.route('/api/votos/votosNulosFiltro').
+        get(usuario.requiresLogin, Votos.votosNulosFiltro);
 
     //votos totales
     app.route('/api/votos/votosTotales').
@@ -41,6 +47,9 @@ module.exports = function (app) {
     app.route('/api/votos/votosTotalesParroquia/:codeParroquia').
         get(usuario.requiresLogin, Votos.totalVotosByParroquia);
 
+    app.route('/api/votos/votosTotalesFiltro').
+        get(usuario.requiresLogin, Votos.votosTotalesFiltro);
+
     //votos por lista
     app.route('/api/votos/votosLista/:codeLista').
         get(usuario.requiresLogin, Votos.totalVotosLista);
@@ -53,6 +62,9 @@ module.exports = function (app) {
 
     app.route('/api/votos/votosListaParroquia/:codeParroquia/:codeLista').
         get(usuario.requiresLogin, Votos.totalVotosListaParroquia);
+
+    app.route('/api/votos/totalVotosListaFiltro').
+        get(usuario.requiresLogin, Votos.totalVotosListaFiltro);
 
 
     app.route('/api/votos').
