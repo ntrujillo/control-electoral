@@ -394,7 +394,8 @@ angular
                                     files: [
                                         'scripts/controllers/junta.user.client.controller.js',
                                         'scripts/services/lista.client.service.js',
-                                        'scripts/services/junta.user.service.js'
+                                        'scripts/services/junta.user.service.js',
+                                        'scripts/services/votos.client.service.js'
                                     ]
                                 }]);
                         }]
