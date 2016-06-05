@@ -56,7 +56,7 @@
                                                 <td align="center">
                                                     <input class="kendo-numeric" kendo-numeric-text-box k-min="0"
                                                            k-max="juntaInformation.empadronados"
-                                                           k-on-change="ctrl.sum(lista.votos,lista)"
+                                                           k-on-change="ctrl.sum(lista)"
                                                            k-format="'n0'"
                                                            required
                                                            ng-disabled="(selectedJunta===null || estaVotoRegistrado)?true:false"
@@ -69,7 +69,7 @@
                                                                           k-min="0"
                                                                           k-max="juntaInformation.empadronados"
                                                                           k-format="'n0'"
-                                                                          k-on-change="ctrl.sum(votosBlancos,'votosBlancos')"
+                                                                          k-on-change="ctrl.sum('votosBlancos')"
                                                                           ng-disabled="(selectedJunta===null || estaVotoRegistrado)?true:false"
                                                                           k-ng-model="votosBlancos"/></td>
                                             </tr>
@@ -80,7 +80,7 @@
                                                                           k-min="0"
                                                                           k-max="juntaInformation.empadronados"
                                                                           k-format="'n0'"
-                                                                          k-on-change="ctrl.sum(votosNulos,'votosNulos')"
+                                                                          k-on-change="ctrl.sum('votosNulos')"
                                                                           ng-disabled="(selectedJunta===null || estaVotoRegistrado)?true:false"
                                                                           k-ng-model="votosNulos"/></td>
                                             </tr>
