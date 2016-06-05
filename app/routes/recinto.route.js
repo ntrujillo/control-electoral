@@ -13,12 +13,12 @@ module.exports = function (app) {
 
 // routes recinto junta
     app.route('/api/recinto/:id_recinto/junta')
-        .get(ctrl.queryJunta)
+        .get(usuario.requiresLogin, ctrl.queryJunta)
         .post(usuario.requiresLogin, ctrl.createJunta);
 
     app.route('/api/recinto/:id_recinto/junta/:_id')
         .get(usuario.requiresLogin, ctrl.getJuntaById)
-        .put(ctrl.updateJunta)
+        .put(usuario.requiresLogin, ctrl.updateJunta)
         .delete(usuario.requiresLogin, ctrl.deleteJunta);
 
 };
