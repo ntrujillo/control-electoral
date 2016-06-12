@@ -28,6 +28,8 @@
         service.totalVotosListaParroquia = $resource('/api/votos/votosListaParroquia/:codeParroquia/:codeLista');
         service.totalVotosListaFiltro = $resource('/api/votos/totalVotosListaFiltro');
 
+        service.votosByFecha = $resource('/api/votos/votosByFecha/:f1');
+        service.fechasVotos = $resource('/api/votos/fecha/fechasVotos');
 
         return service;
 
