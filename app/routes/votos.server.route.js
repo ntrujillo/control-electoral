@@ -74,4 +74,11 @@ module.exports = function (app) {
     app.route('/api/votos/:codeProvince').
         get(usuario.requiresLogin, Votos.countVotBlancos);
 
+    app.route('/api/votos/votosByFecha/:f1').
+        get(Votos.getVotosByFecha);
+
+    app.route('/api/votos/fecha/fechasVotos').
+        get(Votos.getMinMaxFechaVoto);
+
+
 };
