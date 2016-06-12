@@ -230,10 +230,17 @@
 
         <!-- tables -->
         <li data-ng-class="{open: $state.includes('app.resultados')}">
-            <a ui-sref="app.resultados">
+            <a ui-sref="javascript:;">
                 <i class="fa fa-tag"></i>
                 <span>Resultados</span>
             </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.resultados.general">
+                        <span>General</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <!-- /tables -->
 
@@ -321,21 +328,35 @@
             <ul class="sub-menu">
                 <li ui-sref-active="active">
                     <a href="/#/ui/registro">
-                        <span>General</span>
+                        <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
                     </a>
                 </li>
             </ul>
         </li>
         <!-- /ui -->
 
-        <!-- tables -->
+        <!-- resultados -->
         <li data-ng-class="{open: $state.includes('app.resultados')}">
-            <a ui-sref="app.resultados">
+            <a ui-sref="javascript:;">
                 <i class="fa fa-tag"></i>
-                <span>Resultados</span>
+                <span>{{'CONTAINER.VOTO.TITLE_RESULTADOS'|translate}}</span>
             </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.resultados.general">
+                        <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.resultados.otros">
+                        <span>{{'CONTAINER.COMMONS.TITLE_OTROS'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <!-- /tables -->
+        <!-- /resultados -->
 
         <!-- asignacion de juntas -->
         <li data-ng-class="{open: $state.includes('app.asignacionJuntas')}">
