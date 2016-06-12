@@ -51,3 +51,20 @@ exports.getJunta = function (req, res) {
         }
     });
 };
+
+exports.getNumeroDeVotantes = function (req, res) {
+    Junta.aggregate([
+        {
+            $group: {
+                _id: null,
+                totalVotantes: {$sum: "$empadronados"}
+            }
+        }], function (err, totalVotantes) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            return res.status(200).send(totalVotantes[0]);
+        }
+    });
+};
