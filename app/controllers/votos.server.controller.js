@@ -432,22 +432,17 @@ exports.votosNulosFiltro = function (req, res) {
 //votos por lista
 exports.totalVotosLista = function (req, res) {
     var codeLista = req.params.codeLista;
-    Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
-            $match: {
-                "VOT_VALIDOS.LISTA": codeLista
-            }
-        },
-        {
-            $group: {
-                _id: null,
-                totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
-            }
-        }, function (err, votosTotales) {
+    Voto.aggregate().unwind("$VOT_VALIDOS").match({"VOT_VALIDOS.LISTA": codeLista}).group({
+        _id: null,
+        totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+    }).exec(
+        function (err, votosTotales) {
             if (err) {
                 return res.status(400).send({message: getErrorMessage(err)});
             } else {
+                Logger.logInfo('[VotosCtrl] total de votos de la lista' + codeLista + votosTotales + ' dd');
                 //simpre va a retornar un elemento
-                return res.status(200).send(votosTotales[0]);
+                return res.status(200).json(votosTotales[0]);
             }
         });
 };
@@ -455,73 +450,58 @@ exports.totalVotosLista = function (req, res) {
 exports.totalVotosListaProvincia = function (req, res) {
     var codeProvince = req.params.codeProvince;
     var codeLista = req.params.codeLista;
-    Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
-            $match: {
-                "JUNTA.recinto.zona.parroquia.canton.provincia._id": codeProvince,
-                "VOT_VALIDOS.LISTA": codeLista
-            }
-        },
-        {
-            $group: {
-                _id: "$JUNTA.recinto.zona.parroquia.canton.provincia._id",
-                totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
-            }
-        }, function (err, votosTotales) {
-            if (err) {
-                return res.status(400).send({message: getErrorMessage(err)});
-            } else {
-                //simpre va a retornar un elemento
-                return res.status(200).send(votosTotales[0]);
-            }
-        });
+    Voto.aggregate().unwind("$VOT_VALIDOS").match({
+        "JUNTA.recinto.zona.parroquia.canton.provincia._id": codeProvince,
+        "VOT_VALIDOS.LISTA": codeLista
+    }).group({
+        _id: "$JUNTA.recinto.zona.parroquia.canton.provincia._id",
+        totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+    }).exec(function (err, votosTotales) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            return res.status(200).send(votosTotales[0]);
+        }
+    });
 };
 
 exports.totalVotosListaCanton = function (req, res) {
     var codeCanton = req.params.codeCanton;
     var codeLista = req.params.codeLista;
-    Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
-            $match: {
-                "JUNTA.recinto.zona.parroquia.canton._id": codeCanton,
-                "VOT_VALIDOS.LISTA": codeLista
-            }
-        },
-        {
-            $group: {
-                _id: "$JUNTA.recinto.zona.parroquia.canton._id",
-                totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
-            }
-        }, function (err, votosTotales) {
-            if (err) {
-                return res.status(400).send({message: getErrorMessage(err)});
-            } else {
-                //simpre va a retornar un elemento
-                return res.status(200).send(votosTotales[0]);
-            }
-        });
+    Voto.aggregate().unwind("$VOT_VALIDOS").match({
+        "JUNTA.recinto.zona.parroquia.canton._id": codeCanton,
+        "VOT_VALIDOS.LISTA": codeLista
+    }).group({
+        _id: "$JUNTA.recinto.zona.parroquia.canton._id",
+        totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+    }).exec(function (err, votosTotales) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            return res.status(200).send(votosTotales[0]);
+        }
+    });
 };
 
 exports.totalVotosListaParroquia = function (req, res) {
     var codeParroquia = req.params.codeParroquia;
     var codeLista = req.params.codeLista;
-    Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
-            $match: {
-                "JUNTA.recinto.zona.parroquia._id": codeParroquia,
-                "VOT_VALIDOS.LISTA": codeLista
-            }
-        },
-        {
-            $group: {
-                _id: "$JUNTA.recinto.zona.parroquia._id",
-                totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
-            }
-        }, function (err, votosTotales) {
-            if (err) {
-                return res.status(400).send({message: getErrorMessage(err)});
-            } else {
-                //simpre va a retornar un elemento
-                return res.status(200).send(votosTotales[0]);
-            }
-        });
+    Voto.aggregate().unwind("$VOT_VALIDOS").match({
+        "JUNTA.recinto.zona.parroquia._id": codeParroquia,
+        "VOT_VALIDOS.LISTA": codeLista
+    }).group({
+        _id: "$JUNTA.recinto.zona.parroquia._id",
+        totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+    }).exec(function (err, votosTotales) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            return res.status(200).send(votosTotales[0]);
+        }
+    });
 };
 
 exports.totalVotosListaFiltro = function (req, res) {
@@ -542,20 +522,56 @@ exports.totalVotosListaFiltro = function (req, res) {
         match = {"JUNTA._id": codeJunta, "VOT_VALIDOS.LISTA": codeLista};
         filtro = "JUNTA._id";
     }
-    Voto.aggregate({$unwind: "$VOT_VALIDOS"}, {
-            $match: match
-        },
-        {
-            $group: {
-                _id: "$" + filtro,
-                totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
-            }
-        }, function (err, votosTotales) {
-            if (err) {
-                return res.status(400).send({message: getErrorMessage(err)});
-            } else {
-                //simpre va a retornar un elemento
-                return res.status(200).send(votosTotales[0]);
-            }
-        });
+    Voto.aggregate().unwind("$VOT_VALIDOS").match(match).group({
+        _id: "$" + filtro,
+        totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+    }).exec(function (err, votosTotales) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            return res.status(200).send(votosTotales[0]);
+        }
+    });
+};
+
+exports.getVotosByFecha = function (req, res) {
+    var f1 = req.params.f1;
+
+    Voto.aggregate().match({
+        FECHA_REGISTRO: {
+            $lte: new Date(f1)
+        }
+    }).group({
+        _id: {},
+        totalVotos: {$sum: "$TOTAL_VOTOS"}
+    }).exec(function (err, votosTotales) {
+        if (err) {
+            Logger.logError('[VotosCtrl] error al obtner los votos totales a la fecha', f1);
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            Logger.logInfo('[VotosCtrl] Votos totales a la fecha' + f1, votosTotales);
+            return res.status(200).send(votosTotales[0]);
+        }
+    });
+};
+
+exports.getMinMaxFechaVoto = function (req, res) {
+    Logger.logInfo('[VotosCtrl] entro');
+    Voto.aggregate({
+        $group: {
+            _id: null,
+            minVotoFecha: {$min: "$FECHA_REGISTRO"},
+            maxVotoFecha: {$max: "$FECHA_REGISTRO"}
+        }
+    }, function (err, response) {
+        if (err) {
+            Logger.logError('[VotosCtrl] error al obtner la fecha del primer voto');
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            Logger.logInfo('[VotosCtrl] Se recuper\u00f3 la fecha del primer voto', response);
+            return res.status(200).json(response[0]);
+        }
+    });
 };
