@@ -4,23 +4,25 @@
     angular.module('ControlElectoralApp').factory("FactoryGenero", function () {
         var service = {};
 
-        var genero = [{
-            code: 'M',
-            value: 'Hombres'
-        }, {
-            code: 'F',
-            value: 'Mujeres'
-        }];
+        var genero = [
+            {
+                code: 'M',
+                value: 'Hombres'
+            }, {
+                code: 'F',
+                value: 'Mujeres'
+            }];
 
-        var registros = [{
-            code: 1,
-            name: "Hombres",
-            description: "Junta Hombres"
-        }, {
-            code: 2,
-            name: "Mujeres",
-            description: "Junta Mujeres"
-        }];
+        var registros = [
+            {
+                code: 1,
+                name: "Hombres",
+                description: "Junta Hombres"
+            }, {
+                code: 2,
+                name: "Mujeres",
+                description: "Junta Mujeres"
+            }];
 
 
         service.getRegistros = function () {
