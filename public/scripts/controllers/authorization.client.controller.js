@@ -18,7 +18,7 @@
             $scope.loadPage = function () {
                 Authorization.rolStatus.get({rol: $scope.rolMenu}, function (response) {
                     if (response.status) {
-                        $state.go('app.resultados');
+                        $state.go('app.resultados.general');
                     } else {
                         $scope.notification.showErrorWithFilter(response.message, constant.COMMONS.ERROR);
                     }
