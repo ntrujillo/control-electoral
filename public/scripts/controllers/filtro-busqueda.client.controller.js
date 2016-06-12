@@ -19,6 +19,9 @@
             $scope.recintosByZona = [];
             $scope.juntasList = [];
 
+            $scope.resumenVotos = [];
+            $scope.resumenOtros = [];
+
             $scope.limpiar = function () {
                 $scope.selectedProvincia = null;
                 $scope.selectedCanton = null;
@@ -106,9 +109,12 @@
             };
 
             function votosTotalLista(idLista, nameLista) {
+                $scope.resumenVotos = [];
                 var vots = 0;
                 votos.totalVotosLista.get({codeLista: idLista}, function (response) {
                     vots = response.totalVotos;
+                    console.log('response', vots);
+                    $scope.resumenVotos.push({descripcion: nameLista, votos: vots});
                     var serie = {
                         text: nameLista,
                         values: [vots]
@@ -129,11 +135,13 @@
 
             function votosTotalListaByProvincia(idLista, nameList, idProvincia) {
                 var vots = 0;
+                $scope.resumenVotos = [];
                 votos.totalVotosListaProvincia.get({
                     codeProvince: idProvincia,
                     codeLista: idLista
                 }, function (response) {
                     vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
                     var serie = {
                         text: nameList,
                         values: [vots]
@@ -155,11 +163,13 @@
 
             function votosTotalListaByCanton(idLista, nameList, idCanton) {
                 var vots = 0;
+                $scope.resumenVotos = [];
                 votos.totalVotosListaCanton.get({
                     codeCanton: idCanton,
                     codeLista: idLista
                 }, function (response) {
                     vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
                     var serie = {
                         text: nameList,
                         values: [vots]
@@ -181,11 +191,13 @@
 
             function votosTotalListaByParroquia(idLista, nameList, idParroquia) {
                 var vots = 0;
+                $scope.resumenVotos = [];
                 votos.totalVotosListaParroquia.get({
                     codeParroquia: idParroquia,
                     codeLista: idLista
                 }, function (response) {
                     vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
                     var serie = {
                         text: nameList,
                         values: [vots]
@@ -207,11 +219,13 @@
 
             function votosTotalListaByZona(idLista, nameList, idZona) {
                 var vots = 0;
+                $scope.resumenVotos = [];
                 votos.totalVotosListaFiltro.get({
                     codeZona: idZona,
                     codeLista: idLista
                 }, function (response) {
                     vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
                     var serie = {
                         text: nameList,
                         values: [vots]
@@ -233,11 +247,13 @@
 
             function votosTotalListaByRecinto(idLista, nameList, idRecinto) {
                 var vots = 0;
+                $scope.resumenVotos = [];
                 votos.totalVotosListaFiltro.get({
                     codeRecinto: idRecinto,
                     codeLista: idLista
                 }, function (response) {
                     vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
                     var serie = {
                         text: nameList,
                         values: [vots]
@@ -259,11 +275,13 @@
 
             function votosTotalListaByJunta(idLista, nameList, idJunta) {
                 var vots = 0;
+                $scope.resumenVotos = [];
                 votos.totalVotosListaFiltro.get({
                     codeJunta: idJunta,
                     codeLista: idLista
                 }, function (response) {
                     vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
                     var serie = {
                         text: nameList,
                         values: [vots]
@@ -286,10 +304,12 @@
 
             $scope.initData = function () {
                 //series = [];
+                $scope.resumenOtros = [];
                 series2 = [];
                 //votos Blancos
                 var votosBlancoTotal = votos.votosBlancoTotal.get(function (votos) {
                     votosBlancoTotal = votos.votosBlancos;
+                    $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlancoTotal});
                     var votBlanco = {
                         text: "Blancos",
                         values: [votosBlancoTotal]
@@ -305,12 +325,12 @@
                     };
                     series2.push(serie2);
                     series.push(votBlanco);
-
                 });
 
                 //votosNulos
                 var votosNulosTotal = votos.votosNulosTotal.get(function (votos) {
                     votosNulosTotal = votos.votosNulos;
+                    $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                     var votNulos = {
                         text: "Nulos",
                         values: [votosNulosTotal]
@@ -324,7 +344,6 @@
                             format: '{point.name} {point.percentage:.1f}%'
                         }
                     };
-                    $scope.nl = votosNulosTotal;
                     series2.push(serie2);
                     series.push(votNulos);
 
@@ -335,16 +354,19 @@
                         votosTotalLista(item._id, item.NOM_LISTA);
                     });
                 });
+                console.log('series', series2);
             };
 
             //votos por filtros
             //por Provincia
             $scope.SearchByProvoncia = function () {
                 series = [];
+                $scope.resumenOtros = [];
                 series2 = [];
                 if ($scope.selectedProvincia !== null) {
                     votos.votosBlancoByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
+                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
@@ -364,6 +386,7 @@
 
                     votos.votosNulosByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
+                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
@@ -393,10 +416,11 @@
             $scope.SearchByCanton = function () {
                 series = [];
                 series2 = [];
+                $scope.resumenOtros = [];
                 if ($scope.selectedCanton !== null) {
-
                     votos.votosBlancoByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
+                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
@@ -416,6 +440,7 @@
 
                     votos.votosNulosByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
+                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
@@ -445,10 +470,11 @@
             $scope.SearchByParroquia = function () {
                 series = [];
                 series2 = [];
+                $scope.resumenOtros = [];
                 if ($scope.selectedParroquia !== null) {
-
                     votos.votosBlancoByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
+                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
@@ -468,6 +494,7 @@
 
                     votos.votosNulosByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
+                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
@@ -497,9 +524,11 @@
             $scope.SearchByZona = function () {
                 series = [];
                 series2 = [];
+                $scope.resumenOtros = [];
                 if ($scope.selectedZona !== null) {
                     votos.votosBlancoFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
+                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
@@ -519,6 +548,7 @@
 
                     votos.votosNulosFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
+                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
@@ -548,9 +578,11 @@
             $scope.SearchByRecinto = function () {
                 series = [];
                 series2 = [];
+                $scope.resumenOtros = [];
                 if ($scope.selectedRecinto !== null) {
                     votos.votosBlancoFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
+                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
@@ -570,6 +602,7 @@
 
                     votos.votosNulosFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
+                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
@@ -599,9 +632,11 @@
             $scope.SearchByJunta = function () {
                 series = [];
                 series2 = [];
+                $scope.resumenOtros = [];
                 if ($scope.selectedJunta !== null) {
                     votos.votosBlancoFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
                         var votosBlanco = votos.votosBlancos;
+                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
                         var votBlanco = {
                             text: "Blancos",
                             values: [votosBlanco]
@@ -621,6 +656,7 @@
 
                     votos.votosNulosFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
+                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         var votNulos = {
                             text: "Nulos",
                             values: [votosNulosTotal]
@@ -644,6 +680,17 @@
                     $scope.myJson.series = series;
 
                 }
+            };
+
+            $scope.countTotalVotos = function () {
+                var votosTotales = 0;
+                $scope.resumenVotos.forEach(function (voto) {
+                    votosTotales += voto.votos;
+                });
+                $scope.resumenOtros.forEach(function (voto) {
+                    votosTotales += voto.votos;
+                });
+                return votosTotales;
             };
 
             $scope.myJson = {
@@ -689,6 +736,11 @@
                         plotBorderWidth: null,
                         plotShadow: false,
                         type: 'pie'
+                        //options3d: {
+                        //    enabled: true,
+                        //    alpha: 45,
+                        //    beta: 0
+                        //}
                     },
                     title: {
                         text: title
