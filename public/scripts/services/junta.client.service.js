@@ -8,6 +8,7 @@
                 isArray: true
             }
         });
+        service.Junta = $resource('/api/juntasRest');
         service.getJunta = $resource('/api/juntas/:id');
         return service;
     }]);
