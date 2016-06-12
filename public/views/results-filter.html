@@ -111,14 +111,60 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6 col-xs-12" ng-init="initData()">
-                            <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="558px"></div>
+                            <div zingchart id="chart-1" zc-json="myJson" zc-width="100%"></div>
                         </div>
                         <div class="col-md-6 col-xs-12">
-                            <button class="btn btn-default" type="button" ng-click="limpiar()"
-                                    title="{{'CONTAINER.COMMONS.TITLE_LIMPIAR'|translate}}">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <div id="container"></div>
+                            <div form-group>
+                                <button class="btn btn-default" type="button" ng-click="limpiar()"
+                                        title="{{'CONTAINER.COMMONS.TITLE_LIMPIAR'|translate}}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                                <div id="container"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="form-group cb-spacer">
+                                <label class="control-label">&nbsp;</label>
+                                <span class="cb-control"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="bs-component form-group">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>{{'CONTAINER.VOTO.TITLE_VOTOS'|translate}}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="resumen in resumenVotos">
+                                            <td align="center">{{resumen.descripcion}}</td>
+                                            <td align="center">
+                                                <label>{{resumen.votos}}</label>
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="resumen in resumenOtros">
+                                            <td align="center">{{resumen.descripcion}}</td>
+                                            <td align="center">
+                                                <label>{{resumen.votos}}</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">{{'CONTAINER.VOTO.TITLE_TOTAL'|translate}}</td>
+                                            <td align="center"><label>{{countTotalVotos()}}</label></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="form-group cb-spacer">
+                                <label class="control-label">&nbsp;</label>
+                                <span class="cb-control"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
