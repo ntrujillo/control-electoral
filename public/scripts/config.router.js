@@ -65,8 +65,14 @@ angular
                         title: 'CONTAINER.ADMIN.ADMINISTRATOR_ROLES'
                     }
                 })
+
                 .state('app.resultados', {
-                    url: '/container',
+                    template: '<div ui-view></div>',
+                    abstract: true,
+                    url: '/resultados'
+                })
+                .state('app.resultados.general', {
+                    url: '/general',
                     templateUrl: 'views/results-filter.html',
                     controller: 'FiltroCtrl as ctrl',
                     resolve: {
@@ -84,7 +90,28 @@ angular
                         }]
                     },
                     data: {
-                        title: 'Resultados'
+                        title: 'CONTAINER.VOTO.TITLE_RESULTADOS'
+                    }
+                })
+                .state('app.resultados.otros', {
+                    url: '/otros',
+                    templateUrl: 'views/results-others.html',
+                    controller: 'ResultsCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    name: 'angular-factory',
+                                    files: [
+                                        'scripts/services/junta.client.service.js',
+                                        'scripts/services/votos.client.service.js',
+                                        'scripts/controllers/results.client.controller.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        title: 'CONTAINER.VOTO.TITLE_RESULTADOS'
                     }
                 })
 
