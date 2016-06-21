@@ -18,7 +18,6 @@
                                        required>
                             <span ng-show="userForm.nombres.$invalid && !userForm.nombres.$pristine"
                                   class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                            <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MESSAGE_REQUIRED_NAMES'|translate}}
                             </span>
                             </div>
@@ -36,7 +35,6 @@
                                        ng-model="apellidos" required>
                                                         <span ng-show="userForm.apellidos.$invalid && !userForm.apellidos.$pristine"
                                                               class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                            <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MESSAGE_REQUIRED_LASTNAME'|translate}}
                             </span>
                             </div>
@@ -54,18 +52,15 @@
                                        ng-model="cedula" ng-pattern="/^[0-9]*$/" required>
                                                         <span ng-show="userForm.cedula.$invalid && !userForm.cedula.$pristine"
                                                               class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                            <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MEESSAGE_DOCUMENT'|translate}}
                             </span>
                                  <span ng-show="userForm.cedula.$error.pattern"
                                        class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                            <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MESSAGE_ONLY_NUMBERS'|translate}}
                             </span>
                                 </span>
                                  <span ng-show="userForm.cedula.$error.minlength"
                                        class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                            <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MESSAGE_MIN_DOCUMENT'|translate}}
                             </span>
                             </div>
@@ -83,7 +78,6 @@
                                        ng-model="email">
                                                         <span ng-show="userForm.email.$invalid && !userForm.email.$pristine"
                                                               class="k-widget k-tooltip k-tooltip-validation k-invalid-msg">
-                            <span class="k-icon k-warning"></span>
                                 {{'CONTAINER.MESSAGES.MESSAGE_VALID_EMAIL'|translate}}
                             </span>
                             </div>
