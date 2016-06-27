@@ -80,94 +80,34 @@
         </li>
         <!--end Listas-->
 
-        <!-- ui -->
-        <li data-ng-class="{open: $state.includes('app.ui')}">
-            <a href="javascript:;">
-                <i class="fa fa-toggle-on"></i>
-                <span>Registro de votos</span>
-            </a>
-            <ul class="sub-menu">
-                <li ui-sref-active="active">
-                    <a href="/#/ui/registro">
-                        <span>General</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- /ui -->
-
-        <!-- tables -->
+        <!-- resultados -->
         <li data-ng-class="{open: $state.includes('app.resultados')}">
-            <a ui-sref="app.resultados">
+            <a ui-sref="javascript:;">
                 <i class="fa fa-tag"></i>
-                <span>Resultados</span>
-            </a>
-        </li>
-        <!-- /tables -->
-
-        <!-- charts -->
-        <li data-ng-class="{open: $state.includes('app.charts')}">
-            <a href="javascript:;">
-                <i class="fa fa-pie-chart"></i>
-                <span>Reportes</span>
+                <span>{{'CONTAINER.VOTO.TITLE_RESULTADOS'|translate}}</span>
             </a>
             <ul class="sub-menu">
                 <li ui-sref-active="active">
-                    <a ui-sref="app.charts.flot">
-                        <span>Flot Charts</span>
+                    <a ui-sref="app.resultados.general">
+                        <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
                     </a>
                 </li>
+            </ul>
+            <ul class="sub-menu">
                 <li ui-sref-active="active">
-                    <a ui-sref="app.charts.easypie">
-                        <span>EasyPie</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.charts.chartjs">
-                        <span>ChartJs</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.charts.rickshaw">
-                        <span>Rickshaw</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.charts.nvd3">
-                        <span>Nvd3</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.charts.c3">
-                        <span>C3js</span>
+                    <a ui-sref="app.resultados.otros">
+                        <span>{{'CONTAINER.COMMONS.TITLE_OTROS'|translate}}</span>
                     </a>
                 </li>
             </ul>
         </li>
-        <!-- /charts -->
+        <!-- /resultados -->
     </ul>
 </nav>
 <!-- main navigation -->
 
 <nav role="navigation" ng-show="rolMenu===2" side-navigation>
     <ul class="nav">
-        <!--users-->
-        <li data-ng-class="{open: $state.includes('app.users')}">
-            <a ui-sref="app.users">
-                <i class="fa fa-user"></i>
-                <span>{{'CONTAINER.ADMIN.USERS'|translate}}</span>
-            </a>
-        </li>
-        <!--/users-->
-        <!--users-->
-        <li data-ng-class="{open: $state.includes('app.roles')}">
-            <a ui-sref="app.roles">
-                <i class="fa fa-users"></i>
-                <span>{{'CONTAINER.ADMIN.ROLES'|translate}}</span>
-            </a>
-        </li>
-        <!--/users-->
-
         <!--Informacion general-->
         <li data-ng-class="{open: $state.includes('app.general')}">
             <a href="javascript:;">
@@ -203,137 +143,6 @@
             </ul>
         </li>
         <!--end Informacion General-->
-        <!--Listas-->
-        <li data-ng-class="{open: $state.includes('app.listas')}">
-            <a ui-sref="app.listas">
-                <i class="fa fa-user"></i>
-                <span>{{'CONTAINER.COMMONS.TITLE_LISTA'|translate}}</span>
-            </a>
-        </li>
-        <!--end Listas-->
-
-        <!-- ui -->
-        <li data-ng-class="{open: $state.includes('app.ui')}">
-            <a href="javascript:;">
-                <i class="fa fa-toggle-on"></i>
-                <span>Registro de votos</span>
-            </a>
-            <ul class="sub-menu">
-                <li ui-sref-active="active">
-                    <a href="/#/ui/registro">
-                        <span>General</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- /ui -->
-
-        <!-- tables -->
-        <li data-ng-class="{open: $state.includes('app.resultados')}">
-            <a ui-sref="javascript:;">
-                <i class="fa fa-tag"></i>
-                <span>Resultados</span>
-            </a>
-            <ul class="sub-menu">
-                <li ui-sref-active="active">
-                    <a ui-sref="app.resultados.general">
-                        <span>General</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- /tables -->
-
-        <!-- asignacion de juntas -->
-        <li data-ng-class="{open: $state.includes('app.asignacionJuntas')}">
-            <a ui-sref="app.asignacionJuntas">
-                <i class="fa fa-tag"></i>
-                <span>{{'CONTAINER.COMMONS.TITLE_ASIGNACION_JUNTAS'|translate}}</span>
-            </a>
-        </li>
-        <!-- /asignacion de juntas -->
-    </ul>
-</nav>
-<!-- main navigation -->
-
-<nav role="navigation" ng-show="rolMenu===3" side-navigation>
-    <ul class="nav">
-        <!--users-->
-        <li data-ng-class="{open: $state.includes('app.users')}">
-            <a ui-sref="app.users">
-                <i class="fa fa-user"></i>
-                <span>{{'CONTAINER.ADMIN.USERS'|translate}}</span>
-            </a>
-        </li>
-        <!--/users-->
-        <!--users-->
-        <li data-ng-class="{open: $state.includes('app.roles')}">
-            <a ui-sref="app.roles">
-                <i class="fa fa-users"></i>
-                <span>{{'CONTAINER.ADMIN.ROLES'|translate}}</span>
-            </a>
-        </li>
-        <!--/users-->
-
-        <!--Informacion general-->
-        <li data-ng-class="{open: $state.includes('app.general')}">
-            <a href="javascript:;">
-                <i class="fa fa-tasks"></i>
-                <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
-            </a>
-            <ul class="sub-menu">
-                <li ui-sref-active="active">
-                    <a ui-sref="app.general.provincias">
-                        <span>{{'CONTAINER.COMMONS.TITLE_PROVINCIAS'|translate}}</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.general.cantones">
-                        <span>{{'CONTAINER.COMMONS.TITLE_CANTONES'|translate}}</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.general.parroquias">
-                        <span>{{'CONTAINER.COMMONS.TITLE_PARROQUIAS'|translate}}</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.general.zonas">
-                        <span>{{'CONTAINER.COMMONS.TITLE_ZONA'|translate}}</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="app.general.recintos">
-                        <span>{{'CONTAINER.COMMONS.TITLE_RECINTO'|translate}}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!--end Informacion General-->
-        <!--Listas-->
-        <li data-ng-class="{open: $state.includes('app.listas')}">
-            <a ui-sref="app.listas">
-                <i class="fa fa-user"></i>
-                <span>{{'CONTAINER.COMMONS.TITLE_LISTA'|translate}}</span>
-            </a>
-        </li>
-        <!--end Listas-->
-
-        <!-- ui -->
-        <li data-ng-class="{open: $state.includes('app.ui')}">
-            <a href="javascript:;">
-                <i class="fa fa-toggle-on"></i>
-                <span>Registro de votos</span>
-            </a>
-            <ul class="sub-menu">
-                <li ui-sref-active="active">
-                    <a href="/#/ui/registro">
-                        <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- /ui -->
 
         <!-- resultados -->
         <li data-ng-class="{open: $state.includes('app.resultados')}">
@@ -358,6 +167,7 @@
         </li>
         <!-- /resultados -->
 
+
         <!-- asignacion de juntas -->
         <li data-ng-class="{open: $state.includes('app.asignacionJuntas')}">
             <a ui-sref="app.asignacionJuntas">
@@ -366,6 +176,72 @@
             </a>
         </li>
         <!-- /asignacion de juntas -->
+    </ul>
+</nav>
+<!-- main navigation -->
+
+<nav role="navigation" ng-show="rolMenu===3" side-navigation>
+    <ul class="nav">
+
+
+    <!--Informacion general-->
+        <li data-ng-class="{open: $state.includes('app.general')}">
+            <a href="javascript:;">
+                <i class="fa fa-tasks"></i>
+                <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
+            </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.provincias">
+                        <span>{{'CONTAINER.COMMONS.TITLE_PROVINCIAS'|translate}}</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.cantones">
+                        <span>{{'CONTAINER.COMMONS.TITLE_CANTONES'|translate}}</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.parroquias">
+                        <span>{{'CONTAINER.COMMONS.TITLE_PARROQUIAS'|translate}}</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.zonas">
+                        <span>{{'CONTAINER.COMMONS.TITLE_ZONA'|translate}}</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="app.general.recintos">
+                        <span>{{'CONTAINER.COMMONS.TITLE_RECINTO'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!--end Informacion General-->
+
+        <!-- resultados -->
+        <li data-ng-class="{open: $state.includes('app.resultados')}">
+            <a ui-sref="javascript:;">
+                <i class="fa fa-tag"></i>
+                <span>{{'CONTAINER.VOTO.TITLE_RESULTADOS'|translate}}</span>
+            </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.resultados.general">
+                        <span>{{'CONTAINER.COMMONS.TITLE_GENERAL'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.resultados.otros">
+                        <span>{{'CONTAINER.COMMONS.TITLE_OTROS'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- /resultados -->
 
         <!-- registro de votos -->
         <li data-ng-class="{open: $state.includes('app.registroVotos')}">
