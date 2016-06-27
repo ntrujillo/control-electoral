@@ -75,10 +75,13 @@ module.exports = function (app) {
         get(usuario.requiresLogin, Votos.countVotBlancos);
 
     app.route('/api/votos/votosByFecha/:f1').
-        get(Votos.getVotosByFecha);
+        get(usuario.requiresLogin, Votos.getVotosByFecha);
 
     app.route('/api/votos/fecha/fechasVotos').
-        get(Votos.getMinMaxFechaVoto);
+        get(usuario.requiresLogin, Votos.getMinMaxFechaVoto);
+
+    app.route('/api/votos/votosDetalladoListaWithFecha/:codeLista/:fecha').
+        get(usuario.requiresLogin, Votos.votosByListaWithDate);
 
 
 };
