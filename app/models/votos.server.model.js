@@ -16,7 +16,7 @@ var VotoSchema = new Schema({
     },
     VOT_VALIDOS: [{
         NUM_VOTOS: Number,
-        LISTA: {type: Schema.ObjectId, ref: 'Lista'}
+        LISTA: String
     }],
     JUNTA: {
         type: Object
