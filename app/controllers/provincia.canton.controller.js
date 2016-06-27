@@ -14,7 +14,7 @@ function queryCanton(req, res) {
             if (response.cantons) {
                 Logger.logInfo('[ProvinciaCantonCtrl] Se recuperó los cantones correctamente de la provincia', req.params.id_provincia);
                 res.header('X-Total-Count', response.count);
-                res.send(response.cantons);
+                res.status(200).send(response.cantons);
             } else {
                 res.sendStatus(404);
             }
