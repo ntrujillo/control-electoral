@@ -30,6 +30,12 @@
 
         service.votosByFecha = $resource('/api/votos/votosByFecha/:f1');
         service.fechasVotos = $resource('/api/votos/fecha/fechasVotos');
+        service.votosDetalladoListaWithFecha = $resource('/api/votos/votosDetalladoListaWithFecha/:codeLista/:fecha', {
+            query: {
+                method: "GET",
+                isArray: true
+            }
+        });
 
         return service;
 
