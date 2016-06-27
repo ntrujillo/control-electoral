@@ -575,3 +575,23 @@ exports.getMinMaxFechaVoto = function (req, res) {
         }
     });
 };
+
+//votos de cada lista con fecha
+exports.votosByListaWithDate = function (req, res) {
+    var codeLista = req.params.codeLista;
+    var fecha = req.params.fecha;
+    Voto.aggregate().unwind("$VOT_VALIDOS").match({
+        "VOT_VALIDOS.LISTA": codeLista,
+        "FECHA_REGISTRO": {$lte: new Date(fecha)}
+    }).exec(
+        function (err, votos) {
+            if (err) {
+                Logger.logError('[VotosCtrl] Error al obtener los votos de la lista ' + codeLista + ' a la fecha: ' + fecha + ' ' + getErrorMessage(err));
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                Logger.logInfo('[VotosCtrl] Se obtuvo los votos de la lista ' + codeLista + ' a la fecha: ' + fecha + ' ', votos);
+                //simpre va a retornar un elemento
+                return res.status(200).json(votos);
+            }
+        });
+};
