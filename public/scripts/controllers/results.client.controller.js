@@ -1,20 +1,99 @@
 (function (angular) {
     angular.module('ControlElectoralApp').controller('ResultsCtrl', ['$scope', 'Junta', 'APP', 'Voto', '$filter', '$http', '$timeout', 'Lista',
         function ($scope, juntaService, constant, serviceVoto, $filter, $http, $timeout, listaService) {
-            var dataCategorias = [], dataResults = [], votantes = 0, tiempo = 50, z = 1.96, categoriasBarraError = [], seriesBarraChart = [], arrayLimites = [], arrayPromedio = [],
-                rango = [], promedios = [];
-            window.ranges = [];
-            window.averages = [];
+            var dataCategorias = [], dataResults = [], votantes = 0, tiempo = 10, z = 1.96, categoriasBarraError = [], seriesBarraChart = [], arrayLimites = [], arrayPromedio = [];
+            $scope.rangoByGrafico = [];
+            $scope.promediosByGrafico = [];
+            $scope.dataObject = [];
+            $scope.seriesBarError = [];
 
+            $scope.refresh = function () {
+                dataCategorias = [];
+                dataResults = [];
+                $scope.initData();
+                $scope.initData2();
+            };
 
-            loadGrafico();
-            function loadGrafico() {
+            $scope.initData = function () {
+                var range, average;
+                loadGrafico(function (response) {
+                    console.log('respuestaUltimo', response);
+                    console.log('respuestaUltimo2');
+                    console.log('arrya', $scope.dataObject);
+                    $scope.listas.forEach(function (lista, index) {
+                        $scope.listas[index].promedio = [];
+                        $scope.listas[index].rango = [];
+                        $scope.dataObject.forEach(function (data) {
+                            if (data.lista.CODE_LISTA === lista.CODE_LISTA) {
+                                if (!existeDato($scope.listas[index].promedio, data.promedio)) {
+                                    $scope.listas[index].promedio.push(data.promedio);
+                                }
+                                if (!existeDato($scope.listas[index].rango, data.rango)) {
+                                    $scope.listas[index].rango.push(data.rango);
+                                }
+                            }
+                        });
+                        average = averageObject(lista.NOM_LISTA, $scope.listas[index].promedio, index);
+                        range = rangeObject($scope.listas[index].rango, index);
+                        if (!existeSerie($scope.seriesBarError, lista.NOM_LISTA)) {
+                            $scope.seriesBarError.push(average);
+                            $scope.seriesBarError.push(range);
+                        }
+
+                    });
+                    containerBandasError('', $scope.seriesBarError);
+                    console.log('lista', $scope.listas);
+                    console.log('series', $scope.seriesBarError);
+                });
+            };
+
+            function existeSerie(seriesArray, nameLista) {
+                var exste = false;
+                seriesArray.forEach(function (serie) {
+                    if (angular.isDefined(serie.name) && serie.name === nameLista) {
+                        exste = true;
+                    }
+                });
+                return exste;
+            }
+
+            function existeDato(array, arrayDato) {
+                var exste = false;
+                array.forEach(function (dato, index) {
+                    if (dato[index] === arrayDato[index]) {
+                        exste = true;
+                    }
+                });
+                return exste;
+            }
+
+            $scope.initData2 = function () {
+                getListas(function (listas) {
+                    fechasDeVotosRegistrados(function (fechas) {
+                        var fechas = fechasByRecorrer(fechas.minVotoFecha, fechas.maxVotoFecha);
+                        for (var i = 0; i < listas.length; i++) {
+                            for (var j = 0; j < fechas.length; j++) {
+                                calculoDeRangos(listas[i], fechas[j], function (respuesta) {
+                                    console.log('respuesta1 ', respuesta);
+                                    $scope.dataObject.push(respuesta);
+                                });
+                            }
+                        }
+                    });
+                });
+            };
+            //
+            function loadGrafico(callback) {
                 fechasDeVotosRegistrados(function (fechas) {
-                    limitesDeConfianza(fechas.minVotoFecha, fechas.maxVotoFecha);
+                    limitesDeConfianza(fechas.minVotoFecha, fechas.maxVotoFecha, function (response) {
+                        callback({
+                            response: response,
+                            fechaMin: fechas.minVotoFecha,
+                            fechaMax: fechas.maxVotoFecha
+                        });
+                    });
                 });
                 votosByJunta();
-
-
             }
 
             function getListas(callback) {
@@ -26,13 +105,20 @@
                 });
             }
 
-            function votos(lista, date, dateUltimoVoto) {
-                calculoDeRangos(lista, date, function (response) {
-                    console.log('respose', response);
-
+            function votos(lista, fechas, callback) {
+                var t = [];
+                var y = [];
+                fechas.forEach(function (fecha) {
+                    calculoDeRangos(lista, fecha, function (response) {
+                        console.log('callback', response);
+                        console.log('a la fecha' + new Date(fecha));
+                        t.push(response.promedio);
+                        callback(response);
+                    });
                 });
 
             }
+
 
             function fechasByRecorrer(fechaPrimerVoto, fechaUltimoVoto) {
                 var fechas = [], dateUltimoVoto = new Date(fechaUltimoVoto), date = new Date(fechaPrimerVoto);
@@ -43,101 +129,74 @@
                     console.log('fecha', date);
                 } while (date <= dateUltimoVoto);
                 console.log('fechasArray', fechas);
+                console.log('fechas.lenght', fechas.length);
                 return fechas;
             }
 
-            function limitesDeConfianza(fechaPrimerVoto, fechaUltimoVoto) {
-                var date, dateAux, mediana = 0, varianza = 0, flag = true, i = 0,
-                    desviacionStndr = 0, k = 0, datos, dataInPorcentaje, limiteInferior = 0, limiteSuperior = 0;
-                date = new Date(fechaPrimerVoto);
-                var dateUltimoVoto = new Date(fechaUltimoVoto);
-                dateAux = angular.copy(date);
-                fechasByRecorrer(fechaPrimerVoto, fechaUltimoVoto);
+            function limitesDeConfianza(fechaPrimerVoto, fechaUltimoVoto, callback) {
+                var fechas = [], promediosA = [], rangosA = [];
+                fechas = fechasByRecorrer(fechaPrimerVoto, fechaUltimoVoto);
                 getListas(function (listas) {
                     listas.forEach(function (lista, index) {
                         categoriasBarraError = [];
-                        m(lista, date, dateUltimoVoto);
-                        //do {
-                        //calculoDeRangos(lista, date, function (response) {
-                        //
-                        //    dateAux.setMinutes(dateAux.getMinutes() + tiempo);
-                        //    if (dateAux <= dateUltimoVoto) {
-                        //        console.log('');
-                        //    } else if (i === 0) {
-                        //        dateAux.setMinutes(dateAux.getMinutes() + tiempo);
-                        //        i++;
-                        //    } else {
-                        //        flag = false;
-                        //    }
-                        //});
-                        //console.log('listaNombre', lista.NOM_LISTA);
-                        //$scope.waitForRender(function () {
-                        //    serviceVoto.votosDetalladoListaWithFecha.query({
-                        //        codeLista: lista._id,
-                        //        fecha: date.toISOString()
-                        //    }, function (response) {
-                        //        var hora = date.getTime();
-                        //        var horaFormat = $filter('date')(hora, 'mediumTime');
-                        //        categoriasBarraError.push(horaFormat);
-                        //
-                        //        date.setMinutes(date.getMinutes() + tiempo);
-                        //        console.log('response', response);
-                        //        datos = [];
-                        //        response.forEach(function (voto) {
-                        //            datos.push(voto.VOT_VALIDOS.NUM_VOTOS);
-                        //        });
-                        //        dataInPorcentaje = [];
-                        //        dataInPorcentaje = porcentajeVotos(response, totalVotosALaFecha(response));
-                        //        console.log('lista', lista.NOM_LISTA);
-                        //        mediana = calculoMedia(datos);
-                        //        varianza = calculoVarianza(datos);
-                        //        desviacionStndr = desviacionStandar(varianza);
-                        //        k = calculoValorK(desviacionStndr, datos.length);
-                        //        limiteInferior = parseFloat((mediana - k).toFixed(2));
-                        //        limiteSuperior = parseFloat((mediana + k).toFixed(2));
-                        //        //console.log('medaina', parseFloat((mediana).toFixed(2)));
-                        //        //console.log('varianza', varianza);
-                        //        //console.log('desviacion', desviacionStndr);
-                        //        //console.log('k', k);
-                        //        console.log('limiteInferior', limiteInferior);
-                        //        console.log('limiteSuperoir', limiteSuperior);
-                        //        arrayLimites = [lista._id, limiteInferior, limiteSuperior];
-                        //        arrayPromedio = [lista._id, mediana];
-                        //       // containerBandasError(categoriasBarraError, arrayLimites, arrayPromedio, lista.NOM_LISTA, index);
-                        //    }, function (errorResponse) {
-                        //        $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
-                        //    });
-                        //    console.log('medianaUltimo', limiteInferior);
-                        //});
-                        //dateAux.setMinutes(dateAux.getMinutes() + tiempo);
-                        //if (dateAux <= dateUltimoVoto) {
-                        //    console.log('');
-                        //} else if (i === 0) {
-                        //    dateAux.setMinutes(dateAux.getMinutes() + tiempo);
-                        //    i++;
-                        //} else {
-                        //    flag = false;
-                        //}
-                        // } while (flag);
-                        //date = new Date(fechaPrimerVoto);
-                        //dateAux = new Date(fechaPrimerVoto);
-                        //flag = true;
-                        //i = 0;
+                        promediosA = [];
+                        rangosA = [];
+                        votos(lista, fechas, function (response) {
+                            console.log('votoMetodo', response);
+                            if (fechas.length > promediosA.length && fechas.length > rangosA.length) {
+                                promediosA.push(response.promedio);
+                                rangosA.push(response.rango);
+                            }
+                            callback({
+                                promedios: promediosA,
+                                rangos: rangosA,
+                                lista: lista
+                            });
+                        });
                     });
                 });
             }
 
+            function averageObject(nameAverages, promedios, index) {
+                var average = {
+                    name: nameAverages,
+                    data: promedios,
+                    zIndex: 1,
+                    marker: {
+                        fillColor: 'white',
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[index]
+                    }
+                };
+                return average;
+            }
+
+            function rangeObject(rango, index) {
+                var range = {
+                    name: 'Limites',
+                    data: rango,
+                    type: 'arearange',
+                    lineWidth: 0,
+                    linkedTo: ':previous',
+                    color: Highcharts.getOptions().colors[index],
+                    fillOpacity: 0.3,
+                    zIndex: 0
+                };
+                return range;
+            }
+
+
             function calculoDeRangos(lista, date, callback) {
-                var datos = [], dataInPorcentaje = [], mediana = 0, varianza = 0, desviacionStndr = 0, k = 0, limiteInferior = 0, limiteSuperior = 0;
+                var dateFormat, datos = [], dataInPorcentaje = [], mediana = 0, varianza = 0, desviacionStndr = 0, k = 0, limiteInferior = 0, limiteSuperior = 0, objectRango = [], objectPromedio = [];
                 serviceVoto.votosDetalladoListaWithFecha.query({
                     codeLista: lista._id,
-                    fecha: date.toISOString()
+                    fecha: date
                 }, function (response) {
-                    var hora = date.getTime();
+                    dateFormat = new Date(date);
+                    var hora = dateFormat.getTime();
                     var horaFormat = $filter('date')(hora, 'mediumTime');
                     categoriasBarraError.push(horaFormat);
 
-                    date.setMinutes(date.getMinutes() + tiempo);
                     console.log('response', response);
                     datos = [];
                     response.forEach(function (voto) {
@@ -146,21 +205,31 @@
                     dataInPorcentaje = [];
                     dataInPorcentaje = porcentajeVotos(response, totalVotosALaFecha(response));
                     console.log('lista', lista.NOM_LISTA);
-                    mediana = calculoMedia(datos);
-                    varianza = calculoVarianza(datos);
+                    mediana = calculoMedia(dataInPorcentaje);
+                    varianza = calculoVarianza(dataInPorcentaje);
                     desviacionStndr = desviacionStandar(varianza);
-                    k = calculoValorK(desviacionStndr, datos.length);
+                    k = calculoValorK(desviacionStndr, dataInPorcentaje.length);
                     limiteInferior = parseFloat((mediana - k).toFixed(2));
                     limiteSuperior = parseFloat((mediana + k).toFixed(2));
-                    //console.log('medaina', parseFloat((mediana).toFixed(2)));
-                    //console.log('varianza', varianza);
-                    //console.log('desviacion', desviacionStndr);
-                    //console.log('k', k);
                     console.log('limiteInferior', limiteInferior);
                     console.log('limiteSuperoir', limiteSuperior);
                     arrayLimites = [lista._id, limiteInferior, limiteSuperior];
                     arrayPromedio = [lista._id, mediana];
-                    callback(datos);
+                    objectRango = [horaFormat, limiteInferior, limiteSuperior];
+                    objectPromedio = [horaFormat, parseFloat((mediana).toFixed(2))];
+
+                    callback({
+                        lista: lista,
+                        datos: datos,
+                        rango: objectRango,
+                        promedio: objectPromedio
+                    });
+                    $scope.dataObject.push({
+                        lista: lista,
+                        datos: datos,
+                        rango: objectRango,
+                        promedio: objectPromedio
+                    });
                     // containerBandasError(categoriasBarraError, arrayLimites, arrayPromedio, lista.NOM_LISTA, index);
                 }, function (errorResponse) {
                     $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
@@ -194,8 +263,6 @@
                             //console.log('dataRenderResults', results.f);
                         });
                     });
-
-                    lineGrafico(votantes, $scope.getValueStorage('horaVoto'));
                 }, function (errorResponse) {
                     $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                 });
@@ -331,41 +398,16 @@
                 });
             }
 
-            function containerBandasError(categorias, ranges, averages, nameAverages, index) {
-                rango.push(ranges);
-                promedios.push(averages);
-                var average = {
-                    name: nameAverages,
-                    data: promedios,
-                    zIndex: 1,
-                    marker: {
-                        fillColor: 'white',
-                        lineWidth: 2,
-                        lineColor: Highcharts.getOptions().colors[index]
-                    }
-                };
-                seriesBarraChart.push(average);
-                var range = {
-                    name: 'Limites',
-                    data: rango,
-                    type: 'arearange',
-                    lineWidth: 0,
-                    linkedTo: ':previous',
-                    color: Highcharts.getOptions().colors[index],
-                    fillOpacity: 0.3,
-                    zIndex: 0
-                };
-                seriesBarraChart.push(range);
+
+            function containerBandasError(categorias, seriesBarraChart) {
                 $('#containerBandasError').highcharts({
 
                     title: {
-                        text: 'July temperatures'
+                        text: 'Bandas de error'
                     },
 
                     xAxis: {
-                        //type: 'datetime'
-                        //categories: ['1ff', '2ff', '3ff', '4ff']
-                        categories: categorias
+                        //categories: categorias
                     },
 
                     yAxis: {
@@ -377,114 +419,11 @@
                     tooltip: {
                         crosshairs: true,
                         shared: true,
-                        valueSuffix: '°C'
+                        valueSuffix: ' %'
                     },
 
                     legend: {},
-                    //
-                    //series: [{
-                    //    name: 'Temperature',
-                    //    data: averages,
-                    //    zIndex: 1,
-                    //    marker: {
-                    //        fillColor: 'white',
-                    //        lineWidth: 2,
-                    //        lineColor: Highcharts.getOptions().colors[0]
-                    //    }
-                    //}, {
-                    //    name: 'Range',
-                    //    data: ranges,
-                    //    type: 'arearange',
-                    //    lineWidth: 0,
-                    //    linkedTo: ':previous',
-                    //    color: Highcharts.getOptions().colors[0],
-                    //    fillOpacity: 0.3,
-                    //    zIndex: 0
-                    //}]
                     series: seriesBarraChart
-                });
-            }
-
-            var ranges = [
-                    [1, 14.3, 27.7],
-                    [2, 14.5, 27.8],
-                    [3, 15.5, 29.6],
-                    [4, 16.7, 30.7]
-                ],
-                averages = [
-                    [1, 21.5],
-                    [2, 22.1],
-                    [3, 23],
-                    [4, 23.8]
-                ];
-
-
-            function lineGrafico(dataEjeY) {
-                $('#container').highcharts({
-                    chart: {
-                        type: 'spline',
-                        animation: Highcharts.svg, // don't animate in old IE
-                        marginRight: 10,
-                        events: {
-                            load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                        y = dataEjeY;
-                                    series.addPoint([x, y], true, true);
-                                }, 2000);
-                            }
-                        }
-                    },
-                    title: {
-                        text: 'Live random data'
-                    },
-                    xAxis: {
-                        type: 'datetime',
-                        tickPixelInterval: 150
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Value'
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }]
-                    },
-                    tooltip: {
-                        formatter: function () {
-                            return '<b>' + this.series.name + '</b><br/>' +
-                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                                Highcharts.numberFormat(this.y, 2);
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    series: [{
-                        name: 'Random data',
-                        data: (function () {
-                            // generate an array of random data
-                            var data = [],
-                                time = (new Date()).getTime(),
-                                i;
-
-                            for (i = -5; i <= 0; i += 1) {
-                                data.push({
-                                    x: time + i * 1000,
-                                    y: dataEjeY
-                                });
-                            }
-                            return data;
-                        }())
-                    }]
                 });
             }
         }
