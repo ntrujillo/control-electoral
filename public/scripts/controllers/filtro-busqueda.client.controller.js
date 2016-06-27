@@ -33,7 +33,7 @@
             };
 
             //return provinces
-            filtros.Provincias.query(function (provinces) {
+            filtros.Provincias.query({sort: "name"}, function (provinces) {
                 $scope.provincesList = angular.fromJson(provinces);
             }, function (err) {
                 console.err(err);
@@ -41,17 +41,21 @@
 
             //return cantones by Province
             $scope.getCantones = function (provinceCode) {
-                filtros.Canton.query({id_provincia: provinceCode}, function (cantones) {
-                    $scope.cantonesByProvinceList = angular.fromJson(cantones);
-                }, function (err) {
-                    console.err(err);
-                });
+                if (provinceCode !== null) {
+                    filtros.Canton.query({id_provincia: provinceCode, sort: "name"}, function (cantones) {
+                        $scope.cantonesByProvinceList = angular.fromJson(cantones);
+                    }, function (err) {
+                        console.err(err);
+                    });
+                } else {
+                    $scope.cantonesByProvinceList = [];
+                }
             };
 
             //return parroquias by Cantones
             $scope.getParroquias = function (cantonCode) {
                 if (cantonCode !== null) {
-                    filtros.Parroquia.query({id_canton: cantonCode}, function (parroquias) {
+                    filtros.Parroquia.query({id_canton: cantonCode, sort: "name"}, function (parroquias) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
                     }, function (err) {
                         console.err(err);
@@ -65,7 +69,7 @@
             $scope.getZonas = function (parroquiaCode) {
                 $scope.zonasByParroquiaList = [];
                 if (parroquiaCode !== null) {
-                    filtros.Zona.query({id_parroquia: parroquiaCode}, function (zonas) {
+                    filtros.Zona.query({id_parroquia: parroquiaCode, sort: "name"}, function (zonas) {
                         $scope.zonasByParroquiaList = angular.fromJson(zonas);
                     }, function (errorResponse) {
                         $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
@@ -80,7 +84,7 @@
             $scope.getRecintos = function (zonaCode) {
                 $scope.recintosByZona = [];
                 if (zonaCode !== null) {
-                    filtros.Recinto.query({id_zona: zonaCode}, function (recintos) {
+                    filtros.Recinto.query({id_zona: zonaCode, sort: "name"}, function (recintos) {
                         $scope.recintosByZona = angular.fromJson(recintos);
                     }, function (errorResponse) {
                         $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
