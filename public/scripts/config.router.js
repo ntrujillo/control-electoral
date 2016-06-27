@@ -105,6 +105,7 @@ angular
                                     files: [
                                         'scripts/services/junta.client.service.js',
                                         'scripts/services/votos.client.service.js',
+                                        'scripts/services/lista.client.service.js',
                                         'scripts/controllers/results.client.controller.js'
                                     ]
                                 }]);
