@@ -139,7 +139,7 @@
                 modalInstance.result.then(function (obj) {
                     ctrl.result = obj;
                 });
-            };
+            }
 
             ctrl.showModal = showModal;
 
