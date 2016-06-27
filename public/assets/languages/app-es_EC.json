@@ -29,7 +29,8 @@
       "TITLE_NO": "No",
       "TITLE_FILTROS": "Filtros",
       "TITLE_LIMPIAR": "Limpiar",
-      "TITLE_OTROS": "Otros"
+      "TITLE_OTROS": "Otros",
+      "TITLE_REFRESH": "Actualizar"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
