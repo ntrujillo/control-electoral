@@ -5,7 +5,6 @@ angular
         'oc.lazyLoad',
         'ngStorage',
         'ngResource',
-        'zingchart-angularjs',
         'pascalprecht.translate',
         'angular-growl',
         'ngAnimate',
