@@ -35,14 +35,20 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(q, fields, sort, page, perPage) {
-    var criteria = {};
-    var response = {};
-    var deferred = Q.defer();
+function query(q, fields, sort, page, perPage, filterName, isFilterOr) {
+    var criteria = {}, response = {}, like = '';
+    deferred = Q.defer();
 
-    if (q) {
-        criteria = {code: q};
+    if (isFilterOr) {
+        if (filterName || q) {
+            criteria = {$or: [{code: (q) ? q : ''}, {name: (filterName) ? {$regex: '^' + filterName} : ''}]};
+        }
+    } else {
+        if (q) {
+            criteria = {code: q};
+        }
     }
+
     if (sort) {
         sort = sort.replace(plus, '');
         sort = sort.replace(comma, ' ');
@@ -59,6 +65,7 @@ function query(q, fields, sort, page, perPage) {
         }
     }
 
+    console.log('filtro', criteria);
     Provincia.find(criteria).count(function (error, count) {
 
         if (error) {
