@@ -12,7 +12,9 @@
                     page: page,
                     per_page: ctrl.itemsPerPage,
                     q: ctrl.filter,
-                    sort: 'name'
+                    sort: 'name',
+                    filterName: ctrl.filterName,
+                    isFilterOr: true
                 }, function (result, headers) {
                     ctrl.registros = result;
                     ctrl.total_count = headers('X-Total-Count');
