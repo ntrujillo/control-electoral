@@ -2,13 +2,15 @@ var provinciaService = require('../services/provincia.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryProvincia(req, res) {
-    var q = req.query.q;
-    var fields = req.query.fields;
-    var sort = req.query.sort;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var q = req.query.q,
+        filterName = req.query.filterName,
+        isFilterOr = req.query.isFilterOr,
+        fields = req.query.fields,
+        sort = req.query.sort,
+        page = req.query.page,
+        perPage = req.query.per_page;
 
-    provinciaService.query(q, fields, sort, page, perPage)
+    provinciaService.query(q, fields, sort, page, perPage, filterName, isFilterOr)
         .then(function (response) {
             if (response.provincias) {
                 Logger.logInfo('[ProvinciaCtrl] Se obtuvo las provincias correctas');
