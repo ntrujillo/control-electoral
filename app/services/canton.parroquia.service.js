@@ -33,19 +33,30 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(id_canton, q, fields, sort, page, perPage) {
+function query(id_canton, q, fields, sort, page, perPage, filterName) {
 
     var criteria = {};
     var response = {};
     var deferred = Q.defer();
 
-    if (id_canton) {
-        criteria.canton = id_canton;
+
+    if (filterName) {
+        criteria = {
+            canton: id_canton,
+            $or: [{
+                code: (q) ? q : ''
+            }, {name: (filterName) ? {$regex: '^' + filterName} : ''}]
+        };
+    } else {
+        if (id_canton) {
+            criteria.canton = id_canton;
+        }
+
+        if (q) {
+            criteria.code = q;
+        }
     }
 
-    if (q) {
-        criteria.code = q;
-    }
     if (sort) {
         sort = sort.replace(plus, '');
         sort = sort.replace(comma, ' ');
