@@ -3,13 +3,14 @@ var cantonService = require('../../app/services/provincia.canton.service'),
 
 
 function queryCanton(req, res) {
-    var q = req.query.q;
-    var fields = req.query.fields;
-    var sort = req.query.sort;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var q = req.query.q,
+        filterName = req.query.filterName,
+        fields = req.query.fields,
+        sort = req.query.sort,
+        page = req.query.page,
+        perPage = req.query.per_page;
 
-    cantonService.query(req.params.id_provincia, q, fields, sort, page, perPage)
+    cantonService.query(req.params.id_provincia, q, fields, sort, page, perPage, filterName)
         .then(function (response) {
             if (response.cantons) {
                 Logger.logInfo('[ProvinciaCantonCtrl] Se recuperó los cantones correctamente de la provincia', req.params.id_provincia);
