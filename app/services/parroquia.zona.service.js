@@ -14,19 +14,29 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(id_parroquia, q, fields, sort, page, perPage) {
+function query(id_parroquia, q, fields, sort, page, perPage, filterName) {
 
-    var criteria = {};
-    var response = {};
-    var deferred = Q.defer();
+    var criteria = {},
+        response = {},
+        deferred = Q.defer();
 
-    if (id_parroquia) {
-        criteria.parroquia = id_parroquia;
+    if (filterName) {
+        criteria = {
+            parroquia: id_parroquia,
+            $or: [{
+                code: (q) ? q : ''
+            }, {name: (filterName) ? {$regex: '^' + filterName} : ''}]
+        };
+    } else {
+        if (id_parroquia) {
+            criteria.parroquia = id_parroquia;
+        }
+
+        if (q) {
+            criteria.code = q;
+        }
     }
 
-    if (q) {
-        criteria.code = q;
-    }
     if (sort) {
         sort = sort.replace(plus, '');
         sort = sort.replace(comma, ' ');
