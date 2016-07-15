@@ -10,13 +10,19 @@ service.getById = getById;
 
 module.exports = service;
 
-function query(q, fields, sort, page, perPage) {
-    var criteria = {};
-    var response = {};
-    var deferred = Q.defer();
+function query(q, fields, sort, page, perPage, filterName, isFilterOr) {
+    var criteria = {},
+        response = {},
+        deferred = Q.defer();
 
-    if (q) {
-        criteria = {code: q};
+    if (isFilterOr) {
+        if (filterName || q) {
+            criteria = {$or: [{code: (q) ? q : ''}, {name: (filterName) ? {$regex: '^' + filterName} : ''}]};
+        }
+    } else {
+        if (q) {
+            criteria = {code: q};
+        }
     }
     if (sort) {
         sort = sort.replace(plus, '');
