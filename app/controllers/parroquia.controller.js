@@ -2,13 +2,15 @@ var ParroquiaService = require('../../app/services/parroquia.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryParroquia(req, res) {
-    var q = req.query.q;
-    var fields = req.query.fields;
-    var sort = req.query.sort;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var q = req.query.q,
+        filterName = req.query.filterName,
+        isFilterOr = req.query.isFilterOr,
+        fields = req.query.fields,
+        sort = req.query.sort,
+        page = req.query.page,
+        perPage = req.query.per_page;
 
-    ParroquiaService.query(q, fields, sort, page, perPage)
+    ParroquiaService.query(q, fields, sort, page, perPage, filterName, isFilterOr)
         .then(function (response) {
             if (response.parroquias) {
                 Logger.logInfo('[ParroquiaCtrl] Se obtuvo las parroquias correctamente');
