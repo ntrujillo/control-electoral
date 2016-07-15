@@ -2,13 +2,15 @@ var RecintoService = require('../../app/services/recinto.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryRecinto(req, res) {
-    var q = req.query.q;
-    var fields = req.query.fields;
-    var sort = req.query.sort;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var q = req.query.q,
+        filterName = req.query.filterName,
+        isFilterOr = req.query.isFilterOr,
+        fields = req.query.fields,
+        sort = req.query.sort,
+        page = req.query.page,
+        perPage = req.query.per_page;
 
-    RecintoService.query(q, fields, sort, page, perPage)
+    RecintoService.query(q, fields, sort, page, perPage, filterName, isFilterOr)
         .then(function (response) {
             if (response.recintos) {
                 Logger.logInfo('[RecintoCtrl] Se obtuvo los recintos correctamente');
