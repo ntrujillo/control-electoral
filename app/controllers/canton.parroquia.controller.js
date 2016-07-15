@@ -2,13 +2,14 @@ var parroquiaService = require('../services/canton.parroquia.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryParroquia(req, res) {
-    var q = req.query.q;
-    var fields = req.query.fields;
-    var sort = req.query.sort;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var q = req.query.q,
+        filterName = req.query.filterName,
+        fields = req.query.fields,
+        sort = req.query.sort,
+        page = req.query.page,
+        perPage = req.query.per_page;
 
-    parroquiaService.query(req.params.id_canton, q, fields, sort, page, perPage)
+    parroquiaService.query(req.params.id_canton, q, fields, sort, page, perPage, filterName)
         .then(function (response) {
             if (response.parroquias) {
                 Logger.logInfo('[CantonParroquiaCtrl] Se recuperó las parroquias correctamente del cantón', req.params.id_canton);
