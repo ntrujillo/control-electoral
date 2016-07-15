@@ -34,19 +34,28 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(id_provincia, q, fields, sort, page, perPage) {
+function query(id_provincia, q, fields, sort, page, perPage, filterName) {
+    var criteria = {},
+        response = {},
+        deferred = Q.defer();
 
-    var criteria = {};
-    var response = {};
-    var deferred = Q.defer();
+    if (filterName) {
+        criteria = {
+            provincia: id_provincia,
+            $or: [{
+                code: (q) ? q : ''
+            }, {name: (filterName) ? {$regex: '^' + filterName} : ''}]
+        };
+    } else {
+        if (id_provincia) {
+            criteria.provincia = id_provincia;
+        }
 
-    if (id_provincia) {
-        criteria.provincia = id_provincia;
+        if (q) {
+            criteria.code = q;
+        }
     }
 
-    if (q) {
-        criteria.code = q;
-    }
     if (sort) {
         sort = sort.replace(plus, '');
         sort = sort.replace(comma, ' ');
