@@ -34,19 +34,28 @@ service.delete = _delete;
 
 module.exports = service;
 
-function query(id_zona, q, fields, sort, page, perPage) {
+function query(id_zona, q, fields, sort, page, perPage, filterName) {
+    var criteria = {},
+        response = {},
+        deferred = Q.defer();
 
-    var criteria = {};
-    var response = {};
-    var deferred = Q.defer();
+    if (filterName) {
+        criteria = {
+            zona: id_zona,
+            $or: [{
+                code: (q) ? q : ''
+            }, {name: (filterName) ? {$regex: '^' + filterName} : ''}]
+        };
+    } else {
+        if (id_zona) {
+            criteria.zona = id_zona;
+        }
 
-    if (id_zona) {
-        criteria.zona = id_zona;
+        if (q) {
+            criteria.code = q;
+        }
     }
 
-    if (q) {
-        criteria.code = q;
-    }
     if (sort) {
         sort = sort.replace(plus, '');
         sort = sort.replace(comma, ' ');
