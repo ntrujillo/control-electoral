@@ -2,13 +2,14 @@ var service = require('../../app/services/zona.recinto.service'),
     Logger = require(__dirname + '/../../app/log/Logger');
 
 function queryRecinto(req, res) {
-    var q = req.query.q;
-    var fields = req.query.fields;
-    var sort = req.query.sort;
-    var page = req.query.page;
-    var perPage = req.query.per_page;
+    var q = req.query.q,
+        filterName = req.query.filterName,
+        fields = req.query.fields,
+        sort = req.query.sort,
+        page = req.query.page,
+        perPage = req.query.per_page;
 
-    service.query(req.params.id_zona, q, fields, sort, page, perPage)
+    service.query(req.params.id_zona, q, fields, sort, page, perPage, filterName)
         .then(function (response) {
             if (response.recintos) {
                 Logger.logInfo('[ZonaRecintoCtrl] Se recuper\u00f3 los recintos correctamente de la zona', req.params.id_zona);
