@@ -36,7 +36,7 @@ service.delete = _delete;
 module.exports = service;
 
 function query(q, fields, sort, page, perPage, filterName, isFilterOr) {
-    var criteria = {}, response = {}, like = '';
+    var criteria = {}, response = {};
     deferred = Q.defer();
 
     if (isFilterOr) {
@@ -65,7 +65,6 @@ function query(q, fields, sort, page, perPage, filterName, isFilterOr) {
         }
     }
 
-    console.log('filtro', criteria);
     Provincia.find(criteria).count(function (error, count) {
 
         if (error) {
