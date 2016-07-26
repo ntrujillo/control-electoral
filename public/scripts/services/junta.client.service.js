@@ -10,6 +10,15 @@
         });
         service.Junta = $resource('/api/juntasRest');
         service.getJunta = $resource('/api/juntas/:id');
+        service.getNumeroJuntas = $resource('/api/junta/numeroJuntas', {
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            }
+        });
         return service;
     }]);
 
