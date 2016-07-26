@@ -11,4 +11,7 @@ module.exports = function (app) {
     app.route('/api/juntasRest/')
         .get(usuario.requiresLogin, junta.getNumeroDeVotantes);
 
+    app.route('/api/junta/numeroJuntas')
+        .get(usuario.requiresLogin, junta.getNumeroJuntas);
+
 };
