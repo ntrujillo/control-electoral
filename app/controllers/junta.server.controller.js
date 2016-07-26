@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var getErrorMessage = function (err) {
     if (err) {
         for (var errName in err.errors) {
-            if (err.errors[errName].message) {
+            if (err.errors.hasOwnProperty(errName)) {
                 return err.errors[errName].message;
             }
         }
@@ -66,5 +66,16 @@ exports.getNumeroDeVotantes = function (req, res) {
             //simpre va a retornar un elemento
             return res.status(200).send(totalVotantes[0]);
         }
+    });
+};
+
+exports.getNumeroJuntas = function (req, res) {
+    Junta.find({}).count(function (err, count) {
+        if (err) {
+            return res.status(400).json({message: getErrorMessage(err)});
+        } else {
+            return res.status(200).json({juntas: count});
+        }
+
     });
 };
