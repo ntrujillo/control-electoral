@@ -544,7 +544,8 @@ exports.getVotosByFecha = function (req, res) {
         }
     }).group({
         _id: {},
-        totalVotos: {$sum: "$TOTAL_VOTOS"}
+        totalVotos: {$sum: "$TOTAL_VOTOS"},
+        totalJuntas: {$sum: 1}
     }).exec(function (err, votosTotales) {
         if (err) {
             Logger.logError('[VotosCtrl] error al obtner los votos totales a la fecha', f1);
