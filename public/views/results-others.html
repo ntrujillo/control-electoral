@@ -14,7 +14,7 @@
                         <!--<div id="container"></div>-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="col-md-12 col-xs-12" ng-init="initData()">
+                        <div class="col-md-12 col-xs-12">
                             <div form-group>
                                 <button class="btn btn-default" type="button" ng-click="refresh()"
                                         title="{{'CONTAINER.COMMONS.TITLE_REFRESH'|translate}}">
@@ -23,34 +23,13 @@
                                 <div id="containerLineChart"></div>
                             </div>
                         </div>
-                        <div class="col-md-12 col-xs-12 form-grid" ng-init="initData2()">
-                            <div class="bs-component form-group">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th>Hora</th>
-                                            <th>LI</th>
-                                            <th>V</th>
-                                            <th>LS</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="resumen in resumenVotos">
-                                            <td align="center">{{resumen.descripcion}}</td>
-                                            <td align="center">
-                                                <label>{{resumen.votos}}</label>
-                                            </td>
-                                        </tr>
-                                        <tr ng-repeat="resumen in resumenOtros">
-                                            <td align="center">{{resumen.descripcion}}</td>
-                                            <td align="center">
-                                                <label>{{resumen.votos}}</label>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="col-md-12 col-xs-12" ng-init="initData()">
+                            <div form-group>
+                                <button class="btn btn-default" type="button" ng-click="refresh()"
+                                        title="{{'CONTAINER.COMMONS.TITLE_REFRESH'|translate}}">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </button>
+                                <div id="containerLineChartPorcentaje"></div>
                             </div>
                         </div>
                         <div class="col-md-12 col-xs-12">
@@ -60,6 +39,39 @@
                                     <span class="glyphicon glyphicon-refresh"></span>
                                 </button>
                                 <div id="containerBandasError"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <div form-group>
+                                <button class="btn btn-default" type="button" ng-click="refresh()"
+                                        title="{{'CONTAINER.COMMONS.TITLE_REFRESH'|translate}}">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </button>
+                                <div id="BandasError"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12 form-grid" ng-init="initData2()">
+                            <div class="bs-component form-group">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Lista</th>
+                                            <th>LI</th>
+                                            <th>V</th>
+                                            <th>LS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="resumen in dataResultados">
+                                            <td align="center">{{resumen.lista.NOM_LISTA}}</td>
+                                            <td align="center">{{resumen.limiteInferior}}</td>
+                                            <td align="center">{{resumen.promedio}}</td>
+                                            <td align="center">{{resumen.limiteSuperior}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
