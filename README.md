@@ -3,3 +3,7 @@
 MEAN Stack User Registration and Login Example Application
 
 To see a demo and further details go to http://jasonwatmore.com/post/2015/12/09/MEAN-Stack-User-Registration-and-Login-Example.aspx
+
+//para inicializar
+*db.votos.remove({});
+db.juntas.update({status:'VR'},{$set:{status:'A'}},{multi:true})
