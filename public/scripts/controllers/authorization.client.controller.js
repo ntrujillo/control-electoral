@@ -16,6 +16,7 @@
                 $scope.$emit('to_parent', $scope.rolMenu);
             };
             $scope.loadPage = function () {
+                $scope.setValueStorage('tiempo', 30);
                 Authorization.rolStatus.get({rol: $scope.rolMenu}, function (response) {
                     if (response.status) {
                         $state.go('app.resultados.general');
