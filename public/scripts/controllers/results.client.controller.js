@@ -13,6 +13,14 @@
 
             getVotosTotales();
 
+            function getValueStorageTime() {
+                if (angular.isDefined($scope.getValueStorage('tiempo'))) {
+                    return $scope.getValueStorage('tiempo');
+                } else {
+                    return 10;
+                }
+            }
+
             function getVotosTotales() {
                 serviceVoto.votosTotales.get(function (response) {
                     $scope.votosTotales = response.votosTotales;
@@ -30,8 +38,14 @@
                 $scope.initData2();
             };
 
+            $scope.loadData = function () {
+                $scope.initData();
+                $scope.initData2()
+            };
+
             $scope.initData = function () {
                 var range, average;
+                getValueStorageTime();
                 loadGrafico(function (response) {
                     console.log('respuestaUltimo', response);
                     console.log('respuestaUltimo2');
@@ -55,23 +69,42 @@
                         }
 
                     });
-                    labelsEjeX = getLabelsEjeX($scope.listas[0]);
-                    containerBandasError(labelsEjeX, $scope.seriesBarError);
-                    console.log('lista', $scope.listas);
-                    console.log('seriesBAndas', $scope.seriesBarError);
+                    var t3, t4;
+                    t3 = ordenarArraySeriesBandasError(angular.copy($scope.seriesBarError));
+                    t4 = angular.copy(t3);
+                    labelsEjeX = getLabelsEjeX(t3[0]);
+                    containerBandasError(labelsEjeX, t4);
                     $scope.listas.forEach(function (lista) {
                         loadTableResult($scope.fechas.maxVotoFecha, lista);
                     });
-                    loadBandasError(labelBandasError(angular.copy($scope.seriesBarError)), seriesLoadBandasError(angular.copy($scope.seriesBarError)), labelsEjeX);
+                    //loadBandasError(labelBandasError(angular.copy($scope.seriesBarError)), seriesLoadBandasError(angular.copy($scope.seriesBarError)), labelsEjeX);
+                    loadBandasError(labelBandasError(t4), seriesLoadBandasError(t4), labelsEjeX);
                 });
                 console.log('ultimo2');
             };
 
-            function getLabelsEjeX(lista) {
+            function ordenarArraySeriesBandasError(seriesBarError) {
+                var i;
+                for (i = 0; i < seriesBarError.length; i++) {
+                    if (i % 2 === 0) {
+                        seriesBarError[i].data.sort(function (a, b) {
+                            return a[2] - b[2];
+                        });
+                    } else {
+                        seriesBarError[i].data.sort(function (a, b) {
+                            return a[0] - b[0];
+                        });
+                    }
+
+                }
+                return seriesBarError;
+            }
+
+            function getLabelsEjeX(serie) {
                 var labels = [];
-                if (angular.isDefined(lista.promedio)) {
-                    lista.promedio.forEach(function (promedio) {
-                        labels.push(promedio[0]);
+                if (angular.isDefined(serie.data)) {
+                    serie.data.forEach(function (array) {
+                        labels.push(array[0]);
                     });
                 }
                 return labels;
@@ -174,7 +207,7 @@
                         fechas = fechasByRecorrer(fechasRango.minVotoFecha, fechasRango.maxVotoFecha);
                         for (var i = 0; i < listas.length; i++) {
                             for (var j = 0; j < fechas.length; j++) {
-                                calculoDeRangos(listas[i], fechas[j], function (respuesta) {
+                                calculoDeRangos(listas[i], fechas[j], j, function (respuesta) {
                                     console.log('respuesta1 ', respuesta);
                                     $scope.dataObject.push(respuesta);
                                 });
@@ -209,8 +242,8 @@
 
             function votos(lista, fechas, callback) {
                 var t = [];
-                fechas.forEach(function (fecha) {
-                    calculoDeRangos(lista, fecha, function (response) {
+                fechas.forEach(function (fecha, index) {
+                    calculoDeRangos(lista, fecha, index, function (response) {
                         console.log('callback', response);
                         console.log('a la fecha' + new Date(fecha));
                         t.push(response.promedio);
@@ -225,7 +258,7 @@
                 var fechas = [], dateUltimoVoto = new Date(fechaUltimoVoto), date = new Date(fechaPrimerVoto);
                 fechas.push(date.toISOString());
                 do {
-                    date.setMinutes(date.getMinutes() + tiempo);
+                    date.setMinutes(date.getMinutes() + getValueStorageTime());
                     fechas.push(date.toISOString());
                     console.log('fecha', date);
                 } while (date <= dateUltimoVoto);
@@ -291,7 +324,7 @@
             function loadTableResult(fechaUltima, lista) {
                 var ultimaFecha = new Date(fechaUltima), datos, mediana = 0, varianza = 0, desviacionStndr = 0, k, limiteInferior, limiteSuperior;
                 ultimaFecha.toISOString();
-                ultimaFecha.setMinutes(ultimaFecha.getMinutes() + tiempo);
+                ultimaFecha.setMinutes(ultimaFecha.getMinutes() + getValueStorageTime());
                 serviceVoto.votosDetalladoListaWithFecha.query({
                     codeLista: lista._id,
                     fecha: ultimaFecha
@@ -322,7 +355,7 @@
                 });
             }
 
-            function calculoDeRangos(lista, date, callback) {
+            function calculoDeRangos(lista, date, index, callback) {
                 var dateFormat, datos = [], dataInPorcentaje = [], mediana = 0, varianza = 0, desviacionStndr = 0, k = 0, limiteInferior = 0, limiteSuperior = 0, objectRango = [], objectPromedio = [];
                 serviceVoto.votosDetalladoListaWithFecha.query({
                     codeLista: lista._id,
@@ -352,7 +385,7 @@
                     arrayLimites = [lista._id, limiteInferior, limiteSuperior];
                     arrayPromedio = [lista._id, mediana];
                     objectRango = [limiteInferior, limiteSuperior];
-                    objectPromedio = [horaFormat, parseFloat((mediana).toFixed(2))];
+                    objectPromedio = [horaFormat, parseFloat((mediana).toFixed(2)), index];
 
                     callback({
                         lista: lista,
@@ -430,10 +463,11 @@
                             dataCategorias.push(horaFormat);
                             dataResults.push(votos);
                             dataProcentajeJuntas.push(parseFloat(((juntasALaFecha * 100) / numeroJuntas).toFixed(2)));
-                            date.setMinutes(date.getMinutes() + tiempo);
+                            date.setMinutes(date.getMinutes() + getValueStorageTime());
                             loadGraficoLineChart('containerLineChartPorcentaje', parseFloat(((numeroJuntas * 100) / numeroJuntas).toFixed(2)), dataCategorias, dataProcentajeJuntas, {
                                 titleY: '%',
-                                titleSerie: 'porcentaje'
+                                titleSerie: 'porcentaje',
+                                suffix: ' %'
                             });
                             loadGraficoLineChart('containerLineChart', votantes, dataCategorias, dataResults, {
                                 titleY: 'Total votantes',
@@ -444,11 +478,11 @@
                             $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
                         });
                     });
-                    dateAux.setMinutes(dateAux.getMinutes() + tiempo);
+                    dateAux.setMinutes(dateAux.getMinutes() + getValueStorageTime());
                     if (dateAux <= dateUltimoVoto) {
                         console.log('');
                     } else if (i === 0) {
-                        dateAux.setMinutes(dateAux.getMinutes() + tiempo);
+                        dateAux.setMinutes(dateAux.getMinutes() + getValueStorageTime());
                         i++;
                     } else {
                         flag = false;
@@ -545,7 +579,7 @@
                         }]
                     },
                     tooltip: {
-                        valueSuffix: ' %'
+                        valueSuffix: angular.isDefined(options.suffix) ? options.suffix : ''
                     },
                     series: [{
                         name: options.titleSerie,
@@ -586,7 +620,7 @@
 
                     yAxis: {
                         title: {
-                            text: null
+                            text: '%'
                         }
                     },
 
