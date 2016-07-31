@@ -13,6 +13,7 @@ module.exports = function () {
     require('../app/models/parroquia');
     require('../app/models/zona');
     require('../app/models/recinto');
+    require('../app/models/region');
     require('../app/models/junta');
     require('../app/models/juntas.users.model');
     require('../app/models/lista.server.model');
