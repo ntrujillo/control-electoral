@@ -13,6 +13,9 @@
             $scope.votosTotales = 0;
 
             $scope.gridOptions = {
+                exporterPdfHeader: {text: "Resultados", style: 'headerStyle', alignment: 'center'},
+                exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+                exporterPdfMaxGridWidth: 660,
                 enableSorting: true,
                 exporterMenuCsv: false,
                 enableGridMenu: true,
@@ -23,7 +26,7 @@
                     return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
                 },
                 exporterPdfCustomFormatter: function (docDefinition) {
-                    docDefinition.styles.headerStyle = {fontSize: 22, bold: true};
+                    docDefinition.styles.headerStyle = {fontSize: 18, bold: true};
                     docDefinition.styles.footerStyle = {fontSize: 10, bold: true};
                     return docDefinition;
                 },
