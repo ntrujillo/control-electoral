@@ -106,6 +106,7 @@
             }
 
             $scope.saveVoto = function () {
+                console.log('juntaInformation', $scope.juntaInformation);
                 registro.NULOS = $scope.votosNulos;
                 registro.BLANCOS = $scope.votosBlancos;
                 registro.TOTAL_VOTOS = $scope.totalVotos;
@@ -127,7 +128,10 @@
                                 _id: $scope.juntaInformation.recinto.zona.parroquia._id,
                                 canton: {
                                     _id: $scope.juntaInformation.recinto.zona.parroquia.canton._id,
-                                    provincia: {_id: $scope.juntaInformation.recinto.zona.parroquia.canton.provincia._id}
+                                    provincia: {
+                                        _id: $scope.juntaInformation.recinto.zona.parroquia.canton.provincia._id,
+                                        region: $scope.juntaInformation.recinto.zona.parroquia.canton.provincia.region
+                                    }
                                 }
                             }
                         }
