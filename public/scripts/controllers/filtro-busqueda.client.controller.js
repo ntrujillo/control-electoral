@@ -1010,7 +1010,7 @@
                     },
                     yAxis: {
                         title: {
-                            text: 'Porcentaje total'
+                            text: 'Votos (%)'
                         }
                         //max: 100
                     },
