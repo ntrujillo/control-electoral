@@ -2,6 +2,8 @@ angular
     .module('ControlElectoralApp', [
         'ui.router',
         'ui.bootstrap',
+        'ui.grid',
+        'ui.grid.exporter',
         'oc.lazyLoad',
         'ngStorage',
         'ngResource',
