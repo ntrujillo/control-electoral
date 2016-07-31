@@ -16,6 +16,7 @@
     "angular-animate": "latest",
     "angular-aria": "latest",
     "angular-messages": "latest",
+    "angular-ui-grid": "latest",
     "Chart.js": "latest",
     "highcharts": "latest",
     "jquery": "^1.12.2",
@@ -25,6 +26,7 @@
     "ngstorage": "latest",
     "oclazyload": "latest",
     "fastclick": "latest",
+    "pdfmake": "latest",
     "perfect-scrollbar": "latest",
     "kendo-ui-core": "latest",
     "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
