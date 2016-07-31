@@ -12,6 +12,7 @@ var Provincia = new Schema({
         unique: true,
         trim: true
     },
+    region: {type: mongoose.Schema.Types.ObjectId, ref: 'Region'},
     cantones: [{type: mongoose.Schema.Types.ObjectId, ref: 'Canton'}]
 });
 
