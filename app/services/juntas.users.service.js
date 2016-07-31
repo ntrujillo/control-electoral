@@ -85,7 +85,7 @@ function query(id_user, fields, sort, page, perPage) {
                                 path: 'canton',
                                 select: 'provincia name code',
                                 model: 'Canton',
-                                populate: {path: 'provincia', select: 'name code', model: 'Provincia'}
+                                populate: {path: 'provincia', select: 'name code region', model: 'Provincia'}
                             }
                         }
                     }
