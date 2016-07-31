@@ -9,7 +9,35 @@
             $scope.dataObject = [];
             $scope.seriesBarError = [];
             $scope.dataResultados = [];
+            $scope.resultsTable = [];
             $scope.votosTotales = 0;
+
+            $scope.gridOptions = {
+                enableSorting: true,
+                exporterMenuCsv: false,
+                enableGridMenu: true,
+                exporterPdfFilename: 'Resultados',
+                exporterPdfDefaultStyle: {fontSize: 18},
+                exporterPdfTableHeaderStyle: {fontSize: 18, bold: true, color: 'red'},
+                exporterPdfFooter: function (currentPage, pageCount) {
+                    return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+                },
+                exporterPdfCustomFormatter: function (docDefinition) {
+                    docDefinition.styles.headerStyle = {fontSize: 22, bold: true};
+                    docDefinition.styles.footerStyle = {fontSize: 10, bold: true};
+                    return docDefinition;
+                },
+                exporterPdfOrientation: 'landscape',
+                columnDefs: [
+                    {field: 'Lista', headerCellClass: 'header-ui-grid', headerTooltip: 'Listas'},
+                    {field: 'LI', headerCellClass: 'header-ui-grid', headerTooltip: 'Votos l\u00edmite inferior'},
+                    {field: 'votos', headerCellClass: 'header-ui-grid', headerTooltip: 'Votos'},
+                    {field: 'LS', headerCellClass: 'header-ui-grid', headerTooltip: 'Votos l\u00edmite superior'}
+                ],
+                onRegisterApi: function (gridApi) {
+                    $scope.gridApi = gridApi;
+                }
+            };
 
             getVotosTotales();
 
@@ -78,6 +106,7 @@
                         loadTableResult($scope.fechas.maxVotoFecha, lista);
                     });
                     //loadBandasError(labelBandasError(angular.copy($scope.seriesBarError)), seriesLoadBandasError(angular.copy($scope.seriesBarError)), labelsEjeX);
+
                     loadBandasError(labelBandasError(t4), seriesLoadBandasError(t4), labelsEjeX);
                 });
                 console.log('ultimo2');
@@ -348,7 +377,15 @@
                             promedio: mediana.toFixed(0),
                             limiteSuperior: limiteSuperior.toFixed(0)
                         });
+                        $scope.resultsTable.push({
+                            Lista: lista.NOM_LISTA,
+                            LI: limiteInferior.toFixed(0),
+                            votos: mediana.toFixed(0),
+                            LS: limiteSuperior.toFixed(0)
+                        });
                     }
+
+                    $scope.gridOptions.data = $scope.resultsTable;
 
                 }, function (errorResponse) {
                     $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
