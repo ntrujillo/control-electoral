@@ -5,11 +5,22 @@
     height: 180px;
 }
 
+.ui-grid-custom {
+    height: 250px;
+}
+
 .header-ui-grid {
     color: #0e5ca8;
 }
 
 /* fin angular ui-grid*/
+
+/*custom*/
+.paddin-div {
+    padding: 10px;
+}
+
+/**/
 /* $scaffolding
  ------------------------------------------*/
 
