@@ -596,3 +596,89 @@ exports.votosByListaWithDate = function (req, res) {
             }
         });
 };
+
+//por regiones
+exports.votosBlancoByRegion = function (req, res) {
+    var codeRegion = req.params.codeRegion;
+    Voto.aggregate({
+            $match: {
+                "JUNTA.recinto.zona.parroquia.canton.provincia.region": codeRegion
+            }
+        },
+        {
+            $group: {
+                _id: "$JUNTA.recinto.zona.parroquia.canton.provincia.region",
+                votosBlancos: {$sum: "$BLANCOS"}
+            }
+        }, function (err, VotBlancosByRegion) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(VotBlancosByRegion[0]);
+            }
+        });
+};
+
+exports.votosNulosByRegion = function (req, res) {
+    var codeRegion = req.params.codeRegion;
+    Voto.aggregate({
+            $match: {
+                "JUNTA.recinto.zona.parroquia.canton.provincia.region": codeRegion
+            }
+        },
+        {
+            $group: {
+                _id: "$JUNTA.recinto.zona.parroquia.canton.provincia.region",
+                votosNulos: {$sum: "$NULOS"}
+            }
+        }, function (err, votosNulos) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(votosNulos[0]);
+            }
+        });
+};
+
+exports.totalVotosListaByRegion = function (req, res) {
+    var codeRegion = req.params.codeRegion;
+    var codeLista = req.params.codeLista;
+    Voto.aggregate().unwind("$VOT_VALIDOS").match({
+        "JUNTA.recinto.zona.parroquia.canton.provincia.region": codeRegion,
+        "VOT_VALIDOS.LISTA": codeLista
+    }).group({
+        _id: "$JUNTA.recinto.zona.parroquia.canton.provincia.region",
+        totalVotos: {$sum: "$VOT_VALIDOS.NUM_VOTOS"}
+    }).exec(function (err, votosTotales) {
+        if (err) {
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            //simpre va a retornar un elemento
+            return res.status(200).send(votosTotales[0]);
+        }
+    });
+};
+
+exports.totalVotosByRegion = function (req, res) {
+    var codeRegion = req.params.codeRegion;
+    Voto.aggregate({
+            $match: {
+                "JUNTA.recinto.zona.parroquia.canton.provincia.region": codeRegion
+            }
+        },
+        {
+            $group: {
+                _id: "$JUNTA.recinto.zona.parroquia.canton.provincia.region",
+                votosTotales: {$sum: "$TOTAL_VOTOS"}
+            }
+        }, function (err, votosTotales) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                //simpre va a retornar un elemento
+                return res.status(200).send(votosTotales[0]);
+            }
+        });
+};
