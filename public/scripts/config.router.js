@@ -84,6 +84,7 @@ angular
                                         'scripts/services/filtro-busqueda.client.service.js',
                                         'scripts/services/lista.client.service.js',
                                         'scripts/services/votos.client.service.js',
+                                        'scripts/services/region.cliente.service.js',
                                         'scripts/controllers/filtro-busqueda.client.controller.js'
                                     ]
                                 }]);
