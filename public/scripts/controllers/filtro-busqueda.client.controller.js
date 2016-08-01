@@ -1,6 +1,6 @@
 (function (angular) {
-    angular.module('ControlElectoralApp').controller('FiltroCtrl', ['$scope', '$http', '$state', '$uibModal', 'Filtros', 'Voto', 'Lista', 'APP',
-        function ($scope, $http, $state, $modal, filtros, votos, lista, constant) {
+    angular.module('ControlElectoralApp').controller('FiltroCtrl', ['$scope', '$http', '$state', '$uibModal', 'Filtros', 'Voto', 'Lista', 'APP', 'Region',
+        function ($scope, $http, $state, $modal, filtros, serviceVotos, lista, constant, serviceRegion) {
             var listas = [], series = [],
                 series2 = [], objectColumn, serieColumn = [];
 
@@ -10,6 +10,7 @@
             $scope.selectedZona = null;
             $scope.selectedRecinto = null;
             $scope.selectedJunta = null;
+            $scope.selectedRegion = null;
 
             $scope.provincesList = [];
             $scope.cantonesByProvinceList = [];
@@ -17,6 +18,7 @@
             $scope.zonasByParroquiaList = [];
             $scope.recintosByZona = [];
             $scope.juntasList = [];
+            $scope.regionesList = [];
 
             $scope.resumenVotos = [];
             $scope.resumenOtros = [];
@@ -49,8 +51,88 @@
                 }
             };
 
+            $scope.loadRegiones = function () {
+                serviceRegion.query({}, function (regiones) {
+                    $scope.regionesList = angular.fromJson(regiones);
+                }, function (err) {
+                    console.err(err);
+                });
+            };
+
+
+            $scope.searchByRegion = function () {
+                series = [];
+                $scope.resumenOtros = [];
+                series2 = [];
+                serieColumn = [];
+                if ($scope.selectedRegion !== null) {
+                    serviceVotos.votosTotalesByRegion.get({codeRegion: $scope.selectedRegion._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoByRegion.get({codeRegion: $scope.selectedRegion._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
+
+                        serviceVotos.votosNulosByRegion.get({codeRegion: $scope.selectedRegion._id}, function (votos) {
+                            var votosNulosTotal = votos.votosNulos;
+                            $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
+                            gridOptionsData($scope.resumenOtros);
+                            var votNulos = {
+                                text: "Nulos",
+                                values: [votosNulosTotal]
+                            };
+                            var serie2 = {
+                                name: "Nulos",
+                                y: votosNulosTotal,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Nulos',
+                                y: ((votosNulosTotal * 100) / $scope.votosTotales),
+                                drilldown: 'Nulos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votNulos);
+                        });
+
+                        listas.forEach(function (item) {
+                            votosTotalListaByRegion(item._id, item.NOM_LISTA, $scope.selectedRegion._id);
+                        });
+                        $scope.myJson.series = series;
+                    });
+                }
+            };
+
             $scope.limpiar = function () {
                 $scope.selectedProvincia = null;
+                $scope.selectedRegion = null;
                 $scope.selectedCanton = null;
                 $scope.selectedParroquia = null;
                 $scope.selectedZona = null;
@@ -63,8 +145,8 @@
             //return provinces
             filtros.Provincias.query({sort: "name"}, function (provinces) {
                 $scope.provincesList = angular.fromJson(provinces);
-            }, function (err) {
-                console.err(err);
+            }, function (errorResponse) {
+                $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
             });
 
             //return cantones by Province
@@ -153,7 +235,7 @@
             function votosTotalLista(idLista, nameLista) {
                 $scope.resumenVotos = [];
                 var vots = 0;
-                votos.totalVotosLista.get({codeLista: idLista}, function (response) {
+                serviceVotos.totalVotosLista.get({codeLista: idLista}, function (response) {
                     vots = response.totalVotos;
                     $scope.resumenVotos.push({descripcion: nameLista, votos: vots});
                     gridOptionsData($scope.resumenVotos);
@@ -179,8 +261,46 @@
                         drilldown: nameLista
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados generales');
                     grafico(series2, 'Resultados generales');
+                    graficoColumnChar(serieColumn, 'Resultados generales');
+                });
+            }
+
+            function votosTotalListaByRegion(idLista, nameList, idRegion) {
+                var vots = 0;
+                $scope.resumenVotos = [];
+                $scope.gridOptions.data = [];
+                serviceVotos.totalVotosListaByRegion.get({
+                    codeRegion: idRegion,
+                    codeLista: idLista
+                }, function (response) {
+                    vots = response.totalVotos;
+                    $scope.resumenVotos.push({descripcion: nameList, votos: vots});
+                    gridOptionsData($scope.resumenVotos);
+                    $scope.gridOptions.exporterPdfHeader.text = 'Resultados de la ' + $scope.selectedRegion.name;
+                    var serie = {
+                        text: nameList,
+                        values: [vots]
+                    };
+                    var serie2 = {
+                        y: vots,
+                        name: nameList,
+                        sliced: true,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name} {point.percentage:.1f}%'
+                        }
+                    };
+                    objectColumn = {
+                        name: nameList,
+                        y: ((vots * 100) / $scope.votosTotales),
+                        drilldown: nameList
+                    };
+                    serieColumn.push(objectColumn);
+                    series.push(serie);
+                    series2.push(serie2);
+                    grafico(series2, 'Resultados de la ' + $scope.selectedRegion.name);
+                    graficoColumnChar(serieColumn, 'Resultados de la ' + $scope.selectedRegion.name);
                 });
             }
 
@@ -188,7 +308,7 @@
                 var vots = 0;
                 $scope.resumenVotos = [];
                 $scope.gridOptions.data = [];
-                votos.totalVotosListaProvincia.get({
+                serviceVotos.totalVotosListaProvincia.get({
                     codeProvince: idProvincia,
                     codeLista: idLista
                 }, function (response) {
@@ -215,10 +335,10 @@
                         drilldown: nameList
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados de la provincia ' + $scope.selectedProvincia.name);
                     series.push(serie);
                     series2.push(serie2);
                     grafico(series2, 'Resultados de la provincia ' + $scope.selectedProvincia.name);
+                    graficoColumnChar(serieColumn, 'Resultados de la provincia ' + $scope.selectedProvincia.name);
                 });
             }
 
@@ -226,7 +346,7 @@
                 var vots = 0;
                 $scope.resumenVotos = [];
                 $scope.gridOptions.data = [];
-                votos.totalVotosListaCanton.get({
+                serviceVotos.totalVotosListaCanton.get({
                     codeCanton: idCanton,
                     codeLista: idLista
                 }, function (response) {
@@ -253,10 +373,10 @@
                         drilldown: nameList
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados del cant\u00f3n ' + $scope.selectedCanton.name);
                     series2.push(serie2);
                     series.push(serie);
                     grafico(series2, 'Resultados del cant\u00f3n ' + $scope.selectedCanton.name);
+                    graficoColumnChar(serieColumn, 'Resultados del cant\u00f3n ' + $scope.selectedCanton.name);
                 });
             }
 
@@ -264,7 +384,7 @@
                 var vots = 0;
                 $scope.resumenVotos = [];
                 $scope.gridOptions.data = [];
-                votos.totalVotosListaParroquia.get({
+                serviceVotos.totalVotosListaParroquia.get({
                     codeParroquia: idParroquia,
                     codeLista: idLista
                 }, function (response) {
@@ -291,10 +411,10 @@
                         drilldown: nameList
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados de la parroquia ' + $scope.selectedParroquia.name);
                     series2.push(serie2);
                     series.push(serie);
                     grafico(series2, 'Resultados de la parroquia ' + $scope.selectedParroquia.name);
+                    graficoColumnChar(serieColumn, 'Resultados de la parroquia ' + $scope.selectedParroquia.name);
                 });
             }
 
@@ -302,7 +422,7 @@
                 var vots = 0;
                 $scope.resumenVotos = [];
                 $scope.gridOptions.data = [];
-                votos.totalVotosListaFiltro.get({
+                serviceVotos.totalVotosListaFiltro.get({
                     codeZona: idZona,
                     codeLista: idLista
                 }, function (response) {
@@ -329,10 +449,10 @@
                         drilldown: nameList
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados de la zona ' + $scope.selectedZona.name);
                     series2.push(serie2);
                     series.push(serie);
                     grafico(series2, 'Resultados de la zona ' + $scope.selectedZona.name);
+                    graficoColumnChar(serieColumn, 'Resultados de la zona ' + $scope.selectedZona.name);
                 });
             }
 
@@ -340,7 +460,7 @@
                 var vots = 0;
                 $scope.resumenVotos = [];
                 $scope.gridOptions.data = [];
-                votos.totalVotosListaFiltro.get({
+                serviceVotos.totalVotosListaFiltro.get({
                     codeRecinto: idRecinto,
                     codeLista: idLista
                 }, function (response) {
@@ -367,10 +487,10 @@
                         drilldown: nameList
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados del recinto ' + $scope.selectedRecinto.name);
                     series2.push(serie2);
                     series.push(serie);
                     grafico(series2, 'Resultados del recinto ' + $scope.selectedRecinto.name);
+                    graficoColumnChar(serieColumn, 'Resultados del recinto ' + $scope.selectedRecinto.name);
                 });
             }
 
@@ -378,7 +498,7 @@
                 var vots = 0;
                 $scope.resumenVotos = [];
                 $scope.gridOptions.data = [];
-                votos.totalVotosListaFiltro.get({
+                serviceVotos.totalVotosListaFiltro.get({
                     codeJunta: idJunta,
                     codeLista: idLista
                 }, function (response) {
@@ -405,10 +525,10 @@
                         drilldown: nameList
                     };
                     serieColumn.push(objectColumn);
-                    graficoColumnChar(serieColumn, 'Resultados de la junta ' + $scope.selectedJunta.junta + ' ' + $scope.selectedJunta.gender);
                     series2.push(serie2);
                     series.push(serie);
                     grafico(series2, 'Resultados de la junta ' + $scope.selectedJunta.junta + ' ' + $scope.selectedJunta.gender);
+                    graficoColumnChar(serieColumn, 'Resultados de la junta ' + $scope.selectedJunta.junta + ' ' + $scope.selectedJunta.gender);
                 });
             }
 
@@ -421,12 +541,13 @@
             }
 
             $scope.initData = function () {
+                $scope.loadRegiones();
                 getVotosTotales();
                 $scope.resumenOtros = [];
                 series2 = [];
                 serieColumn = [];
                 //votos Blancos
-                var votosBlancoTotal = votos.votosBlancoTotal.get(function (votos) {
+                var votosBlancoTotal = serviceVotos.votosBlancoTotal.get(function (votos) {
                     votosBlancoTotal = votos.votosBlancos;
                     $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlancoTotal});
                     gridOptionsData($scope.resumenOtros);
@@ -455,7 +576,7 @@
                 });
 
                 //votosNulos
-                var votosNulosTotal = votos.votosNulosTotal.get(function (votos) {
+                var votosNulosTotal = serviceVotos.votosNulosTotal.get(function (votos) {
                     votosNulosTotal = votos.votosNulos;
                     $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                     gridOptionsData($scope.resumenOtros);
@@ -499,64 +620,68 @@
                 series2 = [];
                 serieColumn = [];
                 if ($scope.selectedProvincia !== null) {
-                    votos.votosBlancoByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
-                        var votosBlanco = votos.votosBlancos;
-                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
-                        gridOptionsData($scope.resumenOtros);
-                        var votBlanco = {
-                            text: "Blancos",
-                            values: [votosBlanco]
-                        };
-                        var serie2 = {
-                            name: "Blancos",
-                            y: votosBlanco,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Blancos',
-                            y: ((votosBlanco * 100) / $scope.votosTotales),
-                            drilldown: 'Blancos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votBlanco);
+                    serviceVotos.totalVotosByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
+
+                        serviceVotos.votosNulosByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
+                            var votosNulosTotal = votos.votosNulos;
+                            $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
+                            gridOptionsData($scope.resumenOtros);
+                            var votNulos = {
+                                text: "Nulos",
+                                values: [votosNulosTotal]
+                            };
+                            var serie2 = {
+                                name: "Nulos",
+                                y: votosNulosTotal,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Nulos',
+                                y: ((votosNulosTotal * 100) / $scope.votosTotales),
+                                drilldown: 'Nulos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votNulos);
+                        });
+
+                        listas.forEach(function (item) {
+                            votosTotalListaByProvincia(item._id, item.NOM_LISTA, $scope.selectedProvincia._id);
+                        });
+                        $scope.myJson.series = series;
                     });
 
-                    votos.votosNulosByProvince.get({codeProvince: $scope.selectedProvincia._id}, function (votos) {
-                        var votosNulosTotal = votos.votosNulos;
-                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
-                        gridOptionsData($scope.resumenOtros);
-                        var votNulos = {
-                            text: "Nulos",
-                            values: [votosNulosTotal]
-                        };
-                        var serie2 = {
-                            name: "Nulos",
-                            y: votosNulosTotal,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Nulos',
-                            y: ((votosNulosTotal * 100) / $scope.votosTotales),
-                            drilldown: 'Nulos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votNulos);
-                    });
-
-                    listas.forEach(function (item) {
-                        votosTotalListaByProvincia(item._id, item.NOM_LISTA, $scope.selectedProvincia._id);
-                    });
-                    $scope.myJson.series = series;
 
                 }
             };
@@ -568,34 +693,37 @@
                 serieColumn = [];
                 $scope.resumenOtros = [];
                 if ($scope.selectedCanton !== null) {
-                    votos.votosBlancoByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
-                        var votosBlanco = votos.votosBlancos;
-                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
-                        gridOptionsData($scope.resumenOtros);
-                        var votBlanco = {
-                            text: "Blancos",
-                            values: [votosBlanco]
-                        };
-                        var serie2 = {
-                            name: "Blancos",
-                            y: votosBlanco,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Blancos',
-                            y: ((votosBlanco * 100) / $scope.votosTotales),
-                            drilldown: 'Blancos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votBlanco);
+                    serviceVotos.totalVotosByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
                     });
 
-                    votos.votosNulosByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
+                    serviceVotos.votosNulosByCanton.get({codeCanton: $scope.selectedCanton._id}, function (votos) {
                         var votosNulosTotal = votos.votosNulos;
                         $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
                         gridOptionsData($scope.resumenOtros);
@@ -637,65 +765,67 @@
                 serieColumn = [];
                 $scope.resumenOtros = [];
                 if ($scope.selectedParroquia !== null) {
-                    votos.votosBlancoByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
-                        var votosBlanco = votos.votosBlancos;
-                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
-                        gridOptionsData($scope.resumenOtros);
-                        var votBlanco = {
-                            text: "Blancos",
-                            values: [votosBlanco]
-                        };
-                        var serie2 = {
-                            name: "Blancos",
-                            y: votosBlanco,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Blancos',
-                            y: ((votosBlanco * 100) / $scope.votosTotales),
-                            drilldown: 'Blancos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votBlanco);
-                    });
+                    serviceVotos.totalVotosByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
 
-                    votos.votosNulosByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
-                        var votosNulosTotal = votos.votosNulos;
-                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
-                        gridOptionsData($scope.resumenOtros);
-                        var votNulos = {
-                            text: "Nulos",
-                            values: [votosNulosTotal]
-                        };
-                        var serie2 = {
-                            name: "Nulos",
-                            y: votosNulosTotal,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Nulos',
-                            y: ((votosNulosTotal * 100) / $scope.votosTotales),
-                            drilldown: 'Nulos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votNulos);
-                    });
+                        serviceVotos.votosNulosByParroquia.get({codeParroquia: $scope.selectedParroquia._id}, function (votos) {
+                            var votosNulosTotal = votos.votosNulos;
+                            $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
+                            gridOptionsData($scope.resumenOtros);
+                            var votNulos = {
+                                text: "Nulos",
+                                values: [votosNulosTotal]
+                            };
+                            var serie2 = {
+                                name: "Nulos",
+                                y: votosNulosTotal,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Nulos',
+                                y: ((votosNulosTotal * 100) / $scope.votosTotales),
+                                drilldown: 'Nulos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votNulos);
+                        });
 
-                    listas.forEach(function (item) {
-                        votosTotalListaByParroquia(item._id, item.NOM_LISTA, $scope.selectedParroquia._id);
+                        listas.forEach(function (item) {
+                            votosTotalListaByParroquia(item._id, item.NOM_LISTA, $scope.selectedParroquia._id);
+                        });
+                        $scope.myJson.series = series;
                     });
-                    $scope.myJson.series = series;
-
                 }
             };
 
@@ -706,65 +836,67 @@
                 serieColumn = [];
                 $scope.resumenOtros = [];
                 if ($scope.selectedZona !== null) {
-                    votos.votosBlancoFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
-                        var votosBlanco = votos.votosBlancos;
-                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
-                        gridOptionsData($scope.resumenOtros);
-                        var votBlanco = {
-                            text: "Blancos",
-                            values: [votosBlanco]
-                        };
-                        var serie2 = {
-                            name: "Blancos",
-                            y: votosBlanco,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Blancos',
-                            y: ((votosBlanco * 100) / $scope.votosTotales),
-                            drilldown: 'Blancos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votBlanco);
-                    });
+                    serviceVotos.votosTotalesFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
 
-                    votos.votosNulosFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
-                        var votosNulosTotal = votos.votosNulos;
-                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
-                        gridOptionsData($scope.resumenOtros);
-                        var votNulos = {
-                            text: "Nulos",
-                            values: [votosNulosTotal]
-                        };
-                        var serie2 = {
-                            name: "Nulos",
-                            y: votosNulosTotal,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Nulos',
-                            y: ((votosNulosTotal * 100) / $scope.votosTotales),
-                            drilldown: 'Nulos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votNulos);
-                    });
+                        serviceVotos.votosNulosFiltro.get({codeZona: $scope.selectedZona._id}, function (votos) {
+                            var votosNulosTotal = votos.votosNulos;
+                            $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
+                            gridOptionsData($scope.resumenOtros);
+                            var votNulos = {
+                                text: "Nulos",
+                                values: [votosNulosTotal]
+                            };
+                            var serie2 = {
+                                name: "Nulos",
+                                y: votosNulosTotal,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Nulos',
+                                y: ((votosNulosTotal * 100) / $scope.votosTotales),
+                                drilldown: 'Nulos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votNulos);
+                        });
 
-                    listas.forEach(function (item) {
-                        votosTotalListaByZona(item._id, item.NOM_LISTA, $scope.selectedZona._id);
+                        listas.forEach(function (item) {
+                            votosTotalListaByZona(item._id, item.NOM_LISTA, $scope.selectedZona._id);
+                        });
+                        $scope.myJson.series = series;
                     });
-                    $scope.myJson.series = series;
-
                 }
             };
 
@@ -775,65 +907,67 @@
                 serieColumn = [];
                 $scope.resumenOtros = [];
                 if ($scope.selectedRecinto !== null) {
-                    votos.votosBlancoFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
-                        var votosBlanco = votos.votosBlancos;
-                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
-                        gridOptionsData($scope.resumenOtros);
-                        var votBlanco = {
-                            text: "Blancos",
-                            values: [votosBlanco]
-                        };
-                        var serie2 = {
-                            name: "Blancos",
-                            y: votosBlanco,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Blancos',
-                            y: ((votosBlanco * 100) / $scope.votosTotales),
-                            drilldown: 'Blancos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votBlanco);
-                    });
+                    serviceVotos.votosTotalesFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
 
-                    votos.votosNulosFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
-                        var votosNulosTotal = votos.votosNulos;
-                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
-                        gridOptionsData($scope.resumenOtros);
-                        var votNulos = {
-                            text: "Nulos",
-                            values: [votosNulosTotal]
-                        };
-                        var serie2 = {
-                            name: "Nulos",
-                            y: votosNulosTotal,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Nulos',
-                            y: ((votosNulosTotal * 100) / $scope.votosTotales),
-                            drilldown: 'Nulos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votNulos);
-                    });
+                        serviceVotos.votosNulosFiltro.get({codeRecinto: $scope.selectedRecinto._id}, function (votos) {
+                            var votosNulosTotal = votos.votosNulos;
+                            $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
+                            gridOptionsData($scope.resumenOtros);
+                            var votNulos = {
+                                text: "Nulos",
+                                values: [votosNulosTotal]
+                            };
+                            var serie2 = {
+                                name: "Nulos",
+                                y: votosNulosTotal,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Nulos',
+                                y: ((votosNulosTotal * 100) / $scope.votosTotales),
+                                drilldown: 'Nulos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votNulos);
+                        });
 
-                    listas.forEach(function (item) {
-                        votosTotalListaByRecinto(item._id, item.NOM_LISTA, $scope.selectedRecinto._id);
+                        listas.forEach(function (item) {
+                            votosTotalListaByRecinto(item._id, item.NOM_LISTA, $scope.selectedRecinto._id);
+                        });
+                        $scope.myJson.series = series;
                     });
-                    $scope.myJson.series = series;
-
                 }
             };
 
@@ -844,65 +978,67 @@
                 serieColumn = [];
                 $scope.resumenOtros = [];
                 if ($scope.selectedJunta !== null) {
-                    votos.votosBlancoFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
-                        var votosBlanco = votos.votosBlancos;
-                        $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
-                        gridOptionsData($scope.resumenOtros);
-                        var votBlanco = {
-                            text: "Blancos",
-                            values: [votosBlanco]
-                        };
-                        var serie2 = {
-                            name: "Blancos",
-                            y: votosBlanco,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Blancos',
-                            y: ((votosBlanco * 100) / $scope.votosTotales),
-                            drilldown: 'Blancos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votBlanco);
-                    });
+                    serviceVotos.votosTotalesFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
+                        $scope.votosTotales = votos.votosTotales;
+                        serviceVotos.votosBlancoFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
+                            var votosBlanco = votos.votosBlancos;
+                            $scope.resumenOtros.push({descripcion: "Blancos", votos: votosBlanco});
+                            gridOptionsData($scope.resumenOtros);
+                            var votBlanco = {
+                                text: "Blancos",
+                                values: [votosBlanco]
+                            };
+                            var serie2 = {
+                                name: "Blancos",
+                                y: votosBlanco,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Blancos',
+                                y: ((votosBlanco * 100) / $scope.votosTotales),
+                                drilldown: 'Blancos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votBlanco);
+                        });
 
-                    votos.votosNulosFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
-                        var votosNulosTotal = votos.votosNulos;
-                        $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
-                        gridOptionsData($scope.resumenOtros);
-                        var votNulos = {
-                            text: "Nulos",
-                            values: [votosNulosTotal]
-                        };
-                        var serie2 = {
-                            name: "Nulos",
-                            y: votosNulosTotal,
-                            sliced: true,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.name} {point.percentage:.1f}%'
-                            }
-                        };
-                        objectColumn = {
-                            name: 'Nulos',
-                            y: ((votosNulosTotal * 100) / $scope.votosTotales),
-                            drilldown: 'Nulos'
-                        };
-                        serieColumn.push(objectColumn);
-                        series2.push(serie2);
-                        series.push(votNulos);
-                    });
+                        serviceVotos.votosNulosFiltro.get({codeJunta: $scope.selectedJunta._id}, function (votos) {
+                            var votosNulosTotal = votos.votosNulos;
+                            $scope.resumenOtros.push({descripcion: "Nulos", votos: votosNulosTotal});
+                            gridOptionsData($scope.resumenOtros);
+                            var votNulos = {
+                                text: "Nulos",
+                                values: [votosNulosTotal]
+                            };
+                            var serie2 = {
+                                name: "Nulos",
+                                y: votosNulosTotal,
+                                sliced: true,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} {point.percentage:.1f}%'
+                                }
+                            };
+                            objectColumn = {
+                                name: 'Nulos',
+                                y: ((votosNulosTotal * 100) / $scope.votosTotales),
+                                drilldown: 'Nulos'
+                            };
+                            serieColumn.push(objectColumn);
+                            series2.push(serie2);
+                            series.push(votNulos);
+                        });
 
-                    listas.forEach(function (item) {
-                        votosTotalListaByJunta(item._id, item.NOM_LISTA, $scope.selectedJunta._id);
+                        listas.forEach(function (item) {
+                            votosTotalListaByJunta(item._id, item.NOM_LISTA, $scope.selectedJunta._id);
+                        });
+                        $scope.myJson.series = series;
                     });
-                    $scope.myJson.series = series;
-
                 }
             };
 
@@ -953,7 +1089,7 @@
                 series: series
             };
             function getVotosTotales() {
-                votos.votosTotales.get(function (response) {
+                serviceVotos.votosTotales.get(function (response) {
                     $scope.votosTotales = response.votosTotales;
                 }, function (errorResponse) {
                     $scope.notification.showErrorWithFilter(errorResponse.data.message, constant.COMMONS.ERROR);
