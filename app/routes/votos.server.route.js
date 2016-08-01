@@ -18,6 +18,9 @@ module.exports = function (app) {
     app.route('/api/votos/votosBlancosFiltro').
         get(usuario.requiresLogin, Votos.votosBlancoFiltro);
 
+    app.route('/api/votos/votosBlancosByRegion/:codeRegion').
+        get(Votos.votosBlancoByRegion);
+
     //votos Nulos
     app.route('/api/votos/votosNulos').
         get(usuario.requiresLogin, Votos.votosNulosTotal);
@@ -33,6 +36,9 @@ module.exports = function (app) {
 
     app.route('/api/votos/votosNulosFiltro').
         get(usuario.requiresLogin, Votos.votosNulosFiltro);
+
+    app.route('/api/votos/votosNulosByRegion/:codeRegion').
+        get(Votos.votosNulosByRegion);
 
     //votos totales
     app.route('/api/votos/votosTotales').
@@ -50,6 +56,9 @@ module.exports = function (app) {
     app.route('/api/votos/votosTotalesFiltro').
         get(usuario.requiresLogin, Votos.votosTotalesFiltro);
 
+    app.route('/api/votos/votosTotalesByRegion/:codeRegion').
+        get(Votos.totalVotosByRegion);
+
     //votos por lista
     app.route('/api/votos/votosLista/:codeLista').
         get(usuario.requiresLogin, Votos.totalVotosLista);
@@ -65,6 +74,9 @@ module.exports = function (app) {
 
     app.route('/api/votos/totalVotosListaFiltro').
         get(usuario.requiresLogin, Votos.totalVotosListaFiltro);
+
+    app.route('/api/votos/votosListaRegion/:codeRegion/:codeLista').
+        get(Votos.totalVotosListaByRegion);
 
 
     app.route('/api/votos').
