@@ -30,7 +30,9 @@
       "TITLE_FILTROS": "Filtros",
       "TITLE_LIMPIAR": "Limpiar",
       "TITLE_OTROS": "Otros",
-      "TITLE_REFRESH": "Actualizar"
+      "TITLE_REFRESH": "Actualizar",
+      "TITLE_TAB_GENERAL": "General",
+      "TITLE_REGIONAL": "Regional"
     },
     "SECURITY": {
       "LBL_LOGIN_WELCOME": "Bienvenido, ",
