@@ -1,0 +1,189 @@
+<form id="edicionVotosForm" novalidate>
+    <div id="junta" class="group-simple">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="form-vertical">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-6">
+                            <div class="input-group">
+                                <label class="control-label" for="codigoRecinto">{{'CONTAINER.RECINTO.TITLE_CODIGO_RECINTO'|translate}}</label>
+                                <input id="codigoRecinto" type="text" name="codigo" class="form-control"
+                                       ng-model="codigoRecinto">
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="searchJuntas()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-6">
+                            <div class="input-group">
+                                <label class="control-label">&nbsp;</label>
+                                <select id="juntasRecintos" class="form-control col-md-4 col-xs-6"
+                                        ng-model="selectedJunta" ng-change="changeJunta(selectedJunta)"
+                                        ng-options="option as option.junta + option.gender +'-'+option.recinto.name for option in juntas">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="juntaVotos" class="group-simple">
+            <div class="panel panel-default">
+                <div class="panel-heading"><p ng-show="selectedJunta!==null"><strong> {{juntaInformation.recinto.name}}
+                    ,
+                    {{'CONTAINER.JUNTA.TITULO_JUNTA'|translate}} {{juntaInformation.junta}} {{genero}} ,
+                    {{'CONTAINER.JUNTA.NUMERO_JUNTA'|translate}}
+                    {{juntaInformation.empadronados}}
+                </strong></p></div>
+                <div class="panel-body">
+                    <div class="form-vertical">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="bs-component form-group">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>{{'CONTAINER.LISTA.TITLE_LISTA'|translate}}</th>
+                                                <th>{{'CONTAINER.VOTO.TITLE_VOTOS'|translate}}</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="lista in listas">
+                                                <td align="center">{{lista.CODE_LISTA}} {{lista.NOM_LISTA}}</td>
+                                                <td align="center">
+                                                    <input class="kendo-numeric" kendo-numeric-text-box k-min="0"
+                                                           k-max="juntaInformation.empadronados"
+                                                           k-on-change="ctrl.sum(lista)"
+                                                           k-format="'n0'"
+                                                           required
+                                                           ng-disabled="(selectedJunta===null)"
+                                                           k-ng-model="lista.votos"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">{{'CONTAINER.VOTO.TITLE_BLANCOS'|translate}}</td>
+                                                <td align="center"><input class="kendo-numeric" kendo-numeric-text-box
+                                                                          k-min="0"
+                                                                          k-max="juntaInformation.empadronados"
+                                                                          k-format="'n0'"
+                                                                          k-on-change="ctrl.sum('votosBlancos')"
+                                                                          ng-disabled="(selectedJunta===null)"
+                                                                          k-ng-model="votosBlancos"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">{{'CONTAINER.VOTO.TITLE_NULOS'|translate}}</td>
+                                                <td align="center"><input id="nulosKendoNumeric" class="kendo-numeric"
+                                                                          kendo-numeric-text-box
+                                                                          k-min="0"
+                                                                          k-max="juntaInformation.empadronados"
+                                                                          k-format="'n0'"
+                                                                          k-on-change="ctrl.sum('votosNulos')"
+                                                                          ng-disabled="(selectedJunta===null)"
+                                                                          k-ng-model="votosNulos"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">{{'CONTAINER.VOTO.TITLE_TOTAL'|translate}}</td>
+                                                <td align="center"><label>{{totalVotos}}</label></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="group-simple">
+            <div class="form-vertical">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-group cb-spacer">
+                                    <label class="control-label">&nbsp;</label>
+                                    <span class="cb-control"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="junta"
+                                           class="control-label">&nbsp</label>
+
+                                    <div class="">
+                                        <button class="btn btn-primary btn-block" type="submit"
+                                                data-ng-click="ctrl.saveModalVoto()"
+                                                ng-disabled="selectedJunta===null">
+                                            {{'CONTAINER.VOTO.BTN_UPDATE_VOTO'|translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-group cb-spacer">
+                                    <label class="control-label">&nbsp;</label>
+                                    <span class="cb-control"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="modal fade" id="modalTotalVotosPermitidos" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form name="votosPermitidos">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">{{'CONTAINER.COMMONS.TITLE_ERROR'|translate}}</h4>
+                </div>
+                <div class="modal-body">
+                    <b><p align="center" translate translate-values="{votos : '{{juntaInformation.empadronados}}'}">
+                        {{'CONTAINER.VOTO.MESSAGE_VOTOS_PERMITIDOS'}}
+                    </p></b>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="saveVotos" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form name="formVotos">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">{{'CONTAINER.VOTO.TITLE_VOTOS'|translate}}</h4>
+                </div>
+                <div class="modal-body">
+                    <b><p align="center" translate translate-values="{votos : '{{juntaInformation.empadronados}}'}">
+                        {{'CONTAINER.VOTO.MESSAGE_UPDATE_VOTO'}}
+                    </p></b>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        {{'CONTAINER.COMMONS.TITLE_NO'|translate}}
+                    </button>
+                    <button type="submit" class="btn btn-primary" data-ng-click="saveRegistro()">
+                        {{'CONTAINER.COMMONS.TITLE_SI'|translate}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
