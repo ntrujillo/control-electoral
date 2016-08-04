@@ -80,8 +80,11 @@ module.exports = function (app) {
 
 
     app.route('/api/votos').
-        get(usuario.requiresLogin, Votos.getVoto).
+        get(Votos.getVoto).
         post(usuario.requiresLogin, Votos.saveVoto);
+
+    app.route('/api/votoRest').
+        put(Votos.updateVoto);
 
     app.route('/api/votos/:codeProvince').
         get(usuario.requiresLogin, Votos.countVotBlancos);
