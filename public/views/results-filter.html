@@ -8,127 +8,121 @@
                 <div class="panel-body">
                     <div class="row">
                         <!--<uib-tabset active="active">-->
-                            <!--<uib-tab index="0" heading="{{'CONTAINER.COMMONS.TITLE_TAB_GENERAL'|translate}}">-->
-                                <div class="col-md-2 col-xs-6 paddin-div">
-                                    <div class="input-group">
-                                        <label class="control-label" for="provincia">{{'CONTAINER.PROVINCIA.TITLE_PROVINCIA'|translate}}</label>
-                                        <select id="provincia" class="form-control"
-                                                ng-change="getCantones(selectedProvincia._id)"
-                                                ng-model="selectedProvincia"
-                                                ng-options="c as c.name for c in provincesList"></select>
+                        <!--<uib-tab index="0" heading="{{'CONTAINER.COMMONS.TITLE_TAB_GENERAL'|translate}}">-->
+                        <div class="col-md-2 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label class="control-label" for="provincia">{{'CONTAINER.PROVINCIA.TITLE_PROVINCIA'|translate}}</label>
+                                <select id="provincia" class="form-control"
+                                        ng-change="getCantones(selectedProvincia._id)"
+                                        ng-model="selectedProvincia"
+                                        ng-options="c as c.name for c in provincesList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByProvoncia()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-xs-6 paddin-div">
-                                    <div class="input-group">
-                                        <label for="canton"
-                                               class="control-label">{{'CONTAINER.CANTON.TITLE_CANTON'|translate}}</label>
-                                        <select id="canton" class="form-control"
-                                                ng-disabled="selectedProvincia===null?true:false"
-                                                ng-change="getParroquias(selectedCanton._id)" ng-model="selectedCanton"
-                                                ng-options="c as c.name for c in cantonesByProvinceList"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label for="canton"
+                                       class="control-label">{{'CONTAINER.CANTON.TITLE_CANTON'|translate}}</label>
+                                <select id="canton" class="form-control"
+                                        ng-disabled="selectedProvincia===null?true:false"
+                                        ng-change="getParroquias(selectedCanton._id)" ng-model="selectedCanton"
+                                        ng-options="c as c.name for c in cantonesByProvinceList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByCanton()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-xs-6 paddin-div">
-                                    <div class="input-group">
-                                        <label for="parroquia"
-                                               class="control-label">{{'CONTAINER.PARROQUIA.TITLE_PARROQUIA'|translate}}</label>
-                                        <select id="parroquia" class="form-control"
-                                                ng-disabled="selectedCanton===null?true:false"
-                                                ng-change="getZonas(selectedParroquia._id)" ng-model="selectedParroquia"
-                                                ng-options="c as c.name for c in parroquiasByCantonList"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label for="parroquia"
+                                       class="control-label">{{'CONTAINER.PARROQUIA.TITLE_PARROQUIA'|translate}}</label>
+                                <select id="parroquia" class="form-control"
+                                        ng-disabled="selectedCanton===null?true:false"
+                                        ng-change="getZonas(selectedParroquia._id)" ng-model="selectedParroquia"
+                                        ng-options="c as c.name for c in parroquiasByCantonList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByParroquia()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-xs-6 paddin-div">
-                                    <div class="input-group">
-                                        <label for="zona"
-                                               class="control-label">{{'CONTAINER.ZONA.TITLE_ZONA'|translate}}</label>
-                                        <select id="zona" class="form-control"
-                                                ng-disabled="selectedParroquia===null?true:false"
-                                                ng-change="getRecintos(selectedZona._id)" ng-model="selectedZona"
-                                                ng-options="c as c.name for c in zonasByParroquiaList"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label for="zona"
+                                       class="control-label">{{'CONTAINER.ZONA.TITLE_ZONA'|translate}}</label>
+                                <select id="zona" class="form-control"
+                                        ng-disabled="selectedParroquia===null?true:false"
+                                        ng-change="getRecintos(selectedZona._id)" ng-model="selectedZona"
+                                        ng-options="c as c.name for c in zonasByParroquiaList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByZona()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-xs-6 paddin-div">
-                                    <div class="input-group">
-                                        <label for="recinto"
-                                               class="control-label">{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</label>
-                                        <select id="recinto" class="form-control"
-                                                ng-disabled="selectedZona===null?true:false"
-                                                ng-change="getJuntas(selectedRecinto._id)" ng-model="selectedRecinto"
-                                                ng-options="c as c.name for c in recintosByZona"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label for="recinto"
+                                       class="control-label">{{'CONTAINER.RECINTO.TITLE_RECINTO'|translate}}</label>
+                                <select id="recinto" class="form-control"
+                                        ng-disabled="selectedZona===null?true:false"
+                                        ng-change="getJuntas(selectedRecinto._id)" ng-model="selectedRecinto"
+                                        ng-options="c as c.name for c in recintosByZona"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByRecinto()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-xs-6 paddin-div">
-                                    <div class="input-group">
-                                        <label for="junta"
-                                               class="control-label">{{'CONTAINER.JUNTA.TITULO_JUNTA'|translate}}</label>
-                                        <select id="junta" class="form-control"
-                                                ng-disabled="selectedRecinto===null?true:false"
-                                                ng-model="selectedJunta"
-                                                ng-options="c as c.junta + c.gender for c in juntasList"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label for="junta"
+                                       class="control-label">{{'CONTAINER.JUNTA.TITULO_JUNTA'|translate}}</label>
+                                <select id="junta" class="form-control"
+                                        ng-disabled="selectedRecinto===null?true:false"
+                                        ng-model="selectedJunta"
+                                        ng-options="c as c.junta + c.gender for c in juntasList"></select>
                                 <span class="input-group-btn" style="vertical-align: bottom">
                                     <button class="btn btn-primary" type="button" ng-click="SearchByJunta()"
                                             title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
-                                    </div>
-                                </div>
-                            <!--</uib-tab>-->
-                            <!--<uib-tab index="1" heading="{{'CONTAINER.COMMONS.TITLE_REGIONAL'|translate}}"-->
-                                     <!--select="loadRegiones()">-->
-                                <div class="col-xs-6 paddin-div">
-                                    <div class="form-group">
-                                        <label for="region"
-                                               class="control-label">{{'CONTAINER.COMMONS.TITLE_REGION'|translate}}</label>
-                                        <select id="region" class="form-control"
-                                                ng-model="selectedRegion"
-                                                ng-options="c as c.name for c in regionesList"></select>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 paddin-div">
-                                    <div class="form-group">
-                                        <label class="control-label">&nbsp;</label>
-
-                                        <div class="cb-control">
-                                            <button class="form-control btn btn-primary"
-                                                    data-ng-click="searchByRegion()">
-                                                {{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            <!--</uib-tab>-->
+                            </div>
+                        </div>
+                        <!--</uib-tab>-->
+                        <!--<uib-tab index="1" heading="{{'CONTAINER.COMMONS.TITLE_REGIONAL'|translate}}"-->
+                        <!--select="loadRegiones()">-->
+                        <div class="col-md-4 col-xs-6 paddin-div">
+                            <div class="input-group">
+                                <label for="region"
+                                       class="control-label">{{'CONTAINER.COMMONS.TITLE_REGION'|translate}}</label>
+                                <select id="region" class="form-control"
+                                        ng-model="selectedRegion"
+                                        ng-options="c as c.name for c in regionesList"></select>
+                                <span class="input-group-btn" style="vertical-align: bottom">
+                                    <button class="btn btn-primary" type="button" ng-click="searchByRegion()"
+                                            title="{{'CONTAINER.COMMONS.BTN_SEARCH'|translate}}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <!--</uib-tab>-->
                         <!--</uib-tabset>-->
 
                     </div>
@@ -167,38 +161,38 @@
                         <!--<span class="cb-control"></span>-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="col-md-6 col-xs-12">
-                            <div class="bs-component form-group">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>{{'CONTAINER.VOTO.TITLE_VOTOS'|translate}}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="resumen in resumenVotos">
-                                            <td align="center">{{resumen.descripcion}}</td>
-                                            <td align="center">
-                                                <label>{{resumen.votos}}</label>
-                                            </td>
-                                        </tr>
-                                        <tr ng-repeat="resumen in resumenOtros">
-                                            <td align="center">{{resumen.descripcion}}</td>
-                                            <td align="center">
-                                                <label>{{resumen.votos}}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">{{'CONTAINER.VOTO.TITLE_TOTAL'|translate}}</td>
-                                            <td align="center"><label>{{countTotalVotos()}}</label></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div class="col-md-6 col-xs-12">-->
+                        <!--<div class="bs-component form-group">-->
+                        <!--<div class="table-responsive">-->
+                        <!--<table class="table table-bordered">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                        <!--<th></th>-->
+                        <!--<th>{{'CONTAINER.VOTO.TITLE_VOTOS'|translate}}</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr ng-repeat="resumen in resumenVotos">-->
+                        <!--<td align="center">{{resumen.descripcion}}</td>-->
+                        <!--<td align="center">-->
+                        <!--<label>{{resumen.votos}}</label>-->
+                        <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr ng-repeat="resumen in resumenOtros">-->
+                        <!--<td align="center">{{resumen.descripcion}}</td>-->
+                        <!--<td align="center">-->
+                        <!--<label>{{resumen.votos}}</label>-->
+                        <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td align="center">{{'CONTAINER.VOTO.TITLE_TOTAL'|translate}}</td>-->
+                        <!--<td align="center"><label>{{countTotalVotos()}}</label></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--</table>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
                         <div class="col-md-12 col-xs-12 form-grid">
                             <div class="bs-component form-group">
                                 <div id="grid-result" ui-grid="gridOptions" ui-grid-exporter
