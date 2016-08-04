@@ -13,16 +13,34 @@ var getErrorMessage = function (err) {
     }
 };
 
-exports.getJuntasByRecinto = function (req, res) {
-    var codeRecinto = req.params.codeRecinto;
-    Junta.find({"RECINTO.COD_RECINTO": codeRecinto}).sort({NUM_JUNTA: 1}).exec(function (err, juntas) {
-        if (err) {
-            return res.status(400).send({message: getErrorMessage(err)});
-        } else {
-            res.status(200).send(juntas);
+exports.getJuntasByRecintoWithStatus = function (req, res) {
+    var codeRecinto = req.params.codeRecinto,
+        status = req.params.status;
+    Junta.find({"recinto": codeRecinto, "status": status}).populate({
+        path: 'recinto',
+        select: 'zona name',
+        model: 'Recinto',
+        populate: {
+            path: 'zona', select: 'parroquia name', model: 'Zona',
+            populate: {
+                path: 'parroquia', select: 'canton name code', model: 'Parroquia',
+                populate: {
+                    path: 'canton',
+                    select: 'provincia name code',
+                    model: 'Canton',
+                    populate: {path: 'provincia', select: 'name code region', model: 'Provincia'}
+                }
+            }
         }
+    })
+        .sort({junta: 1}).exec(function (err, juntas) {
+            if (err) {
+                return res.status(400).send({message: getErrorMessage(err)});
+            } else {
+                res.status(200).send(juntas);
+            }
 
-    });
+        });
 };
 
 exports.getJuntasByRecintoByGenero = function (req, res) {
