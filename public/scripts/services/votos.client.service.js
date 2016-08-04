@@ -3,6 +3,7 @@
     angular.module('ControlElectoralApp').factory('Voto', ['$resource', function ($resource) {
         var service = $resource('/api/votos', {query: {method: "GET", isArray: true}});
         service.SaveVoto = $resource('/api/votos');
+        service.updateVoto = $resource('/api/votoRest', {idJunta: '@_id'}, {update: {method: 'PUT'}});
 
         service.votosBlancoTotal = $resource('/api/votos/votosBlancos');
         service.votosBlancoByProvince = $resource('/api/votos/votosBlancosProvincia/:codeProvince');
