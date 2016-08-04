@@ -433,6 +433,36 @@ angular
                         title: 'CONTAINER.VOTO.TITLE_REGISTRO'
                     }
                 })
+                //Administracion
+                .state('app.administracion', {
+                    template: '<div ui-view></div>',
+                    abstract: true,
+                    url: '/administraci\u00f3n'
+                })
+                .state('app.administracion.edicion', {
+                    url: '/edicio\u00f3n',
+                    templateUrl: 'views/admin/edicion-votos.html',
+                    controller: 'EdicionVotoCtrl as ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                {
+                                    files: [
+                                        'scripts/controllers/admin/edicionVotos.client.controller.js',
+                                        'scripts/services/lista.client.service.js',
+                                        'scripts/services/junta.user.service.js',
+                                        'scripts/services/votos.client.service.js',
+                                        'scripts/services/junta.client.service.js',
+                                        'scripts/services/recinto.service.js',
+                                        'scripts/services/auditoria.client.service.js'
+                                    ]
+                                }]);
+                        }]
+                    },
+                    data: {
+                        title: 'CONTAINER.COMMONS.TITLE_EDIT_VOTO'
+                    }
+                })
                 .state('user.forgot', {
                     url: '/forgot',
                     templateUrl: 'views/extras-forgot.html',
