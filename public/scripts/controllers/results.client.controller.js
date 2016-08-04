@@ -48,7 +48,7 @@
                 if (angular.isDefined($scope.getValueStorage('tiempo'))) {
                     return $scope.getValueStorage('tiempo');
                 } else {
-                    return 10;
+                    return tiempo;
                 }
             }
 
