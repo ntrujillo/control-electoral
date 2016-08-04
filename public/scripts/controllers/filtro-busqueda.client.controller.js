@@ -151,7 +151,7 @@
 
             //return cantones by Province
             $scope.getCantones = function (provinceCode) {
-                if (provinceCode !== null) {
+                if (angular.isDefined(provinceCode) && provinceCode !== null) {
                     filtros.Canton.query({id_provincia: provinceCode, sort: "name"}, function (cantones) {
                         $scope.cantonesByProvinceList = angular.fromJson(cantones);
                     }, function (err) {
@@ -164,7 +164,7 @@
 
             //return parroquias by Cantones
             $scope.getParroquias = function (cantonCode) {
-                if (cantonCode !== null) {
+                if (angular.isDefined(cantonCode) && cantonCode !== null) {
                     filtros.Parroquia.query({id_canton: cantonCode, sort: "name"}, function (parroquias) {
                         $scope.parroquiasByCantonList = angular.fromJson(parroquias);
                     }, function (err) {
@@ -178,7 +178,7 @@
             //return zonas by Parroquias
             $scope.getZonas = function (parroquiaCode) {
                 $scope.zonasByParroquiaList = [];
-                if (parroquiaCode !== null) {
+                if (angular.isDefined(parroquiaCode) && parroquiaCode !== null) {
                     filtros.Zona.query({id_parroquia: parroquiaCode, sort: "name"}, function (zonas) {
                         $scope.zonasByParroquiaList = angular.fromJson(zonas);
                     }, function (errorResponse) {
@@ -193,7 +193,7 @@
             //return recintos by Zone
             $scope.getRecintos = function (zonaCode) {
                 $scope.recintosByZona = [];
-                if (zonaCode !== null) {
+                if (angular.isDefined(zonaCode) && zonaCode !== null) {
                     filtros.Recinto.query({id_zona: zonaCode, sort: "name"}, function (recintos) {
                         $scope.recintosByZona = angular.fromJson(recintos);
                     }, function (errorResponse) {
@@ -208,7 +208,7 @@
             //return juntas by recinto
             $scope.getJuntas = function (codeRecinto) {
                 $scope.juntasList = [];
-                if (codeRecinto != null) {
+                if (angular.isDefined(codeRecinto) && codeRecinto != null) {
                     filtros.Junta.query({
                         id_recinto: codeRecinto
                     }, function (juntas) {
