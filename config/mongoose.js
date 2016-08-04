@@ -19,5 +19,6 @@ module.exports = function () {
     require('../app/models/lista.server.model');
     require('../app/models/votos.server.model');
     require('../app/models/detalleValidos.server.model');
+    require('../app/models/auditoria.voto');
     return db;
 };
