@@ -8,6 +8,12 @@
                 isArray: true
             }
         });
+        service.juntaByRecintoWithStatus = $resource('/api/juntasRest/:codeRecinto/:status', {
+            query: {
+                method: "GET",
+                isArray: true
+            }
+        });
         service.Junta = $resource('/api/juntasRest');
         service.getJunta = $resource('/api/juntas/:id');
         service.getNumeroJuntas = $resource('/api/junta/numeroJuntas', {
