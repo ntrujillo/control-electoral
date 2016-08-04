@@ -40,6 +40,47 @@ exports.saveVoto = function (req, res) {
     });
 };
 
+exports.updateVoto1 = function (req, res) {
+    console.log('votott', req.body);
+    Voto.update({"JUNTA._id": req.params.idJunta}, {
+        $set: {
+            NULOS: req.body.NULOS,
+            BLANCOS: req.body.BLANCOS,
+            TOTAL_VOTOS: req.body.TOTAL_VOTOS,
+            VOT_VALIDOS: req.body.VOT_VALIDOS
+        }
+    }, function (err) {
+        if (err) {
+            Logger.logError('[VotoCtrl] No se pudo actualizar el voto de la junta', req.params.idJunta);
+            return res.status(400).json({message: getErrorMessage(err)});
+        } else {
+            Logger.logInfo('[VotoCtrl] Voto actualizado', req.params.idJunta);
+            return res.status(200).json({message: 'CONTAINER.VOTO.MESSAGE_RESPONSE_UPDATE_VOTO', status: 200});
+        }
+    });
+};
+
+exports.updateVoto = function (req, res) {
+    Voto.findOne({"JUNTA._id": req.query.idJunta}, function (err, voto) {
+        if (err) {
+            Logger.logError('[VotosCtrl] Error al recuperar el voto');
+            return res.status(400).send({message: getErrorMessage(err)});
+        } else {
+            console.log('vooooo', voto);
+
+            voto.NULOS = req.body.NULOS;
+            voto.BLANCOS = req.body.BLANCOS;
+            voto.TOTAL_VOTOS = req.body.TOTAL_VOTOS;
+            voto.VOT_VALIDOS = req.body.VOT_VALIDOS;
+            voto.save(function (err) {
+                if (err)return res.status(400).json({message: getErrorMessage(err)});
+                return res.status(200).json({message: 'CONTAINER.VOTO.MESSAGE_RESPONSE_UPDATE_VOTO', status: 200});
+            });
+        }
+    });
+};
+
+
 exports.getVoto = function (req, res) {
     Voto.findOne({"JUNTA._id": req.query.idJunta}, function (err, voto) {
         if (err) {
