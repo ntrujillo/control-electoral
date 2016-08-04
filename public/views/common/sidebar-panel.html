@@ -102,6 +102,22 @@
             </ul>
         </li>
         <!-- /resultados -->
+
+        <!-- administracion general -->
+        <li data-ng-class="{open: $state.includes('app.administracion')}">
+            <a ui-sref="javascript:;">
+                <i class="fa fa-tasks"></i>
+                <span>{{'CONTAINER.COMMONS.TITLE_ADMINISTRATION'|translate}}</span>
+            </a>
+            <ul class="sub-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="app.administracion.edicion">
+                        <span>{{'CONTAINER.COMMONS.TITLE_EDIT_VOTO'|translate}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- /administracion general -->
     </ul>
 </nav>
 <!-- main navigation -->
